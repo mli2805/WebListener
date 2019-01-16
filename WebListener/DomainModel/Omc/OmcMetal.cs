@@ -1,0 +1,56 @@
+﻿using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using WebListener.Properties;
+
+namespace WebListener.DomainModel.Omc
+{
+    public class OmcMetal : INotifyPropertyChanged
+    {
+        public double BankBuyByn { get; set; }
+        public double BankBuyUsd { get; set; }
+        public double BankSellByn { get; set; }
+        public double BankSellUsd { get; set; }
+
+        public OmcMetal()
+        {
+        }
+
+        public OmcMetal(string ss0, string ss1, string ss2, string ss3)
+        {
+            try
+            {
+                BankBuyByn  = Double.Parse(ss0,new CultureInfo("en-US"));
+                BankBuyUsd  = Double.Parse(ss1,new CultureInfo("en-US"));
+                BankSellByn = Double.Parse(ss2,new CultureInfo("en-US"));
+                BankSellUsd = Double.Parse(ss3,new CultureInfo("en-US"));
+            }
+            catch (Exception)
+            {
+                BankBuyByn  = -1;
+                BankBuyUsd  = -1;
+                BankSellByn = -1;
+                BankSellUsd = -1;
+            }
+        }
+
+    public bool Equals(OmcMetal omcMetal)
+        {
+            return BankBuyByn.Equals(omcMetal.BankBuyByn) && BankBuyUsd.Equals(omcMetal.BankBuyUsd) &&
+                     BankSellByn.Equals(omcMetal.BankSellByn) && BankSellUsd.Equals(omcMetal.BankSellUsd);
+        }
+
+        public string ToFileString()
+        {
+            return $"{BankBuyByn} {BankBuyUsd} {BankSellByn} {BankSellUsd}";
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}

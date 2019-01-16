@@ -1,0 +1,36 @@
+<Window x:Class="WebSocketWpf.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="500" Width="800">
+
+    <DockPanel>
+        <StackPanel>
+            <TextBlock Text="Tradingview.com" Margin="5" Height="22"/>
+            <TextBlock Text="{Binding TradingViewVm.Timestamp}" Margin="5" Height="22"/>
+            <TextBlock Text="" Margin="5" Height="22"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Eur / Usd" Margin="5" Height="22"/>
+                <TextBlock Text="{Binding TradingViewVm.EurUsdRate}" Margin="5" Height="22"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Usd / Rub" Margin="5" Height="22"/>
+                <TextBlock Text="{Binding TradingViewVm.UsdRubRate}" Margin="5" Height="22"/>
+            </StackPanel>
+            <TextBlock Text="" Margin="5" Height="22"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Eur / Rub" Margin="5" Height="22"/>
+                <TextBlock Text="{Binding TradingViewVm.EurRubRate}" Margin="5" Height="22"/>
+            </StackPanel>
+            <TextBlock Text="" Margin="5" Height="22"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Brent" Margin="5" Height="22"/>
+                <TextBlock Text="{Binding TradingViewVm.BrentStr}" Margin="5" Height="22"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Barrel" Margin="5" Height="22"/>
+                <TextBlock Text="{Binding TradingViewVm.Bochka}" Margin="5" Height="22"/>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</Window>

@@ -1,0 +1,278 @@
+﻿<Window x:Class="WebListener.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xml:lang="ru-RU"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dataGridBehaviors="clr-namespace:WebListener.DataGridBehaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Icon="WebListener.ico"
+        Title="MainWindow" Loaded="Window_Loaded" SizeToContent="Width" Height="930" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <StackPanel Margin="10,0,0,0">
+                <TextBlock Margin="80,0,0,0" Text="Курсы НБ РБ"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="70" >
+                        <TextBlock Text=""/>
+                        <TextBlock Text="Usd"/>
+                        <TextBlock Text="Eur"/>
+                        <TextBlock Text="Rub"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="Корзина"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="Eur / Usd"/>
+                        <TextBlock Text="Usd / Rub"/>
+                        <TextBlock Text="Eur / Rub"/>
+                    </StackPanel>
+                    <StackPanel Width="55" >
+                        <TextBlock Text="{Binding Vm.NbRates0.Date, StringFormat=' \{0:dd.MM\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates0.Usd, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates0.Eur, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates0.Rub, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Margin="-10,0,0,0" Text="{Binding Vm.NbRates0.Basket, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Vm.NbRates0.EurUsd, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates0.UsdRub, StringFormat='\{0:#,0.00\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates0.EurRub, StringFormat='\{0:#,0.00\}'}"/>
+                    </StackPanel>
+                    <StackPanel Width="55" >
+                        <TextBlock Text="{Binding Vm.NbRates1.Date, StringFormat=' \{0:dd.MM\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates1.Usd, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates1.Eur, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates1.Rub, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Margin="-10,0,0,0" Text="{Binding Vm.NbRates1.Basket, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Vm.NbRates1.EurUsd, StringFormat='\{0:#,0.0000\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates1.UsdRub, StringFormat='\{0:#,0.00\}'}"/>
+                        <TextBlock Text="{Binding Vm.NbRates1.EurRub, StringFormat='\{0:#,0.00\}'}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Margin="0,0,0,0">
+                <TextBlock Margin="10,0,0,0" Text="Торги БелВФБ (banki24.by)"/>
+                <TextBlock Margin="20,0,0,0" Text="{Binding Vm.BelStockWrapped.Title}"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="245" >
+                        <TextBlock Text="{Binding Vm.BelStockWrapped.UsdString}"/>
+                        <TextBlock Text="{Binding Vm.BelStockWrapped.EurString}"/>
+                        <TextBlock Text="{Binding Vm.BelStockWrapped.RubString}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Vm.BelStockWrapped.NewBasketString}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Vm.BelStockWrapped.EurUsdString}"/>
+                        <TextBlock Text="{Binding Vm.BelStockWrapped.UsdRubString}"/>
+                        <TextBlock Text="{Binding Vm.BelStockWrapped.EurRubString}"/>
+                        <Button Height="25" Width="20" Margin="0,-30,150,0" HorizontalAlignment="Right" Content="=" Click="ShowBelStockArchieve"/>
+                        <Button Height="25" Width="20" Margin="0,-30,130,0" HorizontalAlignment="Right" Content="-" Click="ShowBelStockArchieve"/>
+                        <Button Height="25" Width="20" Margin="0,-30,110,0" HorizontalAlignment="Right" Content="+" Click="ShowBelStockArchieve"/>
+                        <Button Height="25" Width="20" Margin="0,-30,90,0" HorizontalAlignment="Right" Content="A" Click="ShowBelStockArchieve"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Width="120">
+                <TextBlock Text="Tradingview.com"/>
+                <TextBlock Text="{Binding Vm.Forex.LastChecked, StringFormat=' \{0:dd.MM HH:mm:ss\}'}"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="{Binding Vm.Forex.UsdEur, StringFormat='Eur / Usd \{0:#,0.00###\}'}"/>
+                <TextBlock Text="{Binding Vm.Forex.RubUsd, StringFormat='Usd / Rub \{0:#,0.00###\}'}"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="{Binding Vm.Forex.EurRub, StringFormat='Eur / Rub \{0:#,0.00###\}'}" FontStyle="Italic" ToolTip="не используется для прогноза"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="{Binding Vm.Forex.BrentUkOil, StringFormat='Brent \{0:#,0.00###\}'}"/>
+                <TextBlock Text="{Binding Vm.Forex.BrentInRub, StringFormat='Бочка \{0:#,0\}'}"/>
+            </StackPanel>
+            <StackPanel Width="220">
+                <TextBlock Margin="70,0,0,0" Text="Прогноз"/>
+                <DockPanel Height="25" Margin="0,10,0,0">
+                    <Button Height="20" Width="75" Margin="5,0,0,0" Content="по корзине " Click="ButtonForecastOnBasket" />
+                    <Button Height="20" Width="75" Margin="5,0,0,0" Content="по руру " Click="ButtonForecastOnRub" />
+                </DockPanel>
+                <TextBlock Margin="10,-10,0,0" Text=""/>
+                <TextBlock Margin="10,0,0,0" Text="{Binding Vm.Forecast.UsdString}"/>
+                <TextBlock Margin="10,0,0,0" Text="{Binding Vm.Forecast.EurString}"/>
+                <TextBlock Margin="10,0,0,0" Text="{Binding Vm.Forecast.RubString}"/>
+                <TextBlock Margin="10,0,0,0" Text=""/>
+                <DockPanel Height="25">
+                    <Button Height="20" Width="25" Margin="5,-10,0,0" Content=" -- " Click="ButtonForecastMinus" />
+                    <Button Height="20" Width="25" Margin="5,-10,0,0" Content=" ++ " Click="ButtonForecastPlus" />
+                    <TextBlock Height="25" Margin="5,0,0,0" Text="{Binding Vm.Forecast.BasketString}"/>
+                </DockPanel>
+                <TextBlock Margin="10,30,0,0" Text="{Binding Vm.EcopressLastCheck}"/>
+            </StackPanel>
+            <StackPanel Width="220">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10,0,0,0" Text="БПС ОМС   "/>
+                        <TextBlock Text="{Binding Vm.OmcWrapped.LastChecked}"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding Vm.OmcWrapped.FromDate}"/>
+                    <TextBlock Text="{Binding Vm.OmcWrapped.Gold}"/>
+                    <TextBlock Text=""/>
+                    <TextBlock Text=""/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,0,0,0" Text="Ставка  "/>
+                    <TextBox Width="27" Text="{Binding Vm.Calculations.AnnualRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text=" % годовых"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,0,0,0" Text="   за  "/>
+                    <TextBox Width="25" Text="{Binding Vm.Calculations.Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="  дней"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,0,0,0" Text="{Binding Vm.Calculations.ProfitProcent, StringFormat='дает \{0:#,0.00\} %'}"/>
+                    <TextBlock Margin="0,0,0,0" Text="{Binding Vm.Calculations.ProfitByr, StringFormat=' или \{0:#,0.0000\} byr'}"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="170"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="135"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="170"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="VisioForm" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </Grid.ContextMenu>
+            <DataGrid Grid.Row="0" ItemsSource="{Binding Vm.RowsBib}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
+                      IsReadOnly="True">
+                <i:Interaction.Behaviors>
+                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
+                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                </i:Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header=" БИБ" Width="75" Binding="{Binding StartedFromForGrid}"/>
+
+                    <DataGridTextColumn Header="  Usd" Width="110" Binding="{Binding Usd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur" Width="110" Binding="{Binding Eur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Rub" Width="100" Binding="{Binding Rub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+                    <DataGridTextColumn Header="  Eur/Usd" Width="100" Binding="{Binding EurUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrUsd" Width="100" Binding="{Binding EurByrUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  UsdRub нал" Width="80" Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="LightGray"/>
+                    <DataGridTextColumn Header="  UsdByrRub" Width="90" Binding="{Binding UsdByrRub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  EurRub нал" Width="80" Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="LightGray"/>
+                    <DataGridTextColumn Header="  EurByrRub" Width="90" Binding="{Binding EurByrRub}" HeaderStyle="{StaticResource CenterAlign}"/>
+
+                    <DataGridTextColumn Header="Last check" Width="70" Binding="{Binding LastCheckForGrid}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="Azure"/>
+            <DataGrid Grid.Row="2" ItemsSource="{Binding Vm.RowsPrior}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
+                      IsReadOnly="True">
+                <i:Interaction.Behaviors>
+                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
+                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                </i:Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Приор" Width="75" Binding="{Binding StartedFromForGrid}"/>
+
+                    <DataGridTextColumn Header="  Usd" Width="110" Binding="{Binding Usd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur" Width="110" Binding="{Binding Eur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Rub" Width="100" Binding="{Binding Rub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+                    <DataGridTextColumn Header="  Eur/Usd" Width="100" Binding="{Binding EurUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrUsd" Width="100" Binding="{Binding EurByrUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  UsdRub" Width="80" Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  UsdByrRub" Width="90" Binding="{Binding UsdByrRub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  EurRub" Width="80" Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrRub" Width="90" Binding="{Binding EurByrRub}" HeaderStyle="{StaticResource CenterAlign}"/>
+
+                    <DataGridTextColumn Header="Last check" Width="70" Binding="{Binding LastCheckForGrid}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Background="Azure"/>
+            <DataGrid Grid.Row="4" ItemsSource="{Binding Vm.RowsMoMi}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
+                      IsReadOnly="True">
+                <i:Interaction.Behaviors>
+                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
+                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                </i:Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header=" ММБ" Width="75"         Binding="{Binding StartedFromForGrid}"/>
+
+                    <DataGridTextColumn Header="  Usd" Width="110"       Binding="{Binding Usd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur" Width="110"       Binding="{Binding Eur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Rub" Width="100"       Binding="{Binding Rub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+                    <DataGridTextColumn Header="  Eur/Usd" Width="100"   Binding="{Binding EurUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrUsd" Width="100" Binding="{Binding EurByrUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  Usd/Rub" Width="80"    Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  UsdByrRub" Width="90"  Binding="{Binding UsdByrRub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur/Rub" Width="80"    Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrRub" Width="90"  Binding="{Binding EurByrRub}" HeaderStyle="{StaticResource CenterAlign}"/>
+
+                    <DataGridTextColumn Header="Last check" Width="70"   Binding="{Binding LastCheckForGrid}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter Grid.Row="5" HorizontalAlignment="Stretch" Background="Azure"/>
+            <DataGrid Grid.Row="6" ItemsSource="{Binding Vm.RowsBps}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
+                      IsReadOnly="True">
+                <i:Interaction.Behaviors>
+                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
+                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                </i:Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header=" БПС" Width="75"         Binding="{Binding StartedFromForGrid}"/>
+
+                    <DataGridTextColumn Header="  Usd" Width="110"       Binding="{Binding Usd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur" Width="110"       Binding="{Binding Eur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Rub" Width="100"       Binding="{Binding Rub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+                    <DataGridTextColumn Header="  Eur/Usd" Width="100"   Binding="{Binding EurUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrUsd" Width="100" Binding="{Binding EurByrUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  Usd/Rub" Width="80"    Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  UsdByrRub" Width="90"  Binding="{Binding UsdByrRub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur/Rub" Width="80"    Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrRub" Width="90"  Binding="{Binding EurByrRub}" HeaderStyle="{StaticResource CenterAlign}"/>
+
+                    <DataGridTextColumn Header="Last check" Width="70"   Binding="{Binding LastCheckForGrid}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter Grid.Row="7" HorizontalAlignment="Stretch" Background="Azure"/>
+            <DataGrid Grid.Row="8" ItemsSource="{Binding Vm.RowsBelGaz}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
+                      IsReadOnly="True">
+                <i:Interaction.Behaviors>
+                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
+                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                </i:Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header=" БГПБ" Width="75" Binding="{Binding StartedFromForGrid}"/>
+
+                    <DataGridTextColumn Header="  Usd" Width="110" Binding="{Binding Usd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur" Width="110" Binding="{Binding Eur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Rub" Width="100" Binding="{Binding Rub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+                    <DataGridTextColumn Header="  Eur/Usd" Width="100" Binding="{Binding EurUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrUsd" Width="100" Binding="{Binding EurByrUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  Usd/Rub" Width="80" Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  UsdByrRub" Width="90" Binding="{Binding UsdByrRub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                    <DataGridTextColumn Header="  Eur/Rub" Width="80" Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}"/>
+                    <DataGridTextColumn Header="  EurByrRub" Width="90" Binding="{Binding EurByrRub}" HeaderStyle="{StaticResource CenterAlign}"/>
+
+                    <DataGridTextColumn Header="Last check" Width="70" Binding="{Binding LastCheckForGrid}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+    </DockPanel>
+
+</Window>

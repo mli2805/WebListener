@@ -1,0 +1,8 @@
+﻿<Window x:Class="WebListener.Views.Changes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Changes" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Topmost="True">
+    <Grid>
+        <TextBlock Name="MessageBlock" Text="Message" Margin="50,20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>
