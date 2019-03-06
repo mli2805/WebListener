@@ -43,7 +43,7 @@ namespace WebListener
             var result = new KomBankRates()
             {
                 Bank = "БИБ",
-                StartedFrom = GetStartedFrom(page),
+                StartedFrom = GetStartedFrom(),
                 LastCheck = DateTime.Now
             };
 
@@ -94,9 +94,9 @@ namespace WebListener
             return double.TryParse(strSale, NumberStyles.Any, new CultureInfo("en-US"), out sale);
         }
 
-        private string GetStartedFrom(string table)
+        private string GetStartedFrom()
         {
-            return new DateTime(2019, 1, 16, 12, 51, 0).ToString();
+            return $"{new DateTime(2019, 1, 16, 12, 51, 0)}";
         }
     }
 }

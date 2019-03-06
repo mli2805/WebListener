@@ -2,7 +2,7 @@
 using WebListener.DomainModel;
 using WebListener.DomainModel.BelStock;
 
-namespace WebListener.Parsers
+namespace WebListener
 {
     public class Banki24ArchivePageParser
     {

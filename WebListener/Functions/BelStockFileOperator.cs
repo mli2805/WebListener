@@ -19,7 +19,7 @@ namespace WebListener.Functions
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message} during SaveBelStockArchieve");
+                Console.WriteLine($@"{e.Message} during SaveBelStockArchieve");
                 MessageBox.Show($"{e.Message} during SaveBelStockArchieve");
             }
         }

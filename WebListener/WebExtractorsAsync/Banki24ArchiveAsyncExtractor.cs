@@ -3,7 +3,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WebListener.DomainModel;
 using WebListener.DomainModel.BelStock;
-using WebListener.Parsers;
 
 namespace WebListener.WebExtractorsAsync
 {

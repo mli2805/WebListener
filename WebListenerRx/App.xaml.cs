@@ -1,4 +1,4 @@
-﻿namespace WebSocketWpf
+﻿namespace WebListenerRx
 {
     /// <summary>
     /// Interaction logic for App.xaml

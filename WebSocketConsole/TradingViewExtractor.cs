@@ -13,9 +13,9 @@ namespace WebSocketConsole
         private CancellationTokenSource cts;
 
         private string FrameIt(string request) { return $"~m~{request.Length}~m~{request}"; }
-        private const string EurUsdRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURUSD\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+//        private const string EurUsdRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURUSD\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+//        private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+//        private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 
         public TradingViewExtractor()
@@ -43,7 +43,7 @@ namespace WebSocketConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception");
+                Console.WriteLine($@"Exception {e.Message}");
                 Console.WriteLine($"{ClientWebSocket.State}");
             }
         }
@@ -68,7 +68,7 @@ namespace WebSocketConsole
                 var arraySegment = new ArraySegment<byte>(receiveBuffer);
                 WebSocketReceiveResult result = await ClientWebSocket.ReceiveAsync(arraySegment, cts.Token);
 
-                if (result.Count != 0 || result.CloseStatus == WebSocketCloseStatus.Empty)
+                if (arraySegment.Array != null && (result.Count != 0 || result.CloseStatus == WebSocketCloseStatus.Empty))
                 {
                     string message = Encoding.ASCII.GetString(arraySegment.Array, arraySegment.Offset, result.Count);
                     OnCrossRateFetched(message);
@@ -78,7 +78,7 @@ namespace WebSocketConsole
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception");
+                Console.WriteLine($"Exception {e.Message}");
                 Console.WriteLine($"{ClientWebSocket.State}");
                 return false;
             }

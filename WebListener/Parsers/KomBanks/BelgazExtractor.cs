@@ -22,7 +22,7 @@ namespace WebListener
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message} in Bgpb parser");
+                Console.WriteLine($@"{e.Message} in Bgpb parser");
                 return new KomBankRates { Bank = "БГПБ", StartedFrom = "error" };
             }
         }

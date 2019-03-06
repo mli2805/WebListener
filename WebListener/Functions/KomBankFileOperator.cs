@@ -33,7 +33,7 @@ namespace WebListener.Functions
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message} during SaveLine");
+                Console.WriteLine($@"{e.Message} during SaveLine");
                 MessageBox.Show($"{e.Message} during SaveLine");
             }
         }
@@ -50,7 +50,7 @@ namespace WebListener.Functions
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message} during ReWriteSet");
+                Console.WriteLine($@"{e.Message} during ReWriteSet");
                 MessageBox.Show($"{e.Message} during ReWriteSet");
             }
         }
@@ -85,7 +85,7 @@ namespace WebListener.Functions
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message} during SaveForex");
+                Console.WriteLine($@"{e.Message} during SaveForex");
                 MessageBox.Show($"{e.Message} during SaveForex");
             }
         }

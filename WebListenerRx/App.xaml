@@ -1,7 +1,7 @@
-﻿<Application x:Class="WebSocketWpf.App"
+﻿<Application x:Class="WebListenerRx.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WebSocketWpf"
+             xmlns:local="clr-namespace:WebListenerRx"
              >
     <Application.Resources>
         <ResourceDictionary>

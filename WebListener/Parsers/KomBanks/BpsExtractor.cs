@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using WebListener.DomainModel;
-using WebListener.Parsers;
 using WebListener.WebExtractorsAsync;
 
 namespace WebListener
@@ -39,7 +38,7 @@ namespace WebListener
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message} in Bps parser");
+                Console.WriteLine($@"{e.Message} in Bps parser");
                 return new KomBankRates { Bank = "БПС", StartedFrom = "error" }; 
             }
         }
@@ -95,7 +94,7 @@ namespace WebListener
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message} in Bps parser");
+                Console.WriteLine($@"{e.Message} in Bps parser");
                 return "";
             }
         }

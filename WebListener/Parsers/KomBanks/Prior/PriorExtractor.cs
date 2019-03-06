@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +48,7 @@ namespace WebListener
             result.UsdB = onlineUsd.Sell;
 
             DateTime date = _startDate.AddMilliseconds(onlineUsd.AriseTime).ToLocalTime();
-            result.StartedFrom = date.ToString();
+            result.StartedFrom = $"{date}";
             result.LastCheck = DateTime.Now;
 
             var onlineEur = onlineRates.First(r => r.CurrencyType == "EUR").ViewVoList[0];

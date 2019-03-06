@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using WebListener.DomainModel.BelStock;
-using WebListener.Parsers;
 
 namespace WebListener.WebExtractorsAsync
 {
@@ -99,19 +98,7 @@ namespace WebListener.WebExtractorsAsync
             return BelStockState.FetchingError;
         }
 
-        private BelStockState GetStateTemp(string table, out int pos)
-        {
-            pos = table.IndexOf("<span class=\"label label-info\">Результаты", StringComparison.Ordinal);
-
-            if (DateTime.Now > DateTime.Today.AddMinutes(800) ||
-                 DateTime.Today.DayOfWeek == DayOfWeek.Saturday ||
-                  DateTime.Today.DayOfWeek == DayOfWeek.Sunday) return BelStockState.TerminatedAlready; // после 13-20 считаем торги закончившимися
-            if (DateTime.Now < DateTime.Today.AddMinutes(600)) return BelStockState.HasNotStartedYet;  // до 10-00 считаем торги не начавшимися
-            return BelStockState.InProgress;
-
-        }
-
-
+     
         private DateTime GetTradingDate(string table, int startIndex)
         {
             var pos = table.IndexOf("</span", startIndex, StringComparison.Ordinal);

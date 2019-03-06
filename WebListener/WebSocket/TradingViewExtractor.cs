@@ -49,13 +49,13 @@ namespace WebListener
                 var buffer2 = new ArraySegment<Byte>(bytes, 0, bytes.Length);
                 await ClientWebSocket.SendAsync(buffer2, WebSocketMessageType.Text, true, token);
                 Console.WriteLine();
-                Console.WriteLine("Rate requested.");
+                Console.WriteLine(@"Rate requested.");
                 Console.WriteLine();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception");
-                Console.WriteLine($"{ClientWebSocket.State}");
+                Console.WriteLine($@"Exception {e.Message}");
+                Console.WriteLine($@"{ClientWebSocket.State}");
             }
         }
 
@@ -67,7 +67,7 @@ namespace WebListener
             var buffer = new ArraySegment<Byte>(encoded, 0, encoded.Length);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, token);
             Console.WriteLine();
-            Console.WriteLine("Session requested.");
+            Console.WriteLine(@"Session requested.");
             Console.WriteLine();
         }
 
@@ -79,20 +79,20 @@ namespace WebListener
                 var arraySegment = new ArraySegment<byte>(receiveBuffer);
                 WebSocketReceiveResult result = await ClientWebSocket.ReceiveAsync(arraySegment, _cts.Token);
 
-                if (result.Count != 0 || result.CloseStatus == WebSocketCloseStatus.Empty)
+                if (arraySegment.Array != null && (result.Count != 0 || result.CloseStatus == WebSocketCloseStatus.Empty))
                 {
                     string message = Encoding.ASCII.GetString(arraySegment.Array, arraySegment.Offset, result.Count);
                     Console.WriteLine(message);
                     if (TradingViewParser.TryParse(message, out TradingViewResult tvr))
-                        OnResultFetched(tvr); else Console.WriteLine("parsing failed.");
+                        OnResultFetched(tvr); else Console.WriteLine(@"parsing failed.");
                 }
 
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception");
-                Console.WriteLine($"{ClientWebSocket.State}");
+                Console.WriteLine($@"Exception {e.Message}");
+                Console.WriteLine($@"{ClientWebSocket.State}");
                 return false;
             }
         }

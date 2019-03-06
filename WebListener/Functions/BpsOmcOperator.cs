@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using WebListener.DomainModel.Omc;
 using WebListener.WebExtractorsAsync;

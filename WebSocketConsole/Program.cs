@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net.WebSockets;
 using System.Threading;
 
 namespace WebSocketConsole
@@ -10,7 +9,7 @@ namespace WebSocketConsole
     {
         static StreamWriter _logFile = File.AppendText("weblistener.log");
         private static TradingViewExtractor _tradingViewExtractor;
-        static void Main(string[] args)
+        static void Main()
         {
             _tradingViewExtractor = new TradingViewExtractor();
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
@@ -35,6 +34,7 @@ namespace WebSocketConsole
                     _tradingViewExtractor.RateRequested().Wait();
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private static void TradingViewExtractorCrossRateFetched(object sender, string e)

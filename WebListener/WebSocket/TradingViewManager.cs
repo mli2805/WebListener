@@ -47,11 +47,12 @@ namespace WebListener
                     await extractor.RequestRate(chart);
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private void ExtractorResultFetched(object sender, TradingViewResult result)
         {
-            Console.WriteLine($"{DateTime.Now}  {result.Chart}  {result.Value}");
+            Console.WriteLine($@"{DateTime.Now}  {result.Chart}  {result.Value}");
             Console.WriteLine();
             Application.Current.Dispatcher.Invoke(() => ApplyRates(result));
         }

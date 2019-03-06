@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using WebListener.Properties;
 
 namespace WebListener.DomainModel.BelStock
 {
@@ -86,7 +87,7 @@ namespace WebListener.DomainModel.BelStock
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [Annotations.NotifyPropertyChangedInvocator]
+        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

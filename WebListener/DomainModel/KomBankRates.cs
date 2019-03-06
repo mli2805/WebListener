@@ -132,7 +132,7 @@ namespace WebListener.DomainModel
             }
             catch (Exception)
             {
-                Console.WriteLine("Exception during KomBankRate parsing from string");
+                Console.WriteLine(@"Exception during KomBankRate parsing from string");
             }
         }
 

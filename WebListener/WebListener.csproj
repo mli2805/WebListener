@@ -118,7 +118,6 @@
     <Compile Include="Parsers\KomBanks\Prior\PriorExtractor.cs" />
     <Compile Include="Parsers\KomBanks\Prior\RootObject.cs" />
     <Compile Include="Parsers\KomBanks\Prior\ViewVOitem.cs" />
-    <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="WebExtractorsAsync\BpsOmcExtractor.cs" />
     <Compile Include="DomainModel\Omc\Omc.cs" />
     <Compile Include="DomainModel\Omc\OmcMetal.cs" />
