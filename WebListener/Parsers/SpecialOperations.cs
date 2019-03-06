@@ -11,12 +11,12 @@ namespace WebListener
             var rateClearString = new StringBuilder();
             foreach (var symbol in rateString)
             {
-                if (Char.IsNumber(symbol)) rateClearString.Append(symbol);
+                if (char.IsNumber(symbol)) rateClearString.Append(symbol);
                 else if (symbol == ',' || symbol == '.')
                     rateClearString.Append(CultureInfo.InvariantCulture.NumberFormat.CurrencyDecimalSeparator);
             }
             double rate;
-            return Double.TryParse(rateClearString.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out rate) ? rate : -1;
+            return double.TryParse(rateClearString.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out rate) ? rate : -1;
         }
 
         public static StringBuilder ClearString(string rateString)
@@ -24,7 +24,7 @@ namespace WebListener
             var rateClearString = new StringBuilder();
             foreach (var symbol in rateString)
             {
-                if (Char.IsNumber(symbol)) rateClearString.Append(symbol);
+                if (char.IsNumber(symbol)) rateClearString.Append(symbol);
                 else if (symbol == ',' || symbol == '.')
                     rateClearString.Append(CultureInfo.InvariantCulture.NumberFormat.CurrencyDecimalSeparator);
             }

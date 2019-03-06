@@ -2,5 +2,5 @@
 
 namespace WebSocketConsole
 {
-    public delegate void DataFetchedEventHandler(Object sender, string e);
+    public delegate void DataFetchedEventHandler(object sender, string e);
 }

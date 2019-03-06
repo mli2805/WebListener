@@ -72,13 +72,13 @@ namespace WebListener
             var posFrom = pos + 13;
             var posTo = table.IndexOf("</td>", posFrom, StringComparison.Ordinal);
             var first = table.Substring(posFrom, posTo - posFrom);
-            if (!Double.TryParse(first, NumberStyles.Any, new CultureInfo("en-US"), out pokupka)) pokupka = -1;
+            if (!double.TryParse(first, NumberStyles.Any, new CultureInfo("en-US"), out pokupka)) pokupka = -1;
 
             pos = table.IndexOf("<td class=", posTo, StringComparison.Ordinal);
             posFrom = pos + 13;
             posTo = table.IndexOf("</td>", posFrom, StringComparison.Ordinal);
             var second = table.Substring(posFrom, posTo - posFrom);
-            if (!Double.TryParse(second, NumberStyles.Any, new CultureInfo("en-US"), out prodaza)) prodaza = -1;
+            if (!double.TryParse(second, NumberStyles.Any, new CultureInfo("en-US"), out prodaza)) prodaza = -1;
 
             // с 13/02/2017 дают в прямом формате
 //            if (key != "USD_EUR") return;
@@ -94,13 +94,13 @@ namespace WebListener
             var posFrom = pos + 10;
             var posTo = table.IndexOf("\"", posFrom, StringComparison.Ordinal);
             var first = table.Substring(posFrom, posTo - posFrom);
-            if (!Double.TryParse(first, NumberStyles.Any, new CultureInfo("en-US"), out pokupka)) pokupka = -1;
+            if (!double.TryParse(first, NumberStyles.Any, new CultureInfo("en-US"), out pokupka)) pokupka = -1;
 
             pos = table.IndexOf("data-byn", posTo, StringComparison.Ordinal); // sell
             posFrom = pos + 10;
             posTo = table.IndexOf("\"", posFrom, StringComparison.Ordinal);
             var second = table.Substring(posFrom, posTo - posFrom);
-            if (!Double.TryParse(second, NumberStyles.Any, new CultureInfo("en-US"), out prodaza)) prodaza = -1;
+            if (!double.TryParse(second, NumberStyles.Any, new CultureInfo("en-US"), out prodaza)) prodaza = -1;
 
             if (key != "USD_EUR") return;
             double swap = Math.Round(1 / prodaza, 5);

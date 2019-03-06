@@ -2,5 +2,5 @@
 
 namespace WebListener.WebExtractors.Tradingview
 {
-    public delegate void CrossRateFetchedEventHandler(Object sender, CrossRateFetchedEventsArgs e);
+    public delegate void CrossRateFetchedEventHandler(object sender, CrossRateFetchedEventsArgs e);
 }

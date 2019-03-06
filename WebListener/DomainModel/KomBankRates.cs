@@ -114,18 +114,18 @@ namespace WebListener.DomainModel
             {
                 Bank = ss[0];
                 StartedFrom = ss[1].Replace('_', ' ');
-                UsdA    = Double.Parse(ss[ 3],new CultureInfo("en-US"));
-                UsdB    = Double.Parse(ss[ 5],new CultureInfo("en-US"));
-                EurA    = Double.Parse(ss[ 7],new CultureInfo("en-US"));
-                EurB    = Double.Parse(ss[ 9],new CultureInfo("en-US"));
-                RubA    = Double.Parse(ss[11],new CultureInfo("en-US"));
-                RubB    = Double.Parse(ss[13],new CultureInfo("en-US"));
-                EurUsdA = Double.Parse(ss[15],new CultureInfo("en-US"));
-                EurUsdB = Double.Parse(ss[17],new CultureInfo("en-US"));
-                RubUsdA = Double.Parse(ss[19],new CultureInfo("en-US"));
-                RubUsdB = Double.Parse(ss[21],new CultureInfo("en-US"));
-                RubEurA = Double.Parse(ss[23],new CultureInfo("en-US"));
-                RubEurB = Double.Parse(ss[25],new CultureInfo("en-US"));
+                UsdA    = double.Parse(ss[ 3],new CultureInfo("en-US"));
+                UsdB    = double.Parse(ss[ 5],new CultureInfo("en-US"));
+                EurA    = double.Parse(ss[ 7],new CultureInfo("en-US"));
+                EurB    = double.Parse(ss[ 9],new CultureInfo("en-US"));
+                RubA    = double.Parse(ss[11],new CultureInfo("en-US"));
+                RubB    = double.Parse(ss[13],new CultureInfo("en-US"));
+                EurUsdA = double.Parse(ss[15],new CultureInfo("en-US"));
+                EurUsdB = double.Parse(ss[17],new CultureInfo("en-US"));
+                RubUsdA = double.Parse(ss[19],new CultureInfo("en-US"));
+                RubUsdB = double.Parse(ss[21],new CultureInfo("en-US"));
+                RubEurA = double.Parse(ss[23],new CultureInfo("en-US"));
+                RubEurB = double.Parse(ss[25],new CultureInfo("en-US"));
                 LastCheck = ss.Length == 29 
                     ? DateTime.Parse(ss[26] + " " + ss[27] + " " + ss[28], new CultureInfo("en-US")) 
                     : DateTime.Parse(ss[26] + " " + ss[27], new CultureInfo("ru-RU"));

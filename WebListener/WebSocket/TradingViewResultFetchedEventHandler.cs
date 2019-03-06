@@ -2,5 +2,5 @@ using System;
 
 namespace WebListener
 {
-    public delegate void TradingViewResultFetchedEventHandler(Object sender, TradingViewResult result);
+    public delegate void TradingViewResultFetchedEventHandler(object sender, TradingViewResult result);
 }

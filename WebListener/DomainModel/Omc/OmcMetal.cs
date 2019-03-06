@@ -21,10 +21,10 @@ namespace WebListener.DomainModel.Omc
         {
             try
             {
-                BankBuyByn  = Double.Parse(ss0,new CultureInfo("en-US"));
-                BankBuyUsd  = Double.Parse(ss1,new CultureInfo("en-US"));
-                BankSellByn = Double.Parse(ss2,new CultureInfo("en-US"));
-                BankSellUsd = Double.Parse(ss3,new CultureInfo("en-US"));
+                BankBuyByn  = double.Parse(ss0,new CultureInfo("en-US"));
+                BankBuyUsd  = double.Parse(ss1,new CultureInfo("en-US"));
+                BankSellByn = double.Parse(ss2,new CultureInfo("en-US"));
+                BankSellUsd = double.Parse(ss3,new CultureInfo("en-US"));
             }
             catch (Exception)
             {

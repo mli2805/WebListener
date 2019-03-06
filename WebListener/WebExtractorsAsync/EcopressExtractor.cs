@@ -67,13 +67,13 @@ namespace WebListener.WebExtractorsAsync
             posTo = line.IndexOf("<td", pos, StringComparison.Ordinal);
             var rateStr = line.Substring(pos + 6, posTo - (pos + 6));
             rateStr = GetRidOfStrong(rateStr);
-            if (!Double.TryParse(rateStr, NumberStyles.Any, new CultureInfo("en-US"), out rateA)) rateA = -1;
+            if (!double.TryParse(rateStr, NumberStyles.Any, new CultureInfo("en-US"), out rateA)) rateA = -1;
 
             pos = posTo;
             posTo = line.IndexOf("<td", pos+1, StringComparison.Ordinal);
             rateStr = line.Substring(pos + 4, posTo - (pos + 4));
             rateStr = GetRidOfStrong(rateStr);
-            if (!Double.TryParse(rateStr, NumberStyles.Any, new CultureInfo("en-US"), out rateB)) rateB = -1;
+            if (!double.TryParse(rateStr, NumberStyles.Any, new CultureInfo("en-US"), out rateB)) rateB = -1;
         }
 
         private static DateTime GetTime(string line, ref int posTo)

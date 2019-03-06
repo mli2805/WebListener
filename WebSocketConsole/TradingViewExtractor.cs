@@ -35,7 +35,7 @@ namespace WebSocketConsole
                 var token = cts.Token;
                 var currentRequest = FrameIt(BrentRequest);
                 var request = Encoding.UTF8.GetBytes(currentRequest);
-                var buffer2 = new ArraySegment<Byte>(request, 0, request.Length);
+                var buffer2 = new ArraySegment<byte>(request, 0, request.Length);
                 await ClientWebSocket.SendAsync(buffer2, WebSocketMessageType.Text, true, token);
                 Console.WriteLine();
                 Console.WriteLine("Rate requested.");
@@ -53,7 +53,7 @@ namespace WebSocketConsole
             var token = cts.Token;
             const string sessionRequest = "~m~50~m~{\"p\":[\"my_session\",\"\"],\"m\":\"quote_create_session\"}";
             var encoded = Encoding.UTF8.GetBytes(sessionRequest);
-            var buffer = new ArraySegment<Byte>(encoded, 0, encoded.Length);
+            var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, token);
             Console.WriteLine();
             Console.WriteLine("Session requested.");
@@ -92,7 +92,7 @@ namespace WebSocketConsole
 
         public async Task CloseWebSocket()
         {
-            await ClientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, String.Empty, cts.Token);
+            await ClientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cts.Token);
             Console.WriteLine(ClientWebSocket.State);
         }
 

@@ -66,7 +66,7 @@ namespace WebListener
             var first = table.Substring(posFrom, posTo - posFrom);
             var rateClearString = SpecialOperations.ClearString(first);
 
-            if (!Double.TryParse(rateClearString.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out pokupka)) pokupka = -1;
+            if (!double.TryParse(rateClearString.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out pokupka)) pokupka = -1;
 
             pos = table.IndexOf("</div>", pos+10, StringComparison.Ordinal);
             pos = table.IndexOf("</div>", pos+1, StringComparison.Ordinal);
@@ -75,7 +75,7 @@ namespace WebListener
             var second = table.Substring(posFrom, posTo - posFrom);
             rateClearString = SpecialOperations.ClearString(second);
 
-            if (!Double.TryParse(rateClearString.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out prodaza)) prodaza = -1;
+            if (!double.TryParse(rateClearString.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out prodaza)) prodaza = -1;
         }
         private string GetStartedFrom(string table)
         {
