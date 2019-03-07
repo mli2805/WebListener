@@ -102,16 +102,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Parsers\Banki24ArchivePageParser.cs" />
     <Compile Include="Functions\BpsOmcOperator.cs" />
     <Compile Include="Functions\EcopressOperator.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\FullListAjax.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\PriorExtractor.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\RootObject.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\ViewVOitem.cs" />
-    <Compile Include="WebExtractorsAsync\BpsOmcExtractor.cs" />
     <Compile Include="Functions\KomBankOperator.cs" />
-    <Compile Include="Parsers\SpecialOperations.cs" />
     <Compile Include="Views\BelStockArchieveView.xaml.cs">
       <DependentUpon>BelStockArchieveView.xaml</DependentUpon>
     </Compile>
@@ -120,18 +113,11 @@
     </Compile>
     <Compile Include="DataGridBehaviors\ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="DataGridBehaviors\ScrollToBottomDatagridBehavior.cs" />
-    <Compile Include="Parsers\KomBanks\BpsExtractor.cs" />
-    <Compile Include="WebExtractorsAsync\EcopressExtractor.cs" />
-    <Compile Include="WebExtractorsAsync\Banki24ArchiveAsyncExtractor.cs" />
     <Compile Include="Functions\BelStockFileOperator.cs" />
     <Compile Include="Functions\KomBankFileOperator.cs" />
     <Compile Include="MainViewModel.cs" />
-    <Compile Include="WebExtractorsAsync\Banki24Extractor.cs" />
-    <Compile Include="WebExtractorsAsync\Banki24OnlineExtractor.cs" />
     <Compile Include="Functions\NbAndStockOperator.cs" />
-    <Compile Include="WebExtractorsAsync\NbRbRatesDownloader.cs" />
-    <Compile Include="WebExtractorsAsync\WebExtractor.cs" />
-    <Compile Include="WebSocket\TradingViewManager.cs" />
+    <Compile Include="Functions\TradingViewManager.cs" />
     <Page Include="Views\BelStockArchieveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -149,15 +135,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Parsers\KomBanks\BelgazExtractor.cs" />
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parsers\KomBanks\BibExtractor.cs" />
-    <Compile Include="Parsers\KomBanks\MmbankExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -194,6 +177,7 @@
       <Name>Extractors</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -2,9 +2,8 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
     public class EcopressExtractor
     {
@@ -13,7 +12,7 @@ namespace WebListener
 
         public async Task<EcopressRates> GetRatesAsync()
         {
-            var page = await new WebExtractor().GetPageAsync(PageName, "Windows-1251", Encoding.Default);
+            var page = await new WebExtractorAsync().GetPageAsync(PageName, "Windows-1251", Encoding.Default);
             if (page == "") return null;
 
             try

@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 using Newtonsoft.Json;
 
-namespace WebListener
+namespace Extractors
 {
     public class PriorExtractor
     {
@@ -14,7 +13,7 @@ namespace WebListener
             "https://www.priorbank.by/?p_p_id=exchangeliferayspringmvcportlet_WAR_exchangeliferayspringmvcportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=ajaxGetReportForMainPageAjax&p_p_cacheability=cacheLevelPage&p_p_col_id=_118_INSTANCE_7La20uxMthb5__column-2&p_p_col_count=1";
         public async Task<KomBankRates> GetRatesLineAsync()
         {
-            var mainPage = await new WebExtractor().GetPageAsync(RatesRequest, "utf-8", Encoding.UTF8);
+            var mainPage = await new WebExtractorAsync().GetPageAsync(RatesRequest, "utf-8", Encoding.UTF8);
             if (mainPage == "")
                 return new KomBankRates { Bank = "Приор", StartedFrom = "error" };
 

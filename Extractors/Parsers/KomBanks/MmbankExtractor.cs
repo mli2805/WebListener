@@ -2,11 +2,10 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
-    class MmbankExtractor
+    public class MmbankExtractor
     {
         private const string Page = @"https://www.mmbank.by/currency_exchange/";
 
@@ -22,7 +21,7 @@ namespace WebListener
 
         public async Task<KomBankRates> GetRatesLineAsync()
         {
-            var page = await new WebExtractor().GetPageAsync(Page, "utf-8", Encoding.UTF8);
+            var page = await new WebExtractorAsync().GetPageAsync(Page, "utf-8", Encoding.UTF8);
             if (page == "")
                 return new KomBankRates { Bank = "ММБ", StartedFrom = "error" };
 

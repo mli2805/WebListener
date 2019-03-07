@@ -2,16 +2,15 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
-    class BpsExtractor
+    public class BpsExtractor
     {
         //  constants in site body { "USD", "EUR", "RUB" };
         public async Task<KomBankRates> GetRatesLineAsync()
         {
-            var page = await new WebExtractor().GetPageAsync("http://www.bps-sberbank.by/43257f17004e948d/currency_rates?openform&tabnum=2", "utf-8", Encoding.UTF8);
+            var page = await new WebExtractorAsync().GetPageAsync("http://www.bps-sberbank.by/43257f17004e948d/currency_rates?openform&tabnum=2", "utf-8", Encoding.UTF8);
             if (page == "")
                 return new KomBankRates { Bank = "БПС", StartedFrom = "error" };
 

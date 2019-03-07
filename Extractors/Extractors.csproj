@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,14 +63,33 @@
     <Compile Include="DomainModel\Omc\Omc.cs" />
     <Compile Include="DomainModel\Omc\OmcMetal.cs" />
     <Compile Include="DomainModel\Omc\OmcWrapped.cs" />
+    <Compile Include="Parsers\Banki24ArchivePageParser.cs" />
+    <Compile Include="Parsers\KomBanks\BelgazExtractor.cs" />
+    <Compile Include="Parsers\KomBanks\BibExtractor.cs" />
+    <Compile Include="Parsers\KomBanks\BpsExtractor.cs" />
+    <Compile Include="Parsers\KomBanks\MmbankExtractor.cs" />
+    <Compile Include="Parsers\KomBanks\Prior\FullListAjax.cs" />
+    <Compile Include="Parsers\KomBanks\Prior\PriorExtractor.cs" />
+    <Compile Include="Parsers\KomBanks\Prior\RootObject.cs" />
+    <Compile Include="Parsers\KomBanks\Prior\ViewVOitem.cs" />
+    <Compile Include="Parsers\SpecialOperations.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebExtractorsAsync\Banki24ArchiveAsyncExtractor.cs" />
+    <Compile Include="WebExtractorsAsync\Banki24Extractor.cs" />
+    <Compile Include="WebExtractorsAsync\Banki24OnlineExtractor.cs" />
+    <Compile Include="WebExtractorsAsync\BpsOmcExtractor.cs" />
+    <Compile Include="WebExtractorsAsync\EcopressExtractor.cs" />
+    <Compile Include="WebExtractorsAsync\NbRbRatesDownloader.cs" />
+    <Compile Include="WebExtractorsAsync\WebExtractorAsync.cs" />
     <Compile Include="WebSocket\TradingViewChart.cs" />
     <Compile Include="WebSocket\TradingViewExtractor.cs" />
     <Compile Include="WebSocket\TradingViewParser.cs" />
     <Compile Include="WebSocket\TradingViewResult.cs" />
     <Compile Include="WebSocket\TradingViewResultFetchedEventHandler.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

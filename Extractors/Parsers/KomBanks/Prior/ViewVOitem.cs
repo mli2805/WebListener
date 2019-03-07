@@ -1,4 +1,4 @@
-﻿namespace WebListener
+﻿namespace Extractors
 {
     public class ViewVOitem
     {

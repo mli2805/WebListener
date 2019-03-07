@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
-    class Banki24OnlineExtractor
+    public class Banki24OnlineExtractor
     {
         private const string Url = "http://banki24.by/exchange/currencymarket";
         private const string UrlUsd = "http://banki24.by/exchange/currencymarket/USD";

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
     public class BpsOmcExtractor
     {
@@ -12,7 +11,7 @@ namespace WebListener
 
         public async Task<object> GetOmcAsync()
         {
-            var page = await new WebExtractor().GetPageAsync("http://www.bps-sberbank.by/43257f17004e948d/dm_rates", "utf-8", Encoding.UTF8);
+            var page = await new WebExtractorAsync().GetPageAsync("http://www.bps-sberbank.by/43257f17004e948d/dm_rates", "utf-8", Encoding.UTF8);
             if (page == "")
                 return new Omc() { FromDate = "error" };
 

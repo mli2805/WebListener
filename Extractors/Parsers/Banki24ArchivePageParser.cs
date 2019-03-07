@@ -1,7 +1,6 @@
 ﻿using System;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
     public class Banki24ArchivePageParser
     {

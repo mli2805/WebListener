@@ -4,9 +4,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebListener
+namespace Extractors
 {
-    public class WebExtractor
+    public class WebExtractorAsync
     {
         public async Task<string> GetPageAsync(string url, string charset, Encoding encoding)
         {

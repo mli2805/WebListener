@@ -2,16 +2,15 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
     public class BelgazExtractor
     {
         //  constants in site body { "USD", "EUR", "RUR", "EUR_RUB", "USD_RUB", "USD_EUR" , "EUR_RUB"};
         public async Task<KomBankRates> GetRatesLineAsync()
         {
-            var page = await new WebExtractor().GetPageAsync("http://belgazprombank.by/finansovim_institutam/kontaktnaja_informacija/", "utf-8", Encoding.UTF8);
+            var page = await new WebExtractorAsync().GetPageAsync("http://belgazprombank.by/finansovim_institutam/kontaktnaja_informacija/", "utf-8", Encoding.UTF8);
             if (page == "")
                 return new KomBankRates { Bank = "БГПБ", StartedFrom = "error" };
 

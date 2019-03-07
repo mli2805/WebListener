@@ -2,9 +2,8 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
     public class BibExtractor
     {
@@ -13,7 +12,7 @@ namespace WebListener
 
         public async Task<KomBankRates> GetRatesLineAsync()
         {
-            var mainPage = await new WebExtractor().GetPageAsync(NewMainPage, "utf-8", Encoding.UTF8);
+            var mainPage = await new WebExtractorAsync().GetPageAsync(NewMainPage, "utf-8", Encoding.UTF8);
             if (mainPage == "")
                 return new KomBankRates { Bank = "БИБ", StartedFrom = "error" };
 

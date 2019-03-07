@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
     public class Banki24ArchiveAsyncExtractor
     {
@@ -30,7 +29,7 @@ namespace WebListener
         {
             var url = "http://banki24.by/exchange/currencymarket/" + currency.ToString().ToUpper() + "/" + date.ToString("yyyy-MM-dd");
 
-            var page = await new WebExtractor().GetPageAsync(url, "utf-8", Encoding.UTF8);
+            var page = await new WebExtractorAsync().GetPageAsync(url, "utf-8", Encoding.UTF8);
             if (page == "") return null;
 
             var parser = new Banki24ArchivePageParser();
