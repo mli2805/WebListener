@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Windows;
-using Extractors;
 
-namespace WebListener
+namespace Extractors
 {
-    class KomBankFileOperator
+    public class KomBankFileOperator
     {
         private string GetFilename(string bankname)
         {
@@ -23,10 +21,11 @@ namespace WebListener
                     return "unknown.txt";
             }
         }
+
         public void SaveLine(KomBankRates currentLine)
         {
             var filename = GetFilename(currentLine.Bank);
-            var content = new List<string> { currentLine.ToFileString() };
+            var content = new List<string> {currentLine.ToFileString()};
             try
             {
                 File.AppendAllLines(filename, content);
@@ -34,7 +33,6 @@ namespace WebListener
             catch (Exception e)
             {
                 Console.WriteLine($@"{e.Message} during SaveLine");
-                MessageBox.Show($"{e.Message} during SaveLine");
             }
         }
 
@@ -51,11 +49,10 @@ namespace WebListener
             catch (Exception e)
             {
                 Console.WriteLine($@"{e.Message} during ReWriteSet");
-                MessageBox.Show($"{e.Message} during ReWriteSet");
             }
         }
 
-        private ObservableCollection<KomBankRates> LoadLines(string bankname)
+        public ObservableCollection<KomBankRates> LoadLines(string bankname)
         {
             var result = new ObservableCollection<KomBankRates>();
             var filename = GetFilename(bankname);
@@ -65,29 +62,9 @@ namespace WebListener
             {
                 result.Add(new KomBankRates(line));
             }
+
             return result;
         }
-        public void LoadBanksHistory(MainViewModel vm)
-        {
-            vm.RowsMoMi = LoadLines("ММБ");
-            vm.RowsBelGaz = LoadLines("БГПБ");
-            vm.RowsBib = LoadLines("БИБ");
-            vm.RowsBps = LoadLines("БПС");
-            vm.RowsPrior = LoadLines("Приор");
-        }
 
-        public void SaveForex(Forex line)
-        {
-            var content = new List<string> { line.ToFileString() };
-            try
-            {
-                File.AppendAllLines(@"forex.txt", content);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($@"{e.Message} during SaveForex");
-                MessageBox.Show($"{e.Message} during SaveForex");
-            }
-        }
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="Parsers\KomBanks\BelgazExtractor.cs" />
     <Compile Include="Parsers\KomBanks\BibExtractor.cs" />
     <Compile Include="Parsers\KomBanks\BpsExtractor.cs" />
+    <Compile Include="Parsers\KomBanks\KomBankFileOperator.cs" />
     <Compile Include="Parsers\KomBanks\MmbankExtractor.cs" />
     <Compile Include="Parsers\KomBanks\Prior\FullListAjax.cs" />
     <Compile Include="Parsers\KomBanks\Prior\PriorExtractor.cs" />

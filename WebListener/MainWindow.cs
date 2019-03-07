@@ -21,7 +21,7 @@ namespace WebListener
             Title = "Web Listener";
             Vm = new MainViewModel();
             Vm.Forex = new Forex();
-            new KomBankFileOperator().LoadBanksHistory(Vm);
+            LoadBanksHistory(Vm);
 
             var manager = new NbAndStockOperator(Vm);
             await manager.InitializeNbSection();
@@ -34,6 +34,16 @@ namespace WebListener
 
             new KomBankOperator(Vm).InitializeKomBanksTimers();
             new BpsOmcOperator(Vm).InitializeOmcTimer();
+        }
+
+        public void LoadBanksHistory(MainViewModel vm)
+        {
+            var filesOperator = new KomBankFileOperator();
+            vm.RowsMoMi = filesOperator.LoadLines("ММБ");
+            vm.RowsBelGaz = filesOperator.LoadLines("БГПБ");
+            vm.RowsBib = filesOperator.LoadLines("БИБ");
+            vm.RowsBps = filesOperator.LoadLines("БПС");
+            vm.RowsPrior = filesOperator.LoadLines("Приор");
         }
 
         #region buttons' click handlers
