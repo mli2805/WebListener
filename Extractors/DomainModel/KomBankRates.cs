@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using WebListener.Properties;
+using Extractors.Properties;
 
-namespace WebListener
+namespace Extractors
 {
     public class KomBankRates : INotifyPropertyChanged
     {

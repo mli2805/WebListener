@@ -1,12 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
-using WebListener.Properties;
 
-namespace WebListener
+namespace Extractors
 {
-    public class OmcMetal : INotifyPropertyChanged
+    public class OmcMetal
     {
         public double BankBuyByn { get; set; }
         public double BankBuyUsd { get; set; }
@@ -44,13 +41,6 @@ namespace WebListener
         public string ToFileString()
         {
             return $"{BankBuyByn} {BankBuyUsd} {BankSellByn} {BankSellUsd}";
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

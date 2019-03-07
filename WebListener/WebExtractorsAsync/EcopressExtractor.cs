@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
+using Extractors;
 
 namespace WebListener
 {
@@ -116,6 +117,7 @@ namespace WebListener
             if (name == "Банк Москва–Минск") return KomBank.Ммб;
             if (name == "Белинвестбанк") return KomBank.Биб;
             if (name == "БПС–Сбербанк") return KomBank.Бпс;
+            if (name == "3333") return KomBank.Приор;
             return 0;
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace WebListener
+﻿namespace Extractors
 {
-    enum KomBank
+    public enum KomBank
     {
         Бгпб = 1,
         Биб,

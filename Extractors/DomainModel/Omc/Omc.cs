@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using System.Text;
-using WebListener.Properties;
 
-namespace WebListener
+namespace Extractors
 {
-    public class Omc : INotifyPropertyChanged
+    public class Omc
     {
         public string FromDate { get; set; }
         public Dictionary<string, OmcMetal> Metals { get; set; }
@@ -50,12 +46,5 @@ namespace WebListener
             return true;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

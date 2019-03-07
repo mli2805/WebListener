@@ -102,14 +102,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DomainModel\BelStock\BelStockCurrency.cs" />
-    <Compile Include="DomainModel\BelStock\BelStockState.cs" />
-    <Compile Include="DomainModel\NbBasket.cs" />
-    <Compile Include="DomainModel\BelStock\BelStockArchiveDay.cs" />
-    <Compile Include="DomainModel\BelStock\BelStockArchiveOneCurrencyDay.cs" />
-    <Compile Include="DomainModel\Currency.cs" />
-    <Compile Include="DomainModel\EcopressRates.cs" />
-    <Compile Include="DomainModel\KomBank.cs" />
     <Compile Include="Parsers\Banki24ArchivePageParser.cs" />
     <Compile Include="Functions\BpsOmcOperator.cs" />
     <Compile Include="Functions\EcopressOperator.cs" />
@@ -118,9 +110,6 @@
     <Compile Include="Parsers\KomBanks\Prior\RootObject.cs" />
     <Compile Include="Parsers\KomBanks\Prior\ViewVOitem.cs" />
     <Compile Include="WebExtractorsAsync\BpsOmcExtractor.cs" />
-    <Compile Include="DomainModel\Omc\Omc.cs" />
-    <Compile Include="DomainModel\Omc\OmcMetal.cs" />
-    <Compile Include="DomainModel\Omc\OmcWrapped.cs" />
     <Compile Include="Functions\KomBankOperator.cs" />
     <Compile Include="Parsers\SpecialOperations.cs" />
     <Compile Include="Views\BelStockArchieveView.xaml.cs">
@@ -131,17 +120,11 @@
     </Compile>
     <Compile Include="DataGridBehaviors\ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="DataGridBehaviors\ScrollToBottomDatagridBehavior.cs" />
-    <Compile Include="DomainModel\BelStock\BelStock.cs" />
-    <Compile Include="DomainModel\BelStock\BelStockWrapped.cs" />
-    <Compile Include="DomainModel\Calculations.cs" />
     <Compile Include="Parsers\KomBanks\BpsExtractor.cs" />
     <Compile Include="WebExtractorsAsync\EcopressExtractor.cs" />
     <Compile Include="WebExtractorsAsync\Banki24ArchiveAsyncExtractor.cs" />
     <Compile Include="Functions\BelStockFileOperator.cs" />
     <Compile Include="Functions\KomBankFileOperator.cs" />
-    <Compile Include="DomainModel\Forex.cs" />
-    <Compile Include="DomainModel\ForecastRates.cs" />
-    <Compile Include="DomainModel\NbRates.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="WebExtractorsAsync\Banki24Extractor.cs" />
     <Compile Include="WebExtractorsAsync\Banki24OnlineExtractor.cs" />
@@ -166,7 +149,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="DomainModel\KomBankRates.cs" />
     <Compile Include="Parsers\KomBanks\BelgazExtractor.cs" />
     <Compile Include="MainWindow.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

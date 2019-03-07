@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WebListener.Properties;
+using Extractors.Properties;
 
-namespace WebListener
+namespace Extractors
 {
     public class Calculations : INotifyPropertyChanged
     {

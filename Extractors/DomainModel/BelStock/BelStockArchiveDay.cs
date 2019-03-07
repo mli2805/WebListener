@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebListener
+namespace Extractors
 {
     public class BelStockArchiveDay
     {

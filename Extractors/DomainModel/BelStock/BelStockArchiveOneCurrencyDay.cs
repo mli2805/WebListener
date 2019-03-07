@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace WebListener
+namespace Extractors
 {
     public class BelStockArchiveOneCurrencyDay
     {

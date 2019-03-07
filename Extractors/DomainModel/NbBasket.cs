@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace WebListener
+namespace Extractors
 {
-    static class NbBasket
+    public static class NbBasket
     {
         /* c 01/01/2016
         private const double UsdWage = 0.3;

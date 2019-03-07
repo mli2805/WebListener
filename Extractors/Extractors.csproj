@@ -42,6 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\BelStock\BelStock.cs" />
+    <Compile Include="DomainModel\BelStock\BelStockArchiveDay.cs" />
+    <Compile Include="DomainModel\BelStock\BelStockArchiveOneCurrencyDay.cs" />
+    <Compile Include="DomainModel\BelStock\BelStockCurrency.cs" />
+    <Compile Include="DomainModel\BelStock\BelStockState.cs" />
+    <Compile Include="DomainModel\BelStock\BelStockWrapped.cs" />
+    <Compile Include="DomainModel\Calculations.cs" />
+    <Compile Include="DomainModel\Currency.cs" />
+    <Compile Include="DomainModel\EcopressRates.cs" />
+    <Compile Include="DomainModel\ForecastRates.cs" />
+    <Compile Include="DomainModel\Forex.cs" />
+    <Compile Include="DomainModel\KomBank.cs" />
+    <Compile Include="DomainModel\KomBankRates.cs" />
+    <Compile Include="DomainModel\NbBasket.cs" />
+    <Compile Include="DomainModel\NbRates.cs" />
+    <Compile Include="DomainModel\Omc\Omc.cs" />
+    <Compile Include="DomainModel\Omc\OmcMetal.cs" />
+    <Compile Include="DomainModel\Omc\OmcWrapped.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebSocket\TradingViewChart.cs" />
     <Compile Include="WebSocket\TradingViewExtractor.cs" />
@@ -49,8 +68,6 @@
     <Compile Include="WebSocket\TradingViewResult.cs" />
     <Compile Include="WebSocket\TradingViewResultFetchedEventHandler.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dto\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
