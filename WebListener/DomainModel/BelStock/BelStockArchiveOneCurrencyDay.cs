@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace WebListener.DomainModel.BelStock
+namespace WebListener
 {
     public class BelStockArchiveOneCurrencyDay
     {

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using WebListener.Properties;
 
-namespace WebListener.DomainModel.Omc
+namespace WebListener
 {
     public class Omc : WebExtractionResult, INotifyPropertyChanged
     {

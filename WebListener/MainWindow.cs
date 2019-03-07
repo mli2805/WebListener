@@ -1,9 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Extractors;
-using WebListener.DomainModel;
-using WebListener.Functions;
-using WebListener.Views;
 
 namespace WebListener
 {

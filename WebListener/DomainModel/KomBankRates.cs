@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using WebListener.Properties;
 
-namespace WebListener.DomainModel
+namespace WebListener
 {
     public class KomBankRates : WebExtractionResult, INotifyPropertyChanged
     {

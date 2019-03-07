@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using WebListener.DomainModel.Omc;
 
-namespace WebListener.WebExtractorsAsync
+namespace WebListener
 {
     public class BpsOmcExtractor
     {

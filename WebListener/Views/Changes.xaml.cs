@@ -1,4 +1,4 @@
-﻿namespace WebListener.Views
+﻿namespace WebListener
 {
     /// <summary>
     /// Interaction logic for Changes.xaml

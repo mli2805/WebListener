@@ -3,9 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using WebListener.DomainModel;
 
-namespace WebListener.Functions
+namespace WebListener
 {
     class KomBankOperator
     {
@@ -83,7 +82,7 @@ namespace WebListener.Functions
         {
             rows.Add(line);
             new KomBankFileOperator().ReWriteSet(rows);
-            var notify = new Views.Changes
+            var notify = new Changes
             {
                 MessageBlock = { Text = line.Bank + " " + line.StartedFrom }
             };

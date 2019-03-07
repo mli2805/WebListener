@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using WebListener.Properties;
 
-namespace WebListener.DomainModel.Omc
+namespace WebListener
 {
     public class OmcMetal : INotifyPropertyChanged
     {

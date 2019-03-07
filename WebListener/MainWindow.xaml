@@ -2,8 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xml:lang="ru-RU"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:dataGridBehaviors="clr-namespace:WebListener.DataGridBehaviors"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:webListener="clr-namespace:WebListener"
         Icon="WebListener.ico"
         Title="MainWindow" Loaded="Window_Loaded" SizeToContent="Width" Height="930" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -155,8 +155,8 @@
             <DataGrid Grid.Row="0" ItemsSource="{Binding Vm.RowsBib}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
                       IsReadOnly="True">
                 <i:Interaction.Behaviors>
-                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
-                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                    <webListener:ScrollToBottomDatagridBehavior/>
+                    <webListener:ScrollToBottomOnAddBehavior />
                 </i:Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" БИБ" Width="75" Binding="{Binding StartedFromForGrid}"/>
@@ -179,8 +179,8 @@
             <DataGrid Grid.Row="2" ItemsSource="{Binding Vm.RowsPrior}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
                       IsReadOnly="True">
                 <i:Interaction.Behaviors>
-                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
-                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                    <webListener:ScrollToBottomDatagridBehavior/>
+                    <webListener:ScrollToBottomOnAddBehavior />
                 </i:Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Приор" Width="75" Binding="{Binding StartedFromForGrid}"/>
@@ -203,8 +203,8 @@
             <DataGrid Grid.Row="4" ItemsSource="{Binding Vm.RowsMoMi}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
                       IsReadOnly="True">
                 <i:Interaction.Behaviors>
-                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
-                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                    <webListener:ScrollToBottomDatagridBehavior/>
+                    <webListener:ScrollToBottomOnAddBehavior />
                 </i:Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" ММБ" Width="75"         Binding="{Binding StartedFromForGrid}"/>
@@ -227,8 +227,8 @@
             <DataGrid Grid.Row="6" ItemsSource="{Binding Vm.RowsBps}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
                       IsReadOnly="True">
                 <i:Interaction.Behaviors>
-                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
-                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                    <webListener:ScrollToBottomDatagridBehavior/>
+                    <webListener:ScrollToBottomOnAddBehavior />
                 </i:Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" БПС" Width="75"         Binding="{Binding StartedFromForGrid}"/>
@@ -251,8 +251,8 @@
             <DataGrid Grid.Row="8" ItemsSource="{Binding Vm.RowsBelGaz}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
                       IsReadOnly="True">
                 <i:Interaction.Behaviors>
-                    <dataGridBehaviors:ScrollToBottomDatagridBehavior/>
-                    <dataGridBehaviors:ScrollToBottomOnAddBehavior />
+                    <webListener:ScrollToBottomDatagridBehavior/>
+                    <webListener:ScrollToBottomOnAddBehavior />
                 </i:Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" БГПБ" Width="75" Binding="{Binding StartedFromForGrid}"/>

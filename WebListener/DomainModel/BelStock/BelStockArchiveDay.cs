@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebListener.DomainModel.BelStock
+namespace WebListener
 {
     public class BelStockArchiveDay
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebListener.DomainModel
+namespace WebListener
 {
     public class EcopressRates
     {

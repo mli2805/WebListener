@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebListener.WebExtractorsAsync
+namespace WebListener
 {
     public class WebExtractor
     {

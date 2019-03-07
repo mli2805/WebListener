@@ -3,8 +3,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using WebListener.DomainModel;
-using WebListener.WebExtractorsAsync;
 
 namespace WebListener
 {

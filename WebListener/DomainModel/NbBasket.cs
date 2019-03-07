@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebListener.DomainModel
+namespace WebListener
 {
     static class NbBasket
     {

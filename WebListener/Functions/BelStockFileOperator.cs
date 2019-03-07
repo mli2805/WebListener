@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using WebListener.DomainModel.BelStock;
 
-namespace WebListener.Functions
+namespace WebListener
 {
     public class BelStockFileOperator
     {

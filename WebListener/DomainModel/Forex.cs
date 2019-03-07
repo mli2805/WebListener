@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WebListener.Properties;
 
-namespace WebListener.DomainModel
+namespace WebListener
 {
     public class Forex : INotifyPropertyChanged
     {

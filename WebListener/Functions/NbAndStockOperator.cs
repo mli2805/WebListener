@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using WebListener.DomainModel;
-using WebListener.DomainModel.BelStock;
-using WebListener.WebExtractorsAsync;
 
-namespace WebListener.Functions
+namespace WebListener
 {
     class NbAndStockOperator
     {

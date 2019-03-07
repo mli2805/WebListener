@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Threading;
-using WebListener.DomainModel;
-using WebListener.WebExtractorsAsync;
 
-namespace WebListener.Functions
+namespace WebListener
 {
     class EcopressOperator
     {
@@ -48,7 +46,7 @@ namespace WebListener.Functions
             SaveLines(ecopressRates.List);
             foreach (var line in listOfChangedLines)
             {
-                var notify = new Views.Changes
+                var notify = new Changes
                 {
                     MessageBlock = { Text = line.ToDisplayEcopress() }
                 };

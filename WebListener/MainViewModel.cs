@@ -1,9 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WebListener.DomainModel;
-using WebListener.DomainModel.BelStock;
-using WebListener.DomainModel.Omc;
 using WebListener.Properties;
 
 namespace WebListener

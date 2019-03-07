@@ -6,9 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using WebListener.DomainModel;
 
-namespace WebListener.WebExtractorsAsync
+namespace WebListener
 {
     public static class NbRbRatesDownloader
     {

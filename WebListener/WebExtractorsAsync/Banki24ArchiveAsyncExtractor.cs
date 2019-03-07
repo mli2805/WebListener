@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using WebListener.DomainModel;
-using WebListener.DomainModel.BelStock;
 
-namespace WebListener.WebExtractorsAsync
+namespace WebListener
 {
     public class Banki24ArchiveAsyncExtractor
     {

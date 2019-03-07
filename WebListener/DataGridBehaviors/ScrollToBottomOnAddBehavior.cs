@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace WebListener.DataGridBehaviors
+namespace WebListener
 {
     class ScrollToBottomOnAddBehavior : Behavior<DataGrid>
     {

@@ -1,6 +1,4 @@
 ﻿using System;
-using WebListener.DomainModel;
-using WebListener.DomainModel.BelStock;
 
 namespace WebListener
 {

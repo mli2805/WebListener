@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WebListener.Properties;
 
-namespace WebListener.DomainModel.BelStock
+namespace WebListener
 {
     public class BelStock : INotifyPropertyChanged
     {

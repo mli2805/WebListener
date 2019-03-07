@@ -1,4 +1,4 @@
-﻿namespace WebListener.DomainModel
+﻿namespace WebListener
 {
     public enum Currency { Usd, Eur, Rub}
 }

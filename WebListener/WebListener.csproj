@@ -150,7 +150,6 @@
     <Compile Include="WebExtractorsAsync\NbRbRatesDownloader.cs" />
     <Compile Include="WebExtractorsAsync\WebExtractor.cs" />
     <Compile Include="WebSocket\TradingViewManager.cs" />
-    <Compile Include="WebSocket\TradingViewVm.cs" />
     <Page Include="Views\BelStockArchieveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

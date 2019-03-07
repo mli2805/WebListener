@@ -5,12 +5,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using WebListener.DomainModel.BelStock;
-using WebListener.Functions;
 using WebListener.Properties;
-using WebListener.WebExtractorsAsync;
 
-namespace WebListener.Views
+namespace WebListener
 {
     /// <summary>
     /// Interaction logic for BelStockArchieveView.xaml

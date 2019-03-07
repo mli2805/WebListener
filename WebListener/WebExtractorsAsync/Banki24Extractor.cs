@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace WebListener.WebExtractorsAsync
+namespace WebListener
 {
     public class Banki24Extractor
     {

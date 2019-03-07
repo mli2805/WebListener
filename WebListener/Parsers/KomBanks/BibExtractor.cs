@@ -2,8 +2,6 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using WebListener.DomainModel;
-using WebListener.WebExtractorsAsync;
 
 namespace WebListener
 {
