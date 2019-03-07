@@ -7,7 +7,7 @@ using WebListener.Properties;
 
 namespace WebListener
 {
-    public class Omc : WebExtractionResult, INotifyPropertyChanged
+    public class Omc : INotifyPropertyChanged
     {
         public string FromDate { get; set; }
         public Dictionary<string, OmcMetal> Metals { get; set; }
@@ -56,11 +56,6 @@ namespace WebListener
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public override void Apply()
-        {
-            throw new NotImplementedException();
         }
     }
 }

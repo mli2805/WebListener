@@ -49,5 +49,8 @@
     <Compile Include="WebSocket\TradingViewResult.cs" />
     <Compile Include="WebSocket\TradingViewResultFetchedEventHandler.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dto\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

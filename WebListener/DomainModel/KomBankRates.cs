@@ -6,7 +6,7 @@ using WebListener.Properties;
 
 namespace WebListener
 {
-    public class KomBankRates : WebExtractionResult, INotifyPropertyChanged
+    public class KomBankRates : INotifyPropertyChanged
     {
         #region class properties
         public string Bank { get; set; }
@@ -145,11 +145,6 @@ namespace WebListener
         {
             var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public override void Apply()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -63,7 +63,7 @@ namespace WebListener
                 var posTo = table.IndexOf("</div>", posFrom, StringComparison.Ordinal);
                 var rateString = table.Substring(posFrom, posTo - posFrom);
                 var rate = SpecialOperations.ParseDoubleFromWebTrash(rateString);
-                if (Math.Abs(rate - (-1)) < 0.0001) return null;
+              //  if (Math.Abs(rate - (-1)) < 0.0001) return null;
                 result.Add(rate);
                 pos = posTo;
             }

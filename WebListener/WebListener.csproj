@@ -110,7 +110,6 @@
     <Compile Include="DomainModel\Currency.cs" />
     <Compile Include="DomainModel\EcopressRates.cs" />
     <Compile Include="DomainModel\KomBank.cs" />
-    <Compile Include="DomainModel\WebExtractionResult.cs" />
     <Compile Include="Parsers\Banki24ArchivePageParser.cs" />
     <Compile Include="Functions\BpsOmcOperator.cs" />
     <Compile Include="Functions\EcopressOperator.cs" />
