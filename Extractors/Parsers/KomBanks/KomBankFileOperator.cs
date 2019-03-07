@@ -25,7 +25,7 @@ namespace Extractors
         public void SaveLine(KomBankRates currentLine)
         {
             var filename = GetFilename(currentLine.Bank);
-            var content = new List<string> {currentLine.ToFileString()};
+            var content = new List<string> { currentLine.ToFileString() };
             try
             {
                 File.AppendAllLines(filename, content);
@@ -64,6 +64,19 @@ namespace Extractors
             }
 
             return result;
+        }
+        public IEnumerable<KomBankRates> LoadLines(KomBank2 komBank2)
+        {
+         //   var result = new ObservableCollection<KomBankRates>();
+         //   if (!File.Exists(komBank2.GetFilename())) yield break;
+            var content = File.ReadAllLines(komBank2.GetFilename());
+            foreach (var line in content)
+            {
+                yield return new KomBankRates(line);
+                //  result.Add(new KomBankRates(line));
+            }
+
+         //   return result;
         }
 
     }

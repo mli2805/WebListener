@@ -1,14 +1,20 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using Caliburn.Micro;
 
-namespace WebListenerRx {
-    public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
+namespace WebListenerRx
+{
+    public class ShellViewModel : Screen, IShell
     {
-        public List<string> Rows { get; set; } = new List<string>();
-
+        public MainViewModel MainViewModel { get; set; } = new MainViewModel();
         public ShellViewModel()
         {
-            Rows.Add("Here the program started");
-            Rows.Add("Second line");
         }
+
+        protected override void OnViewLoaded(object view)
+        {
+           Task.Factory.StartNew(()=>MainViewModel.LoadHistory());
+        }
+
+     
     }
 }
