@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 
-namespace WebListener
+namespace Extractors
 {
     public static class TradingViewParser
     {

@@ -148,17 +148,8 @@
     <Compile Include="WebExtractorsAsync\Banki24OnlineExtractor.cs" />
     <Compile Include="Functions\NbAndStockOperator.cs" />
     <Compile Include="WebExtractorsAsync\NbRbRatesDownloader.cs" />
-    <Compile Include="WebExtractors\Tradingview\CrossRateFetchedEventHandler.cs" />
-    <Compile Include="WebExtractors\Tradingview\CrossRateFetchedEventsArgs.cs" />
-    <Compile Include="WebExtractors\Tradingview\TradingviewExtractor.cs" />
-    <Compile Include="WebExtractors\Tradingview\TradingviewExtractorsPool.cs" />
     <Compile Include="WebExtractorsAsync\WebExtractor.cs" />
-    <Compile Include="WebSocket\TradingViewChart.cs" />
-    <Compile Include="WebSocket\TradingViewExtractor.cs" />
     <Compile Include="WebSocket\TradingViewManager.cs" />
-    <Compile Include="WebSocket\TradingViewParser.cs" />
-    <Compile Include="WebSocket\TradingViewResult.cs" />
-    <Compile Include="WebSocket\TradingViewResultFetchedEventHandler.cs" />
     <Compile Include="WebSocket\TradingViewVm.cs" />
     <Page Include="Views\BelStockArchieveView.xaml">
       <SubType>Designer</SubType>
@@ -216,6 +207,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="WebListener.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\Extractors.csproj">
+      <Project>{a3cc9962-a04e-43ee-b2f7-af3f939b1d91}</Project>
+      <Name>Extractors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocketWpf", "WebSocketWp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebListenerRx", "WebListenerRx\WebListenerRx.csproj", "{13DB6CC4-EAE8-4645-AB60-0FA8B5F3B8F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extractors", "ClassLibrary1\Extractors.csproj", "{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{13DB6CC4-EAE8-4645-AB60-0FA8B5F3B8F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13DB6CC4-EAE8-4645-AB60-0FA8B5F3B8F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13DB6CC4-EAE8-4645-AB60-0FA8B5F3B8F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
