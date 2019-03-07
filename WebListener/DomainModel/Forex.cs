@@ -43,7 +43,7 @@ namespace WebListener.DomainModel
                 if (value.Equals(_rubUsd)) return;
                 _rubUsd = value;
                 OnPropertyChanged();
-                OnPropertyChanged("BrentInRub");
+                OnPropertyChanged(nameof(BrentInRub));
             }
         }
 
@@ -66,7 +66,7 @@ namespace WebListener.DomainModel
                 if (_brentUkOil.Equals(value)) return;
                 _brentUkOil = value;
                 OnPropertyChanged();
-                OnPropertyChanged("BrentInRub");
+                OnPropertyChanged(nameof(BrentInRub));
             }
         }
 

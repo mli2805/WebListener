@@ -47,10 +47,10 @@ namespace WebListener.Functions
         {
             switch (bank)
             {
-                case KomBank.БГПБ: return new BelgazExtractor().GetRatesLineAsync();
-                case KomBank.БИБ: return new BibExtractor().GetRatesLineAsync();
-                case KomBank.ММБ: return new MmbankExtractor().GetRatesLineAsync();
-                case KomBank.БПС: return new BpsExtractor().GetRatesLineAsync();
+                case KomBank.Бгпб: return new BelgazExtractor().GetRatesLineAsync();
+                case KomBank.Биб: return new BibExtractor().GetRatesLineAsync();
+                case KomBank.Ммб: return new MmbankExtractor().GetRatesLineAsync();
+                case KomBank.Бпс: return new BpsExtractor().GetRatesLineAsync();
                 case KomBank.Приор: return new PriorExtractor().GetRatesLineAsync();
                 default:
                     return null;

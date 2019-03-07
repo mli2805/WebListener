@@ -113,10 +113,10 @@ namespace WebListener.WebExtractorsAsync
 
         private KomBank GetBank(string name)
         {
-            if (name == "Белгазпромбанк") return KomBank.БГПБ;
-            if (name == "Банк Москва–Минск") return KomBank.ММБ;
-            if (name == "Белинвестбанк") return KomBank.БИБ;
-            if (name == "БПС–Сбербанк") return KomBank.БПС;
+            if (name == "Белгазпромбанк") return KomBank.Бгпб;
+            if (name == "Банк Москва–Минск") return KomBank.Ммб;
+            if (name == "Белинвестбанк") return KomBank.Биб;
+            if (name == "БПС–Сбербанк") return KomBank.Бпс;
             return 0;
         }
     }

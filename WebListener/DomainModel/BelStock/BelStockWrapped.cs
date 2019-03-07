@@ -16,14 +16,14 @@ namespace WebListener.DomainModel.BelStock
                 if (Equals(value, _belStock)) return;
                 _belStock = value;
                 OnPropertyChanged();
-                OnPropertyChanged("UsdString");
-                OnPropertyChanged("EurString");
-                OnPropertyChanged("RubString");
-                OnPropertyChanged("NewBasketString");
-                OnPropertyChanged("EurUsdString");
-                OnPropertyChanged("EurRubString");
-                OnPropertyChanged("UsdRubString");
-                OnPropertyChanged("Title");
+                OnPropertyChanged(nameof(UsdString));
+                OnPropertyChanged(nameof(EurString));
+                OnPropertyChanged(nameof(RubString));
+                OnPropertyChanged(nameof(NewBasketString));
+                OnPropertyChanged(nameof(EurUsdString));
+                OnPropertyChanged(nameof(EurRubString));
+                OnPropertyChanged(nameof(UsdRubString));
+                OnPropertyChanged(nameof(Title));
             }
         }
         public string Title

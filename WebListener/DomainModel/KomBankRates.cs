@@ -48,7 +48,7 @@ namespace WebListener.DomainModel
             {
                 if (value.Equals(_lastCheck)) return;
                 _lastCheck = value;
-                OnPropertyChanged("LastCheckForGrid");
+                OnPropertyChanged(nameof(LastCheckForGrid));
             }
         }
         public string LastCheckForGrid => $"{_lastCheck:dd.MM.yyy\nHH:mm:ss}";

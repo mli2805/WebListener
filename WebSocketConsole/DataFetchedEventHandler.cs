@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WebSocketConsole
+﻿namespace WebSocketConsole
 {
     public delegate void DataFetchedEventHandler(object sender, string e);
 }

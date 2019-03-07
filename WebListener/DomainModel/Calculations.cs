@@ -18,8 +18,8 @@ namespace WebListener.DomainModel
                 if (value.Equals(_annualRate)) return;
                 _annualRate = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ProfitProcent");
-                OnPropertyChanged("ProfitByr");
+                OnPropertyChanged(nameof(ProfitProcent));
+                OnPropertyChanged(nameof(ProfitByr));
             }
         }
 
@@ -31,8 +31,8 @@ namespace WebListener.DomainModel
                 if (value == _days) return;
                 _days = value;
                 OnPropertyChanged();
-                OnPropertyChanged("ProfitProcent");
-                OnPropertyChanged("ProfitByr");
+                OnPropertyChanged(nameof(ProfitProcent));
+                OnPropertyChanged(nameof(ProfitByr));
             }
         }
 

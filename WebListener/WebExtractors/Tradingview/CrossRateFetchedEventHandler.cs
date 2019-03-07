@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WebListener.WebExtractors.Tradingview
+﻿namespace WebListener.WebExtractors.Tradingview
 {
     public delegate void CrossRateFetchedEventHandler(object sender, CrossRateFetchedEventsArgs e);
 }
