@@ -83,19 +83,29 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="DataGridBehaviors\ScrollToBottomListViewBehavior.cs" />
+    <Compile Include="DataGridBehaviors\ScrollToBottomDatagridBehavior.cs" />
     <Compile Include="DataGridBehaviors\ScrollToBottomOnAddBehavior.cs" />
+    <Compile Include="Tools\HistoryLoader.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="MainView.xaml.cs">
+    <Compile Include="Controls\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainViewModel.cs" />
+    <Compile Include="Controls\MainViewModel.cs" />
+    <Compile Include="Controls\MainVm.cs" />
+    <Compile Include="Controls\OneBankView.xaml.cs">
+      <DependentUpon>OneBankView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OneBankViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MainView.xaml">
+    <Page Include="Controls\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OneBankView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,5 +147,6 @@
       <Name>Extractors</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

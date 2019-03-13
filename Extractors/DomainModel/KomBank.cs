@@ -34,9 +34,9 @@
         {
             switch (komBank2)
             {
-                case KomBank2.Bgpb:  return @"data\mmbank.txt";
-                case KomBank2.Bib:   return @"data\bgpbank.txt";
-                case KomBank2.Mmb:   return @"data\bibank.txt";
+                case KomBank2.Mmb:  return @"data\mmbank.txt";
+                case KomBank2.Bgpb:   return @"data\bgpbank.txt";
+                case KomBank2.Bib:   return @"data\bibank.txt";
                 case KomBank2.Bps:   return @"data\bpsbank.txt";
                 case KomBank2.Prior: return @"data\priorbank.txt";
                 default:

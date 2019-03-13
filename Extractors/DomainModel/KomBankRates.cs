@@ -58,6 +58,7 @@ namespace Extractors
         private static string FormatStartedFromForGrid(string startedFrom)
         {
             var pos = startedFrom.IndexOf(":", StringComparison.Ordinal);
+            if (pos == -1) return startedFrom;
             return startedFrom.Substring(0, pos - 2) + "\n  " + startedFrom.Substring(pos - 2);
         }
         private static string CurrencyPairToString(double a, double b)
@@ -136,7 +137,10 @@ namespace Extractors
             }
         }
 
-
+        public KomBankRates Clone()
+        {
+            return (KomBankRates) MemberwiseClone();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -4,7 +4,7 @@ using System.Windows.Interactivity;
 
 namespace WebListenerRx
 {
-    class ScrollToBottomOnAddBehavior : Behavior<ListView>
+    class ScrollToBottomOnAddBehavior : Behavior<DataGrid>
     {
         protected override void OnAttached()
         {

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Caliburn.Micro;
 
 namespace WebListenerRx
@@ -12,7 +11,7 @@ namespace WebListenerRx
 
         protected override void OnViewLoaded(object view)
         {
-           Task.Factory.StartNew(()=>MainViewModel.LoadHistory());
+            MainViewModel.LoadHistory();
         }
 
      
