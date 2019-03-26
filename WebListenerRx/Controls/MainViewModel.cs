@@ -1,10 +1,46 @@
-﻿using Caliburn.Micro;
+﻿using System.Threading;
+using Caliburn.Micro;
 
 namespace WebListenerRx
 {
     public class MainViewModel : PropertyChangedBase
     {
+        private bool _isEnabled;
         public MainVm MainVm { get; set; } = new MainVm();
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _testText = "Initial value";
+        public string TestText
+        {
+            get { return _testText; }
+            set
+            {
+                _testText = value; 
+                HeavyCalculation(_testText);
+            }
+        }
+
+        private string _resultText;
+        public string ResultText
+        {
+            get { return _resultText; }
+            set
+            {
+                if (value == _resultText) return;
+                _resultText = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public MainViewModel()
         {
@@ -17,10 +53,15 @@ namespace WebListenerRx
                 StartKomBanksPolling();
         }
 
-        private void StartKomBanksPolling()
+        public void StartKomBanksPolling()
         {
-        //    var l = MainVm.BgpbModel.Rows.Last().Clone();
-  //          MainVm.BgpbModel.Rows.Add(l);
+            IsEnabled = true;
+        }
+
+        private void HeavyCalculation(string param)
+        {
+            Thread.Sleep(300);
+            ResultText = "result-" + param;
         }
 
         public void LoadHistory()

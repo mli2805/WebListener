@@ -11,7 +11,8 @@ namespace WebListenerRx
 
         protected override void OnViewLoaded(object view)
         {
-            MainViewModel.LoadHistory();
+       //     MainViewModel.LoadHistory();
+            MainViewModel.StartKomBanksPolling();
         }
 
      

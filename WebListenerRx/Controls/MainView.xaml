@@ -4,12 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:webListenerRx="clr-namespace:WebListenerRx"
-             mc:Ignorable="d" 
-             d:DataContext="{d:DesignData MainViewModel}">
-    
+             mc:Ignorable="d" d:DataContext="{d:DesignData MainViewModel}"
+             >
+
     <DockPanel>
-        <StackPanel DockPanel.Dock="Bottom"></StackPanel>
-        <Grid>
+        <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="5"/>
@@ -34,6 +33,11 @@
             <webListenerRx:OneBankView Grid.Row="8" DataContext="{Binding MainVm.BgpbModel}"/>
 
         </Grid>
+        <DockPanel Margin="5">
+            <TextBox DockPanel.Dock="Top" Text="{Binding TestText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                     Margin="5" Height="22"  IsEnabled="{Binding IsEnabled}"/>
+            <TextBlock Height="22" Text="{Binding ResultText}" Margin="5" Background="AliceBlue"/>
+        </DockPanel>
     </DockPanel>
 
 </UserControl>

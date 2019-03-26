@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebListenerRx", "WebListene
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extractors", "Extractors\Extractors.csproj", "{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeavyKeyProcessing", "HeavyKeyProcessing\HeavyKeyProcessing.csproj", "{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

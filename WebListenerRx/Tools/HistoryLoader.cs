@@ -27,7 +27,7 @@ namespace WebListenerRx
                     BankTitle = komBank2.GetAbbreviation(),
                     Rows = temp
                 });
-               });
+            });
         }
 
         private static ObservableCollection<KomBankRates> LoadLines(KomBank2 komBank2)

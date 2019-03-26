@@ -2,6 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:webListenerRx="clr-namespace:WebListenerRx"
-        SizeToContent="Width">
+        SizeToContent="Width" Height="810">
     <webListenerRx:MainView DataContext="{Binding MainViewModel}"/>
 </Window>
