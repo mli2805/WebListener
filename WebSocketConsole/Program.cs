@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using Extractors;
 
 namespace WebSocketConsole
 {
@@ -10,6 +11,13 @@ namespace WebSocketConsole
         static StreamWriter _logFile = File.AppendText("weblistener.log");
         private static TradingViewExtractor _tradingViewExtractor;
         static void Main()
+        {
+            var ex = new BelgazMobi();
+            var res = ex.GetRatesLineAsync().Result;
+            Console.ReadKey();
+        }
+
+        private static void TradingMain()
         {
             _tradingViewExtractor = new TradingViewExtractor();
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;

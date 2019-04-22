@@ -51,5 +51,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Extractors\Extractors.csproj">
+      <Project>{a3cc9962-a04e-43ee-b2f7-af3f939b1d91}</Project>
+      <Name>Extractors</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

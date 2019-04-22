@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace HeavyKeyProcessing
 {
@@ -17,6 +16,9 @@ namespace HeavyKeyProcessing
 
         private void TextBox1_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+//            Thread.Sleep(300);
+//            TextBlock1.Text = "result" + TextBox1.Text;
+
             Task.Factory.StartNew(HeavyCalculationAnotherThread);
         }
 

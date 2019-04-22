@@ -63,6 +63,8 @@
     <Compile Include="DomainModel\Omc\Omc.cs" />
     <Compile Include="DomainModel\Omc\OmcMetal.cs" />
     <Compile Include="DomainModel\Omc\OmcWrapped.cs" />
+    <Compile Include="Mobi\BelgazMobi.cs" />
+    <Compile Include="Mobi\BelgazOneRate.cs" />
     <Compile Include="Parsers\Banki24ArchivePageParser.cs" />
     <Compile Include="Parsers\KomBanks\BelgazExtractor.cs" />
     <Compile Include="Parsers\KomBanks\BibExtractor.cs" />

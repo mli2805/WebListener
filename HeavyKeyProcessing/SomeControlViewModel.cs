@@ -14,9 +14,8 @@ namespace HeavyKeyProcessing
             set
             {
                 _testText = value; 
-             //   HeavyCalculation(_testText);
                 Task.Factory.StartNew(() => HeavyCalculationAnotherThread(_testText));
-                HeavyCalculationAnotherThread(_testText);
+           //     HeavyCalculationAnotherThread(_testText);
             }
         }
 
@@ -30,12 +29,6 @@ namespace HeavyKeyProcessing
                 _resultText = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        private void HeavyCalculation(string param)
-        {
-            Thread.Sleep(300);
-            ResultText = "result-" + param;
         }
 
         private void HeavyCalculationAnotherThread(string param)

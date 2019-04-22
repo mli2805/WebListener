@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance heavyKeyProcessing:SomeControlViewModel}">
     <StackPanel Margin="5">
-        <TextBox Name="TextBox1" Margin="5" KeyDown="TextBox1_KeyDown" ></TextBox>
+        <TextBox Name="TextBox1" Margin="5" KeyDown="TextBox1_KeyDown" ForceCursor="True"></TextBox>
         <TextBlock Name="TextBlock1" Height="22" Margin="5" Background="AliceBlue"/>
         <StackPanel Height="100"></StackPanel>
         <TextBox Text="{Binding TestText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 

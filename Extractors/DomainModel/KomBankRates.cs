@@ -80,10 +80,11 @@ namespace Extractors
             if (pos == -1) return startedFrom;
             return startedFrom.Substring(0, pos - 2) + "\n  " + startedFrom.Substring(pos - 2);
         }
-        private static string CurrencyPairToString(double a, double b)
+        private string CurrencyPairToString(double a, double b)
         {
+            var fl = Bank == "БГПБ" && LastCheck > new DateTime(2019,4,21) ? ">10К" : "";
             return (a.Equals(0) || b.Equals(0)) ? "" :
-                $"{a:#,0.####} - {b:#,0.####}\n ( {b - a:#,0.####}  {(b - a)*100/b:#,0.##}% ) ";
+                $"{a:#,0.####} - {b:#,0.####}  {fl}\n ( {b - a:#,0.####}  {(b - a)*100/b:#,0.##}% ) ";
         }
         private static string CrossPairToString(double a, double b)
         {
