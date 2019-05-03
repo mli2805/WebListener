@@ -71,10 +71,8 @@
     <Compile Include="Parsers\KomBanks\BpsExtractor.cs" />
     <Compile Include="Parsers\KomBanks\KomBankFileOperator.cs" />
     <Compile Include="Parsers\KomBanks\MmbankExtractor.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\FullListAjax.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\PriorExtractor.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\RootObject.cs" />
-    <Compile Include="Parsers\KomBanks\Prior\ViewVOitem.cs" />
+    <Compile Include="Parsers\KomBanks\Prior20190501\RootObject.cs" />
+    <Compile Include="Parsers\KomBanks\PriorExtractor.cs" />
     <Compile Include="Parsers\SpecialOperations.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,5 +92,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
