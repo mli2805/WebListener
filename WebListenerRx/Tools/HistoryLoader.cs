@@ -20,14 +20,15 @@ namespace WebListenerRx
         private static void LoadOneBankHistory(KomBank2 komBank2, MainVm mainVm)
         {
             var temp = LoadLines(komBank2);
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                mainVm.AssignModel(komBank2, new OneBankViewModel
+            if (Application.Current.Dispatcher != null)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    BankTitle = komBank2.GetAbbreviation(),
-                    Rows = temp
+                    mainVm.AssignModel(komBank2, new OneBankViewModel
+                    {
+                        BankTitle = komBank2.GetAbbreviation(),
+                        Rows = temp
+                    });
                 });
-            });
         }
 
         private static ObservableCollection<KomBankRates> LoadLines(KomBank2 komBank2)

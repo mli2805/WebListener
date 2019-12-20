@@ -50,7 +50,7 @@ namespace WebSocketWpf
         {
             Console.WriteLine($@"{DateTime.Now}  {result.Chart}  {result.Value}");
             Console.WriteLine();
-            Application.Current.Dispatcher.Invoke(() => ApplyRates(result));
+            if (Application.Current.Dispatcher != null) Application.Current.Dispatcher.Invoke(() => ApplyRates(result));
         }
 
         private void ApplyRates(TradingViewResult result)
@@ -72,5 +72,6 @@ namespace WebSocketWpf
             }
 
             TradingViewVm.Timestamp = DateTime.Now;
-        }  }
+        }
+    }
 }

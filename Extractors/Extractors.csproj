@@ -68,6 +68,7 @@
     <Compile Include="Parsers\Banki24ArchivePageParser.cs" />
     <Compile Include="Parsers\KomBanks\BelgazExtractor.cs" />
     <Compile Include="Parsers\KomBanks\BibExtractor.cs" />
+    <Compile Include="Parsers\KomBanks\Bps20191201\RootObject.cs" />
     <Compile Include="Parsers\KomBanks\BpsExtractor.cs" />
     <Compile Include="Parsers\KomBanks\KomBankFileOperator.cs" />
     <Compile Include="Parsers\KomBanks\MmbankExtractor.cs" />
