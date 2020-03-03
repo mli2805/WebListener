@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebListener", "WebListener\WebListener.csproj", "{735DB625-06BA-4FCA-871D-63EF00FEBE07}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extractors", "Extractors\Extractors.csproj", "{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeavyKeyProcessing", "HeavyKeyProcessing\HeavyKeyProcessing.csproj", "{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanksListener", "BanksListener\BanksListener.csproj", "{C0551604-CA30-4F5E-8006-79EB314FF8F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
