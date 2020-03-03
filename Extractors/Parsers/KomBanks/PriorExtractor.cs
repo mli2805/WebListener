@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -41,8 +42,9 @@ namespace Extractors
                 return result;
             }
 
+            var digitalBank = priorList.CalculatorTable.Data.Where(d => d.Channel == 3).ToList(); // 1 - нал, 2 - карточки
 
-            var onlineRate = priorList.CalculatorTable.Data[31];
+            var onlineRate = digitalBank.First(r => r.BaseCurrency == (int)Currency.Usd && r.RatedCurrency == (int)Currency.Byn);
             result.UsdA = onlineRate.Rate.BuyRate;
             result.UsdB = onlineRate.Rate.SellRate;
 
@@ -50,20 +52,20 @@ namespace Extractors
             result.StartedFrom = $"{date}";
             result.LastCheck = DateTime.Now;
 
-            onlineRate = priorList.CalculatorTable.Data[32];
+            onlineRate = digitalBank.First(r => r.BaseCurrency == (int)Currency.Eur && r.RatedCurrency == (int)Currency.Byn);
             result.EurA = onlineRate.Rate.BuyRate;
             result.EurB = onlineRate.Rate.SellRate;
-            onlineRate = priorList.CalculatorTable.Data[30];
+            onlineRate = digitalBank.First(r => r.BaseCurrency == (int)Currency.Rub && r.RatedCurrency == (int)Currency.Byn);
             result.RubA = onlineRate.Rate.BuyRate;
             result.RubB = onlineRate.Rate.SellRate;
 
-            onlineRate = priorList.CalculatorTable.Data[33];
+            onlineRate = digitalBank.First(r => r.BaseCurrency == (int)Currency.Usd && r.RatedCurrency == (int)Currency.Rub);
             result.RubUsdA = onlineRate.Rate.BuyRate;
             result.RubUsdB = onlineRate.Rate.SellRate;
-            onlineRate = priorList.CalculatorTable.Data[35];
+            onlineRate = digitalBank.First(r => r.BaseCurrency == (int)Currency.Eur && r.RatedCurrency == (int)Currency.Usd);
             result.EurUsdA = onlineRate.Rate.BuyRate;
             result.EurUsdB = onlineRate.Rate.SellRate;
-            onlineRate = priorList.CalculatorTable.Data[34];
+            onlineRate = digitalBank.First(r => r.BaseCurrency == (int)Currency.Eur && r.RatedCurrency == (int)Currency.Rub);
             result.RubEurA = onlineRate.Rate.BuyRate;
             result.RubEurB = onlineRate.Rate.SellRate;
 

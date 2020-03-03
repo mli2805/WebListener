@@ -34,7 +34,8 @@ namespace HeavyKeyProcessing
         private void HeavyCalculationAnotherThread(string param)
         {
             Thread.Sleep(300);
-            Application.Current.Dispatcher.Invoke(() => ResultText = "result-" + param); // sync, GUI thread
+            if (Application.Current.Dispatcher != null)
+                Application.Current.Dispatcher.Invoke(() => ResultText = "result-" + param); // sync, GUI thread
         }
 
     }

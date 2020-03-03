@@ -25,7 +25,9 @@ namespace HeavyKeyProcessing
         private void HeavyCalculationAnotherThread()
         {
             Thread.Sleep(300);
-            Application.Current.Dispatcher.Invoke(() => TextBlock1.Text = "result" + TextBox1.Text); // sync, GUI thread
+            if (Application.Current.Dispatcher != null)
+                Application.Current.Dispatcher.Invoke(() =>
+                    TextBlock1.Text = "result" + TextBox1.Text); // sync, GUI thread
         }
 
     }

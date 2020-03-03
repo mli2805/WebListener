@@ -5,15 +5,16 @@ using Extractors;
 
 namespace WebSocketConsole
 {
-   
+
     class Program
     {
         static StreamWriter _logFile = File.AppendText("weblistener.log");
         private static TradingViewExtractor _tradingViewExtractor;
         static void Main()
         {
-            var ex = new BelgazMobi();
-            var res = ex.GetRatesLineAsync().Result;
+            var bps = new BpsExtractor();
+            var res = bps.GetRatesLineAsync().Result;
+            Console.WriteLine(res.StartedFrom);
             Console.ReadKey();
         }
 

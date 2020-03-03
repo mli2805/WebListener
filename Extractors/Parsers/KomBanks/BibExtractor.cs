@@ -83,10 +83,10 @@ namespace Extractors
             sale = -1;
 
             var pos = table.IndexOf(currency, StringComparison.Ordinal);
-            var pos2 = table.IndexOf("<b>", pos, StringComparison.Ordinal);
-            var strBuy = table.Substring(pos2 + 37, 10);
-            var pos3 = table.IndexOf("<b>", pos2+10, StringComparison.Ordinal);
-            var strSale = table.Substring(pos3 + 37, 10);
+            var pos2 = table.IndexOf("td_buy", pos, StringComparison.Ordinal);
+            var strBuy = table.Substring(pos2 + 61, 10);
+            var pos3 = table.IndexOf("td_sell", pos2+10, StringComparison.Ordinal);
+            var strSale = table.Substring(pos3 + 62, 10);
 
             if (!double.TryParse(strBuy, NumberStyles.Any, new CultureInfo("en-US"), out buy)) return false;
             return double.TryParse(strSale, NumberStyles.Any, new CultureInfo("en-US"), out sale);
