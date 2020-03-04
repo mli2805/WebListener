@@ -6,6 +6,7 @@ namespace BanksListener
     {
         public int Id { get; set; }
         public string Bank{ get; set; }
+        public DateTime LastCheck{ get; set; }
         public DateTime StartedFrom{ get; set; }
         public double UsdA{ get; set; }
         public double UsdB{ get; set; }
@@ -19,7 +20,6 @@ namespace BanksListener
         public double RubUsdB{ get; set; }
         public double RubEurA{ get; set; }
         public double RubEurB{ get; set; }
-        public DateTime LastCheck{ get; set; }
 
         public bool IsDifferent(KomBankRatesLine anotherLine)
         {
