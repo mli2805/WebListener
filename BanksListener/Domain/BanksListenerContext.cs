@@ -7,6 +7,15 @@ namespace BanksListener
         public DbSet<KomBankRatesLine> KomBankRates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite("Data Source=bali.db");
+        {
+            var googleDrive = PathFinder.GetGoogleDriveDirectory();
+            string dataSourcePath;
+            if (string.IsNullOrEmpty(googleDrive))
+                dataSourcePath = "bali.db";
+            else
+                dataSourcePath = googleDrive + @"\BanksListener\bali.db";
+            var connectionString = $"Data Source={dataSourcePath}";
+            options.UseSqlite(connectionString);
+        }
     }
 }
