@@ -18,6 +18,7 @@ namespace WebSocketConsole
             Console.ReadKey();
         }
 
+        // ReSharper disable once UnusedMember.Local
         private static void TradingMain()
         {
             _tradingViewExtractor = new TradingViewExtractor();

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +32,7 @@ namespace BanksListener
                 await Task.Delay(15000);
 
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private static async Task<KomBankRatesLine> Fetch()

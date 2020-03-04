@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConsCoreFetch;
 using Newtonsoft.Json;
 
 namespace BanksListener

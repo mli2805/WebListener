@@ -1,4 +1,4 @@
-﻿namespace ConsCoreFetch
+﻿namespace BanksListener
 {
     public enum KomBankE
     {

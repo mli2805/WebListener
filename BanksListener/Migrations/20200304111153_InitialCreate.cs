@@ -11,23 +11,23 @@ namespace BanksListener.Migrations
                 name: "KomBankRates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Sqlite:Autoincrement", true),
                     Bank = table.Column<string>(nullable: true),
-                    StartedFrom = table.Column<DateTime>(nullable: false),
-                    UsdA = table.Column<double>(nullable: false),
-                    UsdB = table.Column<double>(nullable: false),
-                    EurA = table.Column<double>(nullable: false),
-                    EurB = table.Column<double>(nullable: false),
-                    RubA = table.Column<double>(nullable: false),
-                    RubB = table.Column<double>(nullable: false),
-                    EurUsdA = table.Column<double>(nullable: false),
-                    EurUsdB = table.Column<double>(nullable: false),
-                    RubUsdA = table.Column<double>(nullable: false),
-                    RubUsdB = table.Column<double>(nullable: false),
-                    RubEurA = table.Column<double>(nullable: false),
-                    RubEurB = table.Column<double>(nullable: false),
-                    LastCheck = table.Column<DateTime>(nullable: false)
+                    StartedFrom = table.Column<DateTime>(),
+                    UsdA = table.Column<double>(),
+                    UsdB = table.Column<double>(),
+                    EurA = table.Column<double>(),
+                    EurB = table.Column<double>(),
+                    RubA = table.Column<double>(),
+                    RubB = table.Column<double>(),
+                    EurUsdA = table.Column<double>(),
+                    EurUsdB = table.Column<double>(),
+                    RubUsdA = table.Column<double>(),
+                    RubUsdB = table.Column<double>(),
+                    RubEurA = table.Column<double>(),
+                    RubEurB = table.Column<double>(),
+                    LastCheck = table.Column<DateTime>()
                 },
                 constraints: table =>
                 {
