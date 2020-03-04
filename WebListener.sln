@@ -15,7 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extractors", "Extractors\Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeavyKeyProcessing", "HeavyKeyProcessing\HeavyKeyProcessing.csproj", "{7726EFE6-C077-4D3D-8A88-52FB26D1AD54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanksListener", "BanksListener\BanksListener.csproj", "{C0551604-CA30-4F5E-8006-79EB314FF8F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BanksListener", "BanksListener\BanksListener.csproj", "{C0551604-CA30-4F5E-8006-79EB314FF8F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsCoreFetch", "ConsCoreFetch\ConsCoreFetch.csproj", "{620B295D-7229-419B-8D27-124878AE5EF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620B295D-7229-419B-8D27-124878AE5EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620B295D-7229-419B-8D27-124878AE5EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620B295D-7229-419B-8D27-124878AE5EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620B295D-7229-419B-8D27-124878AE5EF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

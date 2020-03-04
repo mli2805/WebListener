@@ -58,6 +58,7 @@
     <Compile Include="DomainModel\Forex.cs" />
     <Compile Include="DomainModel\KomBank.cs" />
     <Compile Include="DomainModel\KomBankRates.cs" />
+    <Compile Include="DomainModel\KomBankRatesDto.cs" />
     <Compile Include="DomainModel\NbBasket.cs" />
     <Compile Include="DomainModel\NbRates.cs" />
     <Compile Include="DomainModel\Omc\Omc.cs" />

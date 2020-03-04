@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Extractors
+namespace ConsCoreFetch
 {
     public class WebExtractorAsync
     {
@@ -16,7 +16,7 @@ namespace Extractors
             WebResponse response;
             try
             {
-                ServicePointManager.SecurityProtocol =  
+                ServicePointManager.SecurityProtocol = 
                     SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 response = await request.GetResponseAsync();
             }

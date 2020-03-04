@@ -4,24 +4,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Extractors
+namespace ConsCoreFetch
 {
     public class BelgazMobi
     {
         private DateTime _startDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private const string Url = "https://mobapp-frontend.bgpb.by/telecard-clientapi/rest/v4/andorid_5.12.1/currentRates?branch=561&type_rate=PNN&type_rate=SNN&type_rate=ENN&base_crnc=*&all_bounds=true";
 
-        public async Task<KomBankRates> GetRatesLineAsync()
+        public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
-            var result = new KomBankRates() { Bank = "БГПБ", StartedFrom = "error" };
+            var result = new KomBankRatesLine() { Bank = KomBankE.Bgpb.ToString().ToUpper(), };
             var ext = new WebExtractorAsync();
             var page = await ext.GetPageAsync(Url, "utf-8", Encoding.UTF8);
-            if (page == null) return result;
+            if (string.IsNullOrEmpty(page)) return null;
             var rates = (BelgazOneRate[])JsonConvert.DeserializeObject(page, typeof(BelgazOneRate[]));
-            if (rates == null) return result;
+            if (rates == null) return null;
 
             DateTime date = _startDate.AddMilliseconds(rates[0].D).ToLocalTime();
-            result.StartedFrom = $"{date}";
+            result.StartedFrom = date;
             result.LastCheck = DateTime.Now;
 
             result.EurA = rates.Where(r => r.T == "PNN" && r.C == "EUR").Max(l => l.V);

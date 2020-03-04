@@ -1,16 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Extractors;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace BanksListener
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
-            Task.Factory.StartNew(Fetch);
+            Task.Factory.StartNew(Poll);
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -21,11 +24,44 @@ namespace BanksListener
                     webBuilder.UseStartup<Startup>();
                 });
 
-        private static async void Fetch()
+        private static async void Poll()
+        {
+            while (true)
+            {
+                var rate = await Fetch();
+                var unused = await Persist(rate);
+                await Task.Delay(15000);
+
+            }
+        }
+
+        private static async Task<KomBankRatesLine> Fetch()
         {
             var belgaz = new BelgazMobi();
-            var rate = await belgaz.GetRatesLineAsync();
-            Console.WriteLine(rate);
+            KomBankRatesLine rate;
+            while (true)
+            {
+                rate = await belgaz.GetRatesLineAsync();
+                if (rate != null) break;
+                await Task.Delay(2000);
+            }
+
+            return rate;
         }
+
+        private static async Task<int> Persist(KomBankRatesLine rate)
+        {
+            using (BanksListenerContext db = new BanksListenerContext())
+            {
+                var last = await db.KomBankRates.Where(l => l.Bank == rate.Bank).OrderBy(c=>c.LastCheck).LastOrDefaultAsync();
+                if (last == null || last.IsDifferent(rate))
+                    db.KomBankRates.Add(rate);
+                else 
+                    last.LastCheck = DateTime.Now;
+                return await db.SaveChangesAsync();
+            }
+        }
+
+
     }
 }
