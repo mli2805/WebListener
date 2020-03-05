@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BanksListener
 {
-    public class BibExtractor
+    public class BibExtractor : IRatesLineExtractor
     {
         const string NewMainPage = "https://www.belinvestbank.by/exchange-rates";
         const string NewCardRates = "courses-tab-cashless-content";
