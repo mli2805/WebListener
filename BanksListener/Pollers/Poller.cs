@@ -8,6 +8,7 @@ namespace BanksListener
         {
             await Task.Factory.StartNew(() => Poll(new BelgazMobi()));
             await Task.Factory.StartNew(() => Poll(new BibExtractor()));
+            await Task.Factory.StartNew(() => Poll(new PriorExtractor()));
         }
 
         private async void Poll(IRatesLineExtractor ratesLineExtractor)
