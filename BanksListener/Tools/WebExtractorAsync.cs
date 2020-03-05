@@ -11,8 +11,6 @@ namespace BanksListener
         public async Task<string> GetPageAsync(string url, string charset, Encoding encoding)
         {
             var request = InitializeHttpWebRequest(url, charset);
-            request.UseDefaultCredentials = true;
-            request.UserAgent = "strange";
             WebResponse response;
             try
             {
@@ -30,10 +28,22 @@ namespace BanksListener
                 OutputException(url, e.Message);
                 return "";
             }
-            return GetWebData(encoding, response);
+            return GetWebData(response, encoding);
         }
 
-        private string GetWebData(Encoding encoding, WebResponse response)
+        public HttpWebRequest InitializeHttpWebRequest(string url, string charset)
+        {
+            var request = (HttpWebRequest) WebRequest.Create(url);
+            request.ContentType = @"text/html; charset=" + charset;
+            request.UseDefaultCredentials = true;
+            request.UserAgent = "strange";
+            request.Timeout = 100000;
+            request.ContinueTimeout = 35000;
+            request.ReadWriteTimeout = 100000;
+            return request;
+        }
+
+        private string GetWebData(WebResponse response, Encoding encoding)
         {
             var stream = response.GetResponseStream();
             if (stream == null) return "";
@@ -43,16 +53,6 @@ namespace BanksListener
                 webData = sr.ReadToEnd();
             }
             return webData;
-        }
-
-        private HttpWebRequest InitializeHttpWebRequest(string url, string charset)
-        {
-            var request = (HttpWebRequest) WebRequest.Create(url);
-            request.ContentType = @"text/html; charset=" + charset;
-            request.Timeout = 100000;
-            request.ContinueTimeout = 35000;
-            request.ReadWriteTimeout = 100000;
-            return request;
         }
 
         private void OutputException(string url, string eMessage)

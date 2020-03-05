@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,8 +51,6 @@ namespace BanksListener
         private void ExtractorResultFetched(object sender, TradingViewResult result)
         {
             _currentRates.Dict[result.Tiker] = result.Value;
-            Console.WriteLine($@"{DateTime.Now}  {result.Tiker}  {result.Value}");
-            Console.WriteLine();
         }
 
 //        private void ApplyRates(TradingViewResult result)
