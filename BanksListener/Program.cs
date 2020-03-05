@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -8,8 +7,8 @@ namespace BanksListener
     {
         public static void Main(string[] args)
         {
-            var poller = new Poller();
-            Task.Factory.StartNew(poller.Poll);
+            new KomBanksPoller().Poll();
+            new TradingViewPoller(new TradingViewCurrentRates()).Poll();
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace BanksListener
 {
-    public class Poller
+    public class KomBanksPoller
     {
         public async void Poll()
         {

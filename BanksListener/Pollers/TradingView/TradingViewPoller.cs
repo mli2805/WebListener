@@ -4,14 +4,21 @@ using System.Threading.Tasks;
 
 namespace BanksListener
 {
-    public class TradingViewManager
+    public class TradingViewPoller
     {
-        public void Poll()
+        private readonly TradingViewCurrentRates _currentRates;
+
+        public TradingViewPoller(TradingViewCurrentRates currentRates)
         {
-            Task.Factory.StartNew(() => Poll(TradingViewTiker.EurUsd));
-            Task.Factory.StartNew(() => Poll(TradingViewTiker.UsdRub));
-            Task.Factory.StartNew(() => Poll(TradingViewTiker.EurRub));
-            Task.Factory.StartNew(() => Poll(TradingViewTiker.UkOil));
+            _currentRates = currentRates;
+        }
+
+        public async void Poll()
+        {
+            await Task.Factory.StartNew(() => Poll(TradingViewTiker.EurUsd));
+            await Task.Factory.StartNew(() => Poll(TradingViewTiker.UsdRub));
+            await Task.Factory.StartNew(() => Poll(TradingViewTiker.EurRub));
+            await Task.Factory.StartNew(() => Poll(TradingViewTiker.UkOil));
         }
 
         private async void Poll(TradingViewTiker tiker)
@@ -44,6 +51,7 @@ namespace BanksListener
 
         private void ExtractorResultFetched(object sender, TradingViewResult result)
         {
+            _currentRates.Dict[result.Tiker] = result.Value;
             Console.WriteLine($@"{DateTime.Now}  {result.Tiker}  {result.Value}");
             Console.WriteLine();
         }
