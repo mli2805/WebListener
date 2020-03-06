@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -13,13 +13,15 @@ namespace BanksListener
 
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
-            var result = new KomBankRatesLine() { Bank = KomBankE.Bgpb.ToString().ToUpper(), };
-            var ext = new WebExtractorAsync();
-            var page = await ext.GetPageAsync(Url, "utf-8", Encoding.UTF8);
+            var page = await ((HttpWebRequest)WebRequest.Create(Url))
+                          .InitializeForKombanks()
+                          .GetDataAsync();
+
             if (string.IsNullOrEmpty(page)) return null;
             var rates = (BelgazOneRate[])JsonConvert.DeserializeObject(page, typeof(BelgazOneRate[]));
             if (rates == null) return null;
 
+            var result = new KomBankRatesLine() { Bank = KomBankE.Bgpb.ToString().ToUpper(), };
             DateTime date = _startDate.AddMilliseconds(rates[0].D).ToLocalTime();
             result.StartedFrom = date;
             result.LastCheck = DateTime.Now;

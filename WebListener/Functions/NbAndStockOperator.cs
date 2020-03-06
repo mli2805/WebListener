@@ -56,8 +56,8 @@ namespace WebListener
         }
         private async void Banki24TimerTick(object sender, EventArgs e)
         {
-            if (DateTime.Now.Hour < 10) return;
-            if (_vm.NbRates1 != null && _vm.NbRates1.Date > DateTime.Today.Date) return;
+          //  if (DateTime.Now.Hour < 10) return;
+       //     if (_vm.NbRates1 != null && _vm.NbRates1.Date > DateTime.Today.Date) return;
             var temp = await new Banki24OnlineExtractor().GetStockAsync();
             if (temp == null) return;
             _vm.BelStockWrapped.BelStock = temp;

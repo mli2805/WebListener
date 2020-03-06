@@ -47,6 +47,8 @@ namespace Extractors
             WebResponse response;
             try
             {
+                ServicePointManager.SecurityProtocol =  
+                    SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 response = await request.GetResponseAsync();
             }
             catch (Exception e)

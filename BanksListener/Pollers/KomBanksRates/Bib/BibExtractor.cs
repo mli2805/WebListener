@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BanksListener
@@ -12,7 +12,9 @@ namespace BanksListener
 
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
-            var mainPage = await new WebExtractorAsync().GetPageAsync(NewMainPage, "utf-8", Encoding.UTF8);
+            var mainPage = await ((HttpWebRequest) WebRequest.Create(NewMainPage))
+                .InitializeForKombanks()
+                .GetDataAsync();  
             if (string.IsNullOrEmpty(mainPage))
                 return null;
 

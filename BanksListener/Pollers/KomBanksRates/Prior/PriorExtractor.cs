@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -9,13 +9,15 @@ namespace BanksListener
     // https://jsoneditoronline.org/
     public class PriorExtractor : IRatesLineExtractor
     {
-        private const string RatesRequest =
+        private const string Url =
             "https://www.priorbank.by/main?p_p_id=ExchangeRates_INSTANCE_ExchangeRatesCalculatorView&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=ajaxSideBarConverterGetRates&p_p_cacheability=cacheLevelPage";
 
 
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
-            var mainPage = await new WebExtractorAsync().GetPageAsync(RatesRequest, "utf-8", Encoding.UTF8);
+            var mainPage = await ((HttpWebRequest)WebRequest.Create(Url))
+                .InitializeForKombanks()
+                .GetDataAsync();
             if (string.IsNullOrEmpty(mainPage))
                 return null;
 

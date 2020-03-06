@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Globalization;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BanksListener
 {
     public class DabrabytExtractor : IRatesLineExtractor
     {
-        private const string Page = @"https://www.mmbank.by/currency_exchange/";
+        private const string Url = @"https://www.mmbank.by/currency_exchange/";
 
         private const string Nal = "НАЛИЧНЫЕ";
         private const string Conversion = "КОНВЕРСИЯ";
@@ -15,7 +15,9 @@ namespace BanksListener
 
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
-            var page = await new WebExtractorAsync().GetPageAsync(Page, "utf-8", Encoding.UTF8);
+            var page = await ((HttpWebRequest) WebRequest.Create(Url))
+                .InitializeForKombanks()
+                .GetDataAsync(); 
             if (string.IsNullOrEmpty(page))
                 return null;
 
