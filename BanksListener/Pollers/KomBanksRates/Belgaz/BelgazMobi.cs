@@ -16,8 +16,8 @@ namespace BanksListener
             var page = await ((HttpWebRequest)WebRequest.Create(Url))
                           .InitializeForKombanks()
                           .GetDataAsync();
-
             if (string.IsNullOrEmpty(page)) return null;
+
             var rates = (BelgazOneRate[])JsonConvert.DeserializeObject(page, typeof(BelgazOneRate[]));
             if (rates == null) return null;
 

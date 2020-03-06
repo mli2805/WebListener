@@ -10,6 +10,7 @@ namespace BanksListener
             new KomBanksPoller().Poll();
             new TradingViewPoller(new TradingViewCurrentRates()).Poll();
 
+            Banki24ArchiveManager.RunUpdatingInBackground();
 
             CreateHostBuilder(args).Build().Run();
         }
