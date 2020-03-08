@@ -33,9 +33,9 @@ namespace BanksListener
 
         private static void UpdateDatabase(BackgroundWorker worker)
         {
-            var date =  GetDateToStartFrom();
+            var date =  GetDateToStartFrom().Result;
             var newLines =  GetArchiveFromDate(date, worker).Result;
-             PersistRangeOfLines(newLines).Wait();
+            PersistRangeOfLines(newLines).Wait();
         }
 
         private static async Task<int> PersistRangeOfLines(IEnumerable<BelStockArchiveOneCurrencyDay> newLines)
@@ -48,25 +48,27 @@ namespace BanksListener
         private static async Task<List<BelStockArchiveOneCurrencyDay>> GetArchiveFromDate(DateTime date, BackgroundWorker worker)
         {
             var newLines = new List<BelStockArchiveOneCurrencyDay>();
-            //    while (date <= DateTime.Today.Date)
-            while (date <= new DateTime(2015, 7, 30))
+            while (date <= DateTime.Today.Date)
             {
                 var usdLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Usd);
                 if (usdLine != null)
+                {
                     newLines.Add(usdLine);
-                var eurLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Eur);
-                if (eurLine != null)
-                    newLines.Add(eurLine);
-                var rubLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Rub);
-                if (rubLine != null)
-                    newLines.Add(rubLine);
+                    var eurLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Eur);
+                    if (eurLine != null)
+                        newLines.Add(eurLine);
+                    var rubLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Rub);
+                    if (rubLine != null)
+                        newLines.Add(rubLine);
+                }
+
                 date = date.AddDays(1);
                 worker.ReportProgress(0, $"GetArchiveFromDate {date}");
             }
             return newLines;
         }
 
-        private static DateTime GetDateToStartFrom()
+        private static async Task<DateTime> GetDateToStartFrom()
         {
             using (BanksListenerContext db = new BanksListenerContext())
             {
@@ -75,6 +77,7 @@ namespace BanksListener
                     return new DateTime(2015, 6, 1);
 
                 db.BelStockArchive.RemoveRange(db.BelStockArchive.Where(l => l.Date.Date == lastDateLine.Date.Date));
+                await db.SaveChangesAsync();
                 return lastDateLine.Date.Date;
             }
         }

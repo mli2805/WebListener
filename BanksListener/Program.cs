@@ -8,7 +8,7 @@ namespace BanksListener
         public static void Main(string[] args)
         {
             new KomBanksPoller().Poll();
-            new TradingViewPoller(new TradingViewCurrentRates()).Poll();
+         //   new TradingViewPoller(new TradingViewCurrentRates()).Poll(); // on client
 
             Banki24ArchiveManager.RunUpdatingInBackground();
 
