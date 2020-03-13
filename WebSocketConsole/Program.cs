@@ -12,9 +12,7 @@ namespace WebSocketConsole
         private static TradingViewExtractor _tradingViewExtractor;
         static void Main()
         {
-            var bps = new BpsExtractor();
-            var res = bps.GetRatesLineAsync().Result;
-            Console.WriteLine(res.StartedFrom);
+            TradingMain();
             Console.ReadKey();
         }
 

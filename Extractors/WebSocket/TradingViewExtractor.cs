@@ -17,12 +17,12 @@ namespace Extractors
         private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string VooRequest = "{\"p\":[\"my_session\",\"AMEX:VOO\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 
         public TradingViewExtractor()
         {
             ClientWebSocket = new ClientWebSocket();
             ClientWebSocket.Options.UseDefaultCredentials = true;
-            //    ClientWebSocket.Options.SetRequestHeader("Host","data.tradingview.com");
             ClientWebSocket.Options.SetRequestHeader("Origin", "https://www.tradingview.com");
             _uri = new Uri("wss://data.tradingview.com/socket.io/websocket");
             _cts = new CancellationTokenSource();
@@ -36,6 +36,7 @@ namespace Extractors
                     case TradingViewChart.UsdRub: await RateRequested(UsdRubRequest); break;
                     case TradingViewChart.EurRub: await RateRequested(EurRubRequest); break;
                     case TradingViewChart.UkOil: await RateRequested(BrentRequest); break;
+                    case TradingViewChart.VOO: await RateRequested(VooRequest); break;
             }
         }
 

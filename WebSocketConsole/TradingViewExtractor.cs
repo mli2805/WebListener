@@ -16,7 +16,8 @@ namespace WebSocketConsole
 //        private const string EurUsdRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURUSD\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 //        private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 //        private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+//        private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string VooRequest = "{\"p\":[\"my_session\",\"AMEX:VOO\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 
         public TradingViewExtractor()
         {
@@ -33,7 +34,7 @@ namespace WebSocketConsole
             try
             {
                 var token = cts.Token;
-                var currentRequest = FrameIt(BrentRequest);
+                var currentRequest = FrameIt(VooRequest);
                 var request = Encoding.UTF8.GetBytes(currentRequest);
                 var buffer2 = new ArraySegment<byte>(request, 0, request.Length);
                 await ClientWebSocket.SendAsync(buffer2, WebSocketMessageType.Text, true, token);

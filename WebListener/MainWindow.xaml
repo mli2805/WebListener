@@ -86,6 +86,7 @@
                 <TextBlock Text=""/>
                 <TextBlock Text="{Binding Vm.Forex.EurRub, StringFormat='Eur / Rub \{0:#,0.00###\}'}" FontStyle="Italic" ToolTip="не используется для прогноза"/>
                 <TextBlock Text=""/>
+             
                 <TextBlock Text="{Binding Vm.Forex.BrentUkOil, StringFormat='Brent \{0:#,0.00###\}'}"/>
                 <TextBlock Text="{Binding Vm.Forex.BrentInRub, StringFormat='Бочка \{0:#,0\}'}"/>
             </StackPanel>
@@ -108,6 +109,16 @@
                 <TextBlock Margin="10,30,0,0" Text="{Binding Vm.EcopressLastCheck}"/>
             </StackPanel>
             <StackPanel Width="220">
+                <StackPanel>
+                    <TextBlock Text="{Binding Vm.Forex.Voo.Lp, StringFormat='VOO \{0:#,0.00###\}'}"/>
+                    <TextBlock Text="{Binding Vm.Forex.Voo.Pre, StringFormat='pre \{0:#,0.00###\}'}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Vm.Forex.Voo.Bid, StringFormat='bid \{0:#,0.00###\}'}" Margin="5,0,0,0"/>
+                        <TextBlock Text="{Binding Vm.Forex.Voo.Ask, StringFormat='ask \{0:#,0.00###\}'}"/>
+                    </StackPanel>
+                  
+                    <TextBlock Text=""/>
+                </StackPanel>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="10,0,0,0" Text="БПС ОМС   "/>

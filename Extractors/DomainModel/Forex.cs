@@ -5,6 +5,66 @@ using Extractors.Properties;
 
 namespace Extractors
 {
+    public class AmexVoo : INotifyPropertyChanged
+    {
+        private double _lp;
+        private double _pre;
+        private double _ask;
+        private double _bid;
+
+        public double Lp
+        {
+            get => _lp;
+            set
+            {
+                if (value.Equals(_lp)) return;
+                _lp = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double Pre
+        {
+            get => _pre;
+            set
+            {
+                if (value.Equals(_pre)) return;
+                _pre = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double Ask
+        {
+            get => _ask;
+            set
+            {
+                if (value.Equals(_ask)) return;
+                _ask = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double Bid
+        {
+            get => _bid;
+            set
+            {
+                if (value.Equals(_bid)) return;
+                _bid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [Annotations.NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     public class Forex : INotifyPropertyChanged
     {
         private double _usdEur;
@@ -12,6 +72,7 @@ namespace Extractors
         private double _eurRub;
         private double _brentUkOil;
         private DateTime _lastChecked;
+        private AmexVoo _voo = new AmexVoo();
 
         public DateTime LastChecked
         {
@@ -58,6 +119,17 @@ namespace Extractors
             }
         }
 
+        public AmexVoo Voo
+        {
+            get => _voo;
+            set  {
+                if (_voo.Equals(value)) return;
+                _voo = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(_voo));
+            }
+        }
+
         public double BrentUkOil
         {
             get { return _brentUkOil; }
@@ -91,7 +163,7 @@ namespace Extractors
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

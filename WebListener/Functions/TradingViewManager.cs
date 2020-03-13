@@ -18,6 +18,7 @@ namespace WebListener
             Task.Factory.StartNew(() => StartExtr(TradingViewChart.UsdRub));
             Task.Factory.StartNew(() => StartExtr(TradingViewChart.EurRub));
             Task.Factory.StartNew(() => StartExtr(TradingViewChart.UkOil));
+            Task.Factory.StartNew(() => StartExtr(TradingViewChart.VOO));
         }
 
         private async void StartExtr(TradingViewChart chart)
@@ -70,6 +71,12 @@ namespace WebListener
                     break;
                 case TradingViewChart.UkOil:
                     Model.Forex.BrentUkOil = result.Value;
+                    break;
+                case TradingViewChart.VOO:
+                    if (result.Value > 0) Model.Forex.Voo.Lp = result.Value;
+                    if (result.Pre > 0) Model.Forex.Voo.Pre = result.Pre;
+                    if (result.Bid > 0) Model.Forex.Voo.Bid = result.Bid;
+                    if (result.Ask > 0) Model.Forex.Voo.Ask = result.Ask;
                     break;
             }
 
