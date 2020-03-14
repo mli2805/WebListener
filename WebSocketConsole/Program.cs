@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Extractors;
@@ -8,7 +9,7 @@ namespace WebSocketConsole
 
     class Program
     {
-        static StreamWriter _logFile = File.AppendText("weblistener.log");
+        static StreamWriter _logFile = File.CreateText("weblistener.log");
         private static TradingViewExtractor _tradingViewExtractor;
         static void Main()
         {
@@ -23,8 +24,8 @@ namespace WebSocketConsole
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
 
             _tradingViewExtractor.ConnectWebSocket().Wait();
-            _tradingViewExtractor.SessionRequested().Wait();
-            _tradingViewExtractor.RateRequested().Wait();
+            _tradingViewExtractor.RequestSession().Wait();
+            _tradingViewExtractor.RequestData().Wait();
 
             while (true)
             {
@@ -38,19 +39,31 @@ namespace WebSocketConsole
                     _tradingViewExtractor = new TradingViewExtractor();
                     _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
                     _tradingViewExtractor.ConnectWebSocket().Wait();
-                    _tradingViewExtractor.SessionRequested().Wait();
-                    _tradingViewExtractor.RateRequested().Wait();
+                    _tradingViewExtractor.RequestSession().Wait();
+                    _tradingViewExtractor.RequestData().Wait();
                 }
             }
             // ReSharper disable once FunctionNeverReturns
         }
 
-        private static void TradingViewExtractorCrossRateFetched(object sender, string e)
+        private static void TradingViewExtractorCrossRateFetched(object sender, List<string> e)
         {
-            Console.WriteLine($"{DateTime.Now}  " + e);
-            Console.WriteLine();
-            _logFile.WriteLine($"{DateTime.Now}  " + e);
-            _logFile.Flush();
+            Console.WriteLine($"{DateTime.Now}  json strings received: " + e.Count);
+            foreach (var json in e)
+            {
+                _logFile.WriteLine(json);
+                _logFile.WriteLine();
+                _logFile.Flush();
+                var res = TradingViewJsonParser.TryParse(json);
+                if (res != null)
+                    if (res.ContainsKey("lp"))
+                        Console.WriteLine($"lp : {(double)res["lp"]}");
+
+//                foreach (var pair in res)
+//                    {
+//                        Console.WriteLine($"{pair.Key} : {pair.Value.ToString()}");
+//                    }
+            }
         }
     }
 }

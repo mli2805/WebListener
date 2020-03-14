@@ -7,5 +7,17 @@ namespace Extractors
         public double Pre; // pre-market
         public double Bid;
         public double Ask;
+
+        public TradingViewResult()
+        {
+        }
+
+        public TradingViewResult(string tikerName)
+        {
+            switch (tikerName)
+            {
+                case "AMEX:VOO": Chart = TradingViewChart.VOO; break;
+            }
+        }
     }
 }

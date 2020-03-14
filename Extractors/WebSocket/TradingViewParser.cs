@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Globalization;
 
 namespace Extractors
@@ -34,13 +33,11 @@ namespace Extractors
             var pos = message.IndexOf("\"n\":", StringComparison.Ordinal);
             if (pos == -1)
             {
-                Debug.WriteLine($"TryParseName: pos={pos}");
                 return false;
             }
             var posTo = message.IndexOf("\"", pos + 5, StringComparison.Ordinal);
             if (posTo == -1)
             {
-                Debug.WriteLine($"TryParseName: posTo={posTo}");
                 return false;
             }
             name = message.Substring(pos + 5, posTo - pos - 5);
@@ -53,7 +50,6 @@ namespace Extractors
             var pos = message.IndexOf("\"lp\":", StringComparison.Ordinal);
             if (pos == -1)
             {
-                Debug.WriteLine($"TryParseValue: pos={pos}");
                 return false;
             }
             var stringRate = message.Substring(pos + 5, 15);
