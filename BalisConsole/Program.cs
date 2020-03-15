@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Extractors;
+using BalisLibrary;
 
-namespace WebSocketConsole
+namespace BalisConsole
 {
-
     class Program
     {
         static StreamWriter _logFile = File.CreateText("weblistener.log");
@@ -59,11 +58,13 @@ namespace WebSocketConsole
                     if (res.ContainsKey("lp"))
                         Console.WriteLine($"lp : {(double)res["lp"]}");
 
-//                foreach (var pair in res)
-//                    {
-//                        Console.WriteLine($"{pair.Key} : {pair.Value.ToString()}");
-//                    }
+                //                foreach (var pair in res)
+                //                    {
+                //                        Console.WriteLine($"{pair.Key} : {pair.Value.ToString()}");
+                //                    }
             }
         }
+
     }
+
 }

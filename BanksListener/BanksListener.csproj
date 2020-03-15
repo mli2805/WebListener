@@ -15,5 +15,9 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BalisLibrary\BalisLibrary.csproj" />
+  </ItemGroup>
+
 
 </Project>
