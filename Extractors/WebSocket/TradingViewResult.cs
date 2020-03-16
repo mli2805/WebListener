@@ -4,7 +4,7 @@ namespace Extractors
     {
         public TradingViewChart Chart;
         public double Value; // Lp
-        public double Pre; // pre-market
+        public double Rtc; // pre-market
         public double Bid;
         public double Ask;
 
@@ -16,7 +16,7 @@ namespace Extractors
         {
             switch (tikerName)
             {
-                case "AMEX:VOO": Chart = TradingViewChart.VOO; break;
+                case "AMEX:VOO": Chart = TradingViewChart.Voo; break;
             }
         }
     }

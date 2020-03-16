@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Extractors
+namespace BalisStandard
 {
     public class TradingViewExtractor
     {
@@ -17,7 +17,6 @@ namespace Extractors
         private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string VooRequest = "{\"p\":[\"my_session\",\"AMEX:VOO\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 
         public TradingViewExtractor()
         {
@@ -28,15 +27,14 @@ namespace Extractors
             _cts = new CancellationTokenSource();
         }
 
-        public async Task RequestRate(TradingViewChart chart)
+        public async Task RequestRate(TradingViewTiker tiker)
         {
-            switch (chart)
+            switch (tiker)
             {
-                    case TradingViewChart.EurUsd: await RateRequested(EurUsdRequest); break;
-                    case TradingViewChart.UsdRub: await RateRequested(UsdRubRequest); break;
-                    case TradingViewChart.EurRub: await RateRequested(EurRubRequest); break;
-                    case TradingViewChart.UkOil: await RateRequested(BrentRequest); break;
-                    case TradingViewChart.Voo: await RateRequested(VooRequest); break;
+                    case TradingViewTiker.EurUsd: await RateRequested(EurUsdRequest); break;
+                    case TradingViewTiker.UsdRub: await RateRequested(UsdRubRequest); break;
+                    case TradingViewTiker.EurRub: await RateRequested(EurRubRequest); break;
+                    case TradingViewTiker.UkOil: await RateRequested(BrentRequest); break;
             }
         }
 
@@ -84,8 +82,8 @@ namespace Extractors
                 {
                     string message = Encoding.ASCII.GetString(arraySegment.Array, arraySegment.Offset, result.Count);
                     Console.WriteLine(message);
-                    if (TradingViewParser.TryParse(message, out TradingViewResult tvr))
-                        OnResultFetched(tvr); else Console.WriteLine(@"parsing failed.");
+//                    if (TradingViewParser.TryParse(message, out TradingViewResult tvr))
+//                        OnResultFetched(tvr); else Console.WriteLine(@"parsing failed.");
                 }
 
                 return true;

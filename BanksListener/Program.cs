@@ -1,4 +1,4 @@
-using BalisLibrary;
+using BalisStandard;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 

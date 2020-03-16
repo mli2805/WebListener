@@ -1,24 +1,35 @@
-﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using BalisStandard;
 
-namespace BalisConsole
+namespace BalisWpf 
 {
-    class Program
+    public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
     {
-        static StreamWriter _logFile = File.CreateText("weblistener.log");
-        private static TradingViewExtractor2 _tradingViewExtractor2;
-        static void Main()
+        public ShellVm Model { get; set; }
+
+        public ShellViewModel()
         {
-            TradingMain();
-            Console.ReadKey();
+            Model = new ShellVm(){Test = "in C-tor"};
+
+            Task.Factory.StartNew(() => new TradingViewManager().TradingMain(TradingViewTiker.Voo, Model));
+
         }
 
+      
+
+    }
+
+    public class TradingViewManager
+    {
+        private TradingViewExtractor2 _tradingViewExtractor2;
+        private ShellVm _vm;
         // ReSharper disable once UnusedMember.Local
-        private static void TradingMain()
+        public void TradingMain(TradingViewTiker tiker, ShellVm vm)
         {
+            _vm = vm;
             _tradingViewExtractor2 = new TradingViewExtractor2();
             _tradingViewExtractor2.CrossRateFetched += TradingViewExtractor2CrossRateFetched;
 
@@ -45,18 +56,19 @@ namespace BalisConsole
             // ReSharper disable once FunctionNeverReturns
         }
 
-        private static void TradingViewExtractor2CrossRateFetched(object sender, List<string> e)
+        private void TradingViewExtractor2CrossRateFetched(object sender, List<string> e)
         {
-            Console.WriteLine($"{DateTime.Now}  json strings received: " + e.Count);
+            Application.Current.Dispatcher.Invoke(() => ApplyRates(e));
+        }
+
+        private void ApplyRates(List<string> e)
+        {
             foreach (var json in e)
             {
-                _logFile.WriteLine(json);
-                _logFile.WriteLine();
-                _logFile.Flush();
                 var res = TradingViewJsonParser.TryParse(json);
                 if (res != null)
                     if (res.ContainsKey("lp"))
-                        Console.WriteLine($"lp : {(double)res["lp"]}");
+                        _vm.Voo = res["lp"].ToString();
 
                 //                foreach (var pair in res)
                 //                    {
@@ -64,8 +76,5 @@ namespace BalisConsole
                 //                    }
             }
         }
-
-      
     }
-
 }

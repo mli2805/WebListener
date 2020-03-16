@@ -11,7 +11,7 @@ namespace Extractors
             if (name == "FX_IDC:USDRUB") return TradingViewChart.UsdRub;
             if (name == "FX_IDC:EURRUB") return TradingViewChart.EurRub;
             if (name == "AMEX:VOO")
-                return TradingViewChart.VOO;
+                return TradingViewChart.Voo;
             return TradingViewChart.UkOil; // (name == "FX:UKOIL")
         }
 
@@ -21,7 +21,7 @@ namespace Extractors
             if (!TryParseName(message, out string name))
                 return false;
             result.Chart = GetByString(name);
-            if (result.Chart == TradingViewChart.VOO)
+            if (result.Chart == TradingViewChart.Voo)
                 return TryParseVoo(message, out result);
             else
                 return TryParseValue(message, out result.Value);
@@ -58,7 +58,7 @@ namespace Extractors
 
         private static bool TryParseVoo(string message, out TradingViewResult result)
         {
-            result = new TradingViewResult(){ Chart = TradingViewChart.VOO };
+            result = new TradingViewResult(){ Chart = TradingViewChart.Voo };
 
             var pos = message.IndexOf("\"lp\":", StringComparison.Ordinal);
             if (pos != -1)

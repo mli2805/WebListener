@@ -1,6 +1,6 @@
-namespace Extractors
+namespace BalisStandard
 {
-    public enum TradingViewChart
+    public enum TradingViewTiker
     {
         EurUsd, UsdRub, EurRub, UkOil, Voo
     }

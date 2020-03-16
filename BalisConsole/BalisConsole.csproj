@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BalisLibrary\BalisLibrary.csproj" />
+    <ProjectReference Include="..\BalisStandard\BalisStandard.csproj" />
   </ItemGroup>
 
 </Project>
