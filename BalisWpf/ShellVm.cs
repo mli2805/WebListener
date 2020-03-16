@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using BalisWpf.Annotations;
+using BalisWpf.Properties;
 
 namespace BalisWpf
 {
@@ -9,6 +9,8 @@ namespace BalisWpf
         public string Test { get; set; }
 
         private string _voo;
+        private string _eurUsd;
+
         public string Voo
         {
             get => _voo;
@@ -16,6 +18,17 @@ namespace BalisWpf
             {
                 if (value == _voo) return;
                 _voo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string EurUsd
+        {
+            get => _eurUsd;
+            set
+            {
+                if (value == _eurUsd) return;
+                _eurUsd = value;
                 OnPropertyChanged();
             }
         }

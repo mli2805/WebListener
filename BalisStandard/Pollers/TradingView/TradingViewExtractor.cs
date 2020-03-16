@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -8,110 +9,144 @@ namespace BalisStandard
 {
     public class TradingViewExtractor
     {
-        public ClientWebSocket ClientWebSocket;
-        private Uri _uri;
-        private CancellationTokenSource _cts;
+        private readonly TradingViewTiker _tiker;
+        private ClientWebSocket ClientWebSocket;
+        private CancellationTokenSource cts;
 
         private string FrameIt(string request) { return $"~m~{request.Length}~m~{request}"; }
         private const string EurUsdRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURUSD\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string VooRequest = "{\"p\":[\"my_session\",\"AMEX:VOO\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 
-        public TradingViewExtractor()
+        public TradingViewExtractor(TradingViewTiker tiker)
         {
+            _tiker = tiker;
             ClientWebSocket = new ClientWebSocket();
             ClientWebSocket.Options.UseDefaultCredentials = true;
             ClientWebSocket.Options.SetRequestHeader("Origin", "https://www.tradingview.com");
-            _uri = new Uri("wss://data.tradingview.com/socket.io/websocket");
-            _cts = new CancellationTokenSource();
+            cts = new CancellationTokenSource();
         }
 
-        public async Task RequestRate(TradingViewTiker tiker)
-        {
-            switch (tiker)
-            {
-                    case TradingViewTiker.EurUsd: await RateRequested(EurUsdRequest); break;
-                    case TradingViewTiker.UsdRub: await RateRequested(UsdRubRequest); break;
-                    case TradingViewTiker.EurRub: await RateRequested(EurRubRequest); break;
-                    case TradingViewTiker.UkOil: await RateRequested(BrentRequest); break;
-            }
-        }
-
-        private async Task RateRequested(string request)
+        public async Task RequestData()
         {
             try
             {
-                var token = _cts.Token;
-                var currentRequest = FrameIt(request);
-                var bytes = Encoding.UTF8.GetBytes(currentRequest);
-                var buffer2 = new ArraySegment<byte>(bytes, 0, bytes.Length);
+                var token = cts.Token;
+                var currentRequest = FrameIt(TikerToRequest(_tiker));
+                var request = Encoding.UTF8.GetBytes(currentRequest);
+                var buffer2 = new ArraySegment<byte>(request, 0, request.Length);
                 await ClientWebSocket.SendAsync(buffer2, WebSocketMessageType.Text, true, token);
-                Console.WriteLine();
-                Console.WriteLine(@"Rate requested.");
-                Console.WriteLine();
             }
             catch (Exception e)
             {
                 Console.WriteLine($@"Exception {e.Message}");
-                Console.WriteLine($@"{ClientWebSocket.State}");
+                Console.WriteLine($"{ClientWebSocket.State}");
             }
         }
 
-        public async Task SessionRequested()
+        public async Task RequestSession()
         {
-            var token = _cts.Token;
+            var token = cts.Token;
             const string sessionRequest = "~m~50~m~{\"p\":[\"my_session\",\"\"],\"m\":\"quote_create_session\"}";
             var encoded = Encoding.UTF8.GetBytes(sessionRequest);
             var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, token);
             Console.WriteLine();
-            Console.WriteLine(@"Session requested.");
+            Console.WriteLine("Session requested.");
             Console.WriteLine();
         }
 
+        private string _remainsOfMessage = "";
         public async Task<bool> ReceiveData()
         {
             try
             {
-                var receiveBuffer = new byte[3000];
+                var receiveBuffer = new byte[30000];
                 var arraySegment = new ArraySegment<byte>(receiveBuffer);
-                WebSocketReceiveResult result = await ClientWebSocket.ReceiveAsync(arraySegment, _cts.Token);
+                WebSocketReceiveResult result = await ClientWebSocket.ReceiveAsync(arraySegment, cts.Token);
 
                 if (arraySegment.Array != null && (result.Count != 0 || result.CloseStatus == WebSocketCloseStatus.Empty))
                 {
                     string message = Encoding.ASCII.GetString(arraySegment.Array, arraySegment.Offset, result.Count);
-                    Console.WriteLine(message);
-//                    if (TradingViewParser.TryParse(message, out TradingViewResult tvr))
-//                        OnResultFetched(tvr); else Console.WriteLine(@"parsing failed.");
+                    _remainsOfMessage = ParseSocketData(_remainsOfMessage + message, out List<string> jsonList);
+                    OnCrossRateFetched(jsonList);
                 }
 
-                return true;
+                return ClientWebSocket.State != WebSocketState.CloseReceived;
             }
             catch (Exception e)
             {
-                Console.WriteLine($@"Exception {e.Message}");
-                Console.WriteLine($@"{ClientWebSocket.State}");
+                Console.WriteLine($"Exception {e.Message}");
+                Console.WriteLine($"{ClientWebSocket.State}");
                 return false;
             }
         }
 
         public async Task ConnectWebSocket()
         {
-            await ClientWebSocket.ConnectAsync(_uri, _cts.Token);
+            var uri = new Uri("wss://data.tradingview.com/socket.io/websocket");
+            await ClientWebSocket.ConnectAsync(uri, cts.Token);
             Console.WriteLine(ClientWebSocket.State);
         }
 
         public async Task CloseWebSocket()
         {
-            await ClientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, _cts.Token);
+            await ClientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cts.Token);
             Console.WriteLine(ClientWebSocket.State);
         }
 
-        public event TradingViewResultFetchedEventHandler ResultFetched;
-        protected virtual void OnResultFetched(TradingViewResult e)
+        public event DataFetchedEventHandler CrossRateFetched;
+        protected virtual void OnCrossRateFetched(List<string> e)
         {
-            ResultFetched?.Invoke(this, e);
+            CrossRateFetched?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// splits row data on portions preceded be ~m~ 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="jsonList"></param>
+        /// <returns></returns>
+        private string ParseSocketData(string message, out List<string> jsonList)
+        {
+            jsonList = new List<string>();
+            while (message.Length > 3)
+            {
+                var str = message.Substring(3);
+                var pos = str.IndexOf("~m~", StringComparison.InvariantCulture);
+                var lengthStr = str.Substring(0, pos);
+                var length = int.Parse(lengthStr);
+
+                if (message.Length >= length + 3 + 3 + lengthStr.Length)
+                {
+                    var jsonStr = str.Substring(3 + lengthStr.Length, length);
+                    jsonList.Add(jsonStr);
+                    message = str.Substring(length + 3 + lengthStr.Length);
+                    if (message == "")
+                        return "";
+                }
+                else
+                {
+                    return message;
+                }
+            }
+            return message;
+        }
+
+        private string TikerToRequest(TradingViewTiker tiker)
+        {
+            switch (tiker)
+            {
+                case TradingViewTiker.EurUsd: return EurUsdRequest;
+                case TradingViewTiker.UsdRub: return UsdRubRequest;
+                case TradingViewTiker.EurRub: return EurRubRequest;
+                case TradingViewTiker.UkOil: return BrentRequest;
+                case TradingViewTiker.Voo: return VooRequest;
+            }
+
+            return null;
         }
     }
 }

@@ -1,25 +1,21 @@
-﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
+using System.Windows;
 using BalisStandard;
 
-namespace BalisConsole
+namespace BalisWpf
 {
-    class Program
+    public class TradingViewManager
     {
-        static StreamWriter _logFile = File.CreateText("weblistener.log");
-        private static TradingViewExtractor _tradingViewExtractor;
-        static void Main()
-        {
-            TradingMain();
-            Console.ReadKey();
-        }
+        private TradingViewExtractor _tradingViewExtractor;
+        private ShellVm _vm;
+        private TradingViewTiker _tiker;
 
-        // ReSharper disable once UnusedMember.Local
-        private static void TradingMain()
+        public void TradingMain(TradingViewTiker tiker, ShellVm vm)
         {
-            _tradingViewExtractor = new TradingViewExtractor(TradingViewTiker.Voo);
+            _vm = vm;
+            _tiker = tiker;
+            _tradingViewExtractor = new TradingViewExtractor(tiker);
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
 
             _tradingViewExtractor.ConnectWebSocket().Wait();
@@ -35,7 +31,7 @@ namespace BalisConsole
                 }
                 else
                 {
-                    _tradingViewExtractor = new TradingViewExtractor(TradingViewTiker.Voo);
+                    _tradingViewExtractor = new TradingViewExtractor(tiker);
                     _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
                     _tradingViewExtractor.ConnectWebSocket().Wait();
                     _tradingViewExtractor.RequestSession().Wait();
@@ -45,18 +41,19 @@ namespace BalisConsole
             // ReSharper disable once FunctionNeverReturns
         }
 
-        private static void TradingViewExtractorCrossRateFetched(object sender, List<string> e)
+        private void TradingViewExtractorCrossRateFetched(object sender, List<string> e)
         {
-            Console.WriteLine($"{DateTime.Now}  json strings received: " + e.Count);
+            Application.Current.Dispatcher.Invoke(() => ApplyRates(e));
+        }
+
+        private void ApplyRates(List<string> e)
+        {
             foreach (var json in e)
             {
-                _logFile.WriteLine(json);
-                _logFile.WriteLine();
-                _logFile.Flush();
                 var res = TradingViewJsonParser.TryParse(json);
                 if (res != null)
                     if (res.ContainsKey("lp"))
-                        Console.WriteLine($"lp : {(double)res["lp"]}");
+                       ApplyLp(res["lp"].ToString());
 
                 //                foreach (var pair in res)
                 //                    {
@@ -65,7 +62,19 @@ namespace BalisConsole
             }
         }
 
-      
+        private void ApplyLp(string lp)
+        {
+            switch (_tiker)
+            {
+                case TradingViewTiker.EurUsd:
+                    _vm.EurUsd = lp;
+                    break;
+                case TradingViewTiker.Voo:
+                    _vm.Voo = lp;
+                    break;
+                default: _vm.Test = lp;
+                    break;
+            }
+        }
     }
-
 }

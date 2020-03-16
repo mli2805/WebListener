@@ -10,8 +10,8 @@ namespace Extractors
             if (name == "FX_IDC:EURUSD") return TradingViewChart.EurUsd;
             if (name == "FX_IDC:USDRUB") return TradingViewChart.UsdRub;
             if (name == "FX_IDC:EURRUB") return TradingViewChart.EurRub;
-            if (name == "AMEX:VOO")
-                return TradingViewChart.Voo;
+//            if (name == "AMEX:VOO")
+//                return TradingViewChart.Voo;
             return TradingViewChart.UkOil; // (name == "FX:UKOIL")
         }
 
@@ -21,9 +21,9 @@ namespace Extractors
             if (!TryParseName(message, out string name))
                 return false;
             result.Chart = GetByString(name);
-            if (result.Chart == TradingViewChart.Voo)
-                return TryParseVoo(message, out result);
-            else
+//            if (result.Chart == TradingViewChart.Voo)
+//                return TryParseVoo(message, out result);
+//            else
                 return TryParseValue(message, out result.Value);
         }
 
@@ -56,32 +56,32 @@ namespace Extractors
             return double.TryParse(stringRate, NumberStyles.Any, new CultureInfo("en-US"), out rate);
         }
 
-        private static bool TryParseVoo(string message, out TradingViewResult result)
-        {
-            result = new TradingViewResult(){ Chart = TradingViewChart.Voo };
-
-            var pos = message.IndexOf("\"lp\":", StringComparison.Ordinal);
-            if (pos != -1)
-            {
-                var stringRate = message.Substring(pos + 5, 6);
-                var parse = double.TryParse(stringRate, NumberStyles.Any, new CultureInfo("en-US"), out result.Value);
-            }
-
-            pos = message.IndexOf("\"ask\":", StringComparison.Ordinal);
-            if (pos != -1)
-            {
-                var stringRate = message.Substring(pos + 6, 6);
-                var parse = double.TryParse(stringRate, NumberStyles.Any, new CultureInfo("en-US"), out result.Ask);
-            }
-
-            pos = message.IndexOf("\"bid\":", StringComparison.Ordinal);
-            if (pos != -1)
-            {
-                var stringRate = message.Substring(pos + 6, 6);
-                var parse = double.TryParse(stringRate, NumberStyles.Any, new CultureInfo("en-US"), out result.Bid);
-            }
-
-            return true;
-        }
+//        private static bool TryParseVoo(string message, out TradingViewResult result)
+//        {
+//            result = new TradingViewResult(){ Chart = TradingViewChart.Voo };
+//
+//            var pos = message.IndexOf("\"lp\":", StringComparison.Ordinal);
+//            if (pos != -1)
+//            {
+//                var stringRate = message.Substring(pos + 5, 6);
+//                var parse = double.TryParse(stringRate, NumberStyles.Any, new CultureInfo("en-US"), out result.Value);
+//            }
+//
+//            pos = message.IndexOf("\"ask\":", StringComparison.Ordinal);
+//            if (pos != -1)
+//            {
+//                var stringRate = message.Substring(pos + 6, 6);
+//                var parse = double.TryParse(stringRate, NumberStyles.Any, new CultureInfo("en-US"), out result.Ask);
+//            }
+//
+//            pos = message.IndexOf("\"bid\":", StringComparison.Ordinal);
+//            if (pos != -1)
+//            {
+//                var stringRate = message.Substring(pos + 6, 6);
+//                var parse = double.TryParse(stringRate, NumberStyles.Any, new CultureInfo("en-US"), out result.Bid);
+//            }
+//
+//            return true;
+//        }
     }
 }

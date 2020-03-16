@@ -17,7 +17,7 @@ namespace BalisStandard
                 return null;
 
             var branch = JsonConvert.DeserializeObject<TradingViewJsonPayloadObject>(p);
-            var tikerName = branch.N;
+//            var tikerName = branch.N;
 
             return JObject.Parse(branch.V.ToString());
         }
