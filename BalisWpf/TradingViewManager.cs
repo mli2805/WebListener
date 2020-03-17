@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using BalisStandard;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BalisWpf
 {
@@ -9,12 +13,13 @@ namespace BalisWpf
     {
         private TradingViewExtractor _tradingViewExtractor;
         private ShellVm _vm;
-        private TradingViewTiker _tiker;
+        private TikerValues _tikerValues;
 
-        public void TradingMain(TradingViewTiker tiker, ShellVm vm)
+        public async void Start(TradingViewTiker tiker, TikerValues tikerValues, ShellVm vm, int startDelayMs)
         {
+            await Task.Delay(startDelayMs);
             _vm = vm;
-            _tiker = tiker;
+            _tikerValues = tikerValues;
             _tradingViewExtractor = new TradingViewExtractor(tiker);
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
 
@@ -48,33 +53,46 @@ namespace BalisWpf
 
         private void ApplyRates(List<string> e)
         {
+            var flag = 0;
             foreach (var json in e)
             {
                 var res = TradingViewJsonParser.TryParse(json);
-                if (res != null)
-                    if (res.ContainsKey("lp"))
-                       ApplyLp(res["lp"].ToString());
-
-                //                foreach (var pair in res)
-                //                    {
-                //                        Console.WriteLine($"{pair.Key} : {pair.Value.ToString()}");
-                //                    }
+                if (res == null)
+                    continue;
+                flag += ApplyTikerCurrentValues(res);
+                flag += ApplyMarketStatus(res);
+                flag += ApplyPreMarket(res);
             }
+            if (flag > 0)
+                _vm.LastCheck = DateTime.Now;
         }
 
-        private void ApplyLp(string lp)
+        private int ApplyPreMarket(JObject jObject)
         {
-            switch (_tiker)
-            {
-                case TradingViewTiker.EurUsd:
-                    _vm.EurUsd = lp;
-                    break;
-                case TradingViewTiker.Voo:
-                    _vm.Voo = lp;
-                    break;
-                default: _vm.Test = lp;
-                    break;
-            }
+            if (jObject.ContainsKey("rtc"))
+                _tikerValues.Rtc = (double)jObject["rtc"];
+            return 1;
+        }
+
+        private int ApplyMarketStatus(JObject jObject)
+        {
+            if (!jObject.ContainsKey("market-status"))
+                return 0;
+            var ms = jObject["market-status"].ToString();
+            var marketStatus = JsonConvert.DeserializeObject<TradingViewMarketStatusObject>(ms);
+            _tikerValues.MarketStatus = marketStatus.Phase;
+            return 1;
+        }
+
+        private int ApplyTikerCurrentValues(JObject jObject)
+        {
+            if (jObject.ContainsKey("lp"))
+                _tikerValues.Lp = (double)jObject["lp"];
+            if (jObject.ContainsKey("ch"))
+                _tikerValues.Ch = (double)jObject["ch"];
+            if (jObject.ContainsKey("chp"))
+                _tikerValues.Chp = (double)jObject["chp"];
+            return 1;
         }
     }
 }

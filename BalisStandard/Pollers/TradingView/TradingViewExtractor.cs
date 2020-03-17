@@ -18,7 +18,11 @@ namespace BalisStandard
         private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string GoldRequest = "{\"p\":[\"my_session\",\"FX:XAUUSD\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string VooRequest = "{\"p\":[\"my_session\",\"AMEX:VOO\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string BndRequest = "{\"p\":[\"my_session\",\"NASDAQ:BND\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string VixRequest = "{\"p\":[\"my_session\",\"CBOE:VIX\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string SpxRequest = "{\"p\":[\"my_session\",\"SP:SPX\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 
         public TradingViewExtractor(TradingViewTiker tiker)
         {
@@ -143,7 +147,11 @@ namespace BalisStandard
                 case TradingViewTiker.UsdRub: return UsdRubRequest;
                 case TradingViewTiker.EurRub: return EurRubRequest;
                 case TradingViewTiker.UkOil: return BrentRequest;
+                case TradingViewTiker.Gold: return GoldRequest;
                 case TradingViewTiker.Voo: return VooRequest;
+                case TradingViewTiker.Vix: return VixRequest;
+                case TradingViewTiker.Spx: return SpxRequest;
+                case TradingViewTiker.Bnd: return BndRequest;
             }
 
             return null;

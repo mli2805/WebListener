@@ -37,4 +37,11 @@ namespace BalisStandard
         public object V { get; set; }
 
     }
+
+    public class TradingViewMarketStatusObject
+    {
+        public string Phase { get; set; }
+        public string Tradingday { get; set; }
+
+    }
 }

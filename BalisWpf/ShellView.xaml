@@ -1,12 +1,8 @@
 <Window x:Class="BalisWpf.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-<DockPanel>
-    <StackPanel Margin="5">
-        <TextBlock Margin="5" Text="{Binding Model.Test}"></TextBlock>
-        <TextBlock Margin="5" Text="{Binding Model.EurUsd}"></TextBlock>
-        <TextBlock Margin="5" Text="{Binding Model.Voo}"></TextBlock>
-</StackPanel>
-</DockPanel>
+    <DockPanel>
+            <ListBox ItemsSource="{Binding Model.TradingViewList}"/>
+    </DockPanel>
 
 </Window>

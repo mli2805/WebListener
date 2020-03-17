@@ -72,9 +72,11 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="Models\TikerValues.cs" />
+    <Compile Include="Models\TradingViewData.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ShellViewModel.cs" />
-    <Compile Include="ShellVm.cs" />
+    <Compile Include="Models\ShellVm.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

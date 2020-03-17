@@ -1,37 +1,33 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using BalisWpf.Properties;
+using BalisWpf.Annotations;
 
 namespace BalisWpf
 {
     public class ShellVm : INotifyPropertyChanged
     {
+        public TradingViewData TradingViewData { get; set; } = new TradingViewData();
+
+        private DateTime _lastCheck;
+        public DateTime LastCheck
+        {
+            get => _lastCheck;
+            set
+            {
+                if (value.Equals(_lastCheck)) return;
+                _lastCheck = value;
+                OnPropertyChanged();
+                OnPropertyChanged("TradingViewList");
+            }
+        }
+
+        public List<string> TradingViewList => TradingViewData.F(_lastCheck);
+
+    
+
         public string Test { get; set; }
-
-        private string _voo;
-        private string _eurUsd;
-
-        public string Voo
-        {
-            get => _voo;
-            set
-            {
-                if (value == _voo) return;
-                _voo = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string EurUsd
-        {
-            get => _eurUsd;
-            set
-            {
-                if (value == _eurUsd) return;
-                _eurUsd = value;
-                OnPropertyChanged();
-            }
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

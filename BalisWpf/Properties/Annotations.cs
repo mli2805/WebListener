@@ -31,7 +31,8 @@ using System;
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace BalisWpf.Properties
+// ReSharper disable once CheckNamespace
+namespace BalisWpf.Annotations
 {
   /// <summary>
   /// Indicates that the value of the marked element could be <c>null</c> sometimes,

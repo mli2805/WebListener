@@ -19,7 +19,7 @@ namespace BalisConsole
         // ReSharper disable once UnusedMember.Local
         private static void TradingMain()
         {
-            _tradingViewExtractor = new TradingViewExtractor(TradingViewTiker.Voo);
+            _tradingViewExtractor = new TradingViewExtractor(TradingViewTiker.Vix);
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
 
             _tradingViewExtractor.ConnectWebSocket().Wait();
