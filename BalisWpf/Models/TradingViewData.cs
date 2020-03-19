@@ -21,14 +21,14 @@ namespace BalisWpf
             result.Add("tradingview.com");
             result.Add($"{lastCheck}");
             result.Add("");
-            result.Add($"Eur / Usd {EurUsd.Lp}  {EurUsd.Ch}");
-            result.Add($"Usd / Rub {UsdRub.Lp}  {UsdRub.Ch}");
-            result.Add($"Eur / Rub {EurRub.Lp}  {EurRub.Ch}");
+            result.Add($"Eur / Usd {EurUsd.Lp}  {EurUsd.Ch:+0.000;-0.000}");
+            result.Add($"Usd / Rub {UsdRub.Lp}  {UsdRub.Ch:+0.00;-0.00}");
+            result.Add($"Eur / Rub {EurRub.Lp}  {EurRub.Ch:+0.00;-0.00}");
             result.Add("");
-            result.Add($"Brent ${UkOil.Lp}");
+            result.Add($"Brent ${UkOil.Lp}  {UkOil.Ch:+0.00;-0.00}");
             result.Add($"Бочка {UkOil.Lp * UsdRub.Lp:0,0}");
             result.Add("");
-            result.Add($"Gold ${Gold.Lp: 0,0.0}/ozt  {Gold.Ch}  {Gold.Chp}%");
+            result.Add($"Gold ${Gold.Lp: 0,0.0}/ozt  {Gold.Ch:+0.00;-0.00}  {Gold.Chp:+0.0;-0.0}%");
             result.Add($" ${Gold.Lp / 31.1034768: 0.0}/g");
             result.Add("");
             result.AddRange(Fa(Spx, "S&P"));
@@ -42,10 +42,11 @@ namespace BalisWpf
        
         private IEnumerable<string> Fa(TikerValues tv, string tikerName)
         {
-            yield return ($"{tikerName} {tv.Lp}  {tv.Ch:+0.0;-0.0}  {tv.Chp:+0.0;-0.0}%");
+            yield return ($"{tikerName} {tv.Lp}  {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%");
+            yield return ($"{tikerName} session: {tv.CurrentSession}");
             yield return ($"{tikerName} market: {tv.MarketStatus}");
             if (tv.MarketStatus == "pre-market")
-                yield return ($"{tikerName} pre-market: {tv.Rtc} {tv.Rch:+0.0;-0.0}  {tv.Rchp:+0.0;-0.0}%");
+                yield return ($"{tikerName} pre-market: {tv.Rtc} {tv.Rch:+0.00;-0.00}  {tv.Rchp:+0.00;-0.00}%");
         }
     }
 }

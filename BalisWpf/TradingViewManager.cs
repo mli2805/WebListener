@@ -61,6 +61,7 @@ namespace BalisWpf
                     continue;
                 flag += ApplyTikerCurrentValues(res);
                 flag += ApplyMarketStatus(res);
+                flag += ApplyCurrentSession(res);
                 flag += ApplyPreMarket(res);
             }
             if (flag > 0)
@@ -71,6 +72,10 @@ namespace BalisWpf
         {
             if (jObject.ContainsKey("rtc"))
                 _tikerValues.Rtc = (double)jObject["rtc"];
+            if (jObject.ContainsKey("rch"))
+                _tikerValues.Rch = (double)jObject["rch"];
+            if (jObject.ContainsKey("rchp"))
+                _tikerValues.Rchp = (double)jObject["rchp"];
             return 1;
         }
 
@@ -81,6 +86,13 @@ namespace BalisWpf
             var ms = jObject["market-status"].ToString();
             var marketStatus = JsonConvert.DeserializeObject<TradingViewMarketStatusObject>(ms);
             _tikerValues.MarketStatus = marketStatus.Phase;
+            return 1;
+        }
+
+        private int ApplyCurrentSession(JObject jObject)
+        {
+            if (jObject.ContainsKey("current_session"))
+                _tikerValues.CurrentSession = jObject["current_session"].ToString();
             return 1;
         }
 
