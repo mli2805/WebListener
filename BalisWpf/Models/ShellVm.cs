@@ -8,9 +8,13 @@ namespace BalisWpf
 {
     public class ShellVm : INotifyPropertyChanged
     {
+        public NbRbData NbRbData { get; set; } = new NbRbData();
+       
+
         public TradingViewData TradingViewData { get; set; } = new TradingViewData();
 
         private DateTime _lastCheck;
+
         public DateTime LastCheck
         {
             get => _lastCheck;

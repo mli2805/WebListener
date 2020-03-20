@@ -93,6 +93,19 @@ namespace BalisWpf
         {
             if (jObject.ContainsKey("current_session"))
                 _tikerValues.CurrentSession = jObject["current_session"].ToString();
+            if (jObject.ContainsKey("prev_close_price"))
+                _tikerValues.PrevClosePrice = (double)jObject["prev_close_price"];
+            if (jObject.ContainsKey("open_price"))
+                _tikerValues.OpenPrice = (double)jObject["open_price"];
+            if (jObject.ContainsKey("open_time"))
+            {
+                var ms = (int)jObject["open_time"];
+                TimeSpan time = TimeSpan.FromSeconds(ms);
+                DateTime startdate = new DateTime(1970, 1, 1) + time;
+                _tikerValues.OpenTime = startdate;
+            }
+            if (jObject.ContainsKey("timezone"))
+                _tikerValues.TimeZone = jObject["timezone"].ToString();
             return 1;
         }
 

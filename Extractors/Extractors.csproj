@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\AmexVoo.cs" />
     <Compile Include="DomainModel\BelStock\BelStock.cs" />
     <Compile Include="DomainModel\BelStock\BelStockArchiveDay.cs" />
     <Compile Include="DomainModel\BelStock\BelStockArchiveOneCurrencyDay.cs" />

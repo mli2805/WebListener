@@ -1,3 +1,5 @@
+using System;
+
 namespace BalisWpf
 {
     public class TikerValues
@@ -10,5 +12,9 @@ namespace BalisWpf
         public double Rtc { get; set; } // pre-market value
         public double Rch { get; set; } 
         public double Rchp { get; set; }
+        public double PrevClosePrice { get; set; }
+        public double OpenPrice { get; set; } // previous ?
+        public DateTime OpenTime { get; set; }
+        public string TimeZone { get; set; }
     }
 }

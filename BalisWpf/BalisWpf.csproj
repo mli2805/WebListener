@@ -72,8 +72,10 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="Models\TikerValues.cs" />
-    <Compile Include="Models\TradingViewData.cs" />
+    <Compile Include="TradingView\TikerValues.cs" />
+    <Compile Include="TradingView\TradingViewData.cs" />
+    <Compile Include="NbRb\NbRbData.cs" />
+    <Compile Include="NbRb\NbRbPoller.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="Models\ShellVm.cs" />
@@ -81,7 +83,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TradingViewManager.cs" />
+    <Compile Include="TradingView\TradingViewManager.cs" />
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
