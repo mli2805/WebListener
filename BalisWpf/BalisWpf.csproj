@@ -78,12 +78,12 @@
     <Compile Include="NbRb\NbRbPoller.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ShellViewModel.cs" />
-    <Compile Include="Models\ShellVm.cs" />
+    <Compile Include="ShellVm.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TradingView\TradingViewManager.cs" />
+    <Compile Include="TradingView\TradingViewPoller.cs" />
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -121,6 +121,9 @@
       <Project>{a33957ac-cc26-4ced-a859-f94d14af172b}</Project>
       <Name>BalisStandard</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BelStock\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

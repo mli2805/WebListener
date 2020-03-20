@@ -11,28 +11,31 @@ namespace BalisWpf
         {
             Model = new ShellVm(){Test = "in C-tor"};
 
-            StartNbRbExtractor();
-            StartTradingViewExtractors();
+            StartNbRbPoller();
+            StartBelStockPoller();
+            StartTradingViewPoller();
         }
 
-        private void StartTradingViewExtractors()
+        private void StartTradingViewPoller()
         {
-            Task.Factory.StartNew(() => new TradingViewManager().
+            Task.Factory.StartNew(() => new TradingViewPoller().
                 Start(TradingViewTiker.EurUsd, Model.TradingViewData.EurUsd, Model, 1000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.UsdRub, Model.TradingViewData.UsdRub,  Model, 1000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.EurRub, Model.TradingViewData.EurRub,  Model, 1000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.UkOil,  Model.TradingViewData.UkOil,   Model, 2000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.Gold,   Model.TradingViewData.Gold,    Model, 2000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.Spx,    Model.TradingViewData.SpSpx,   Model, 3000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.Voo,    Model.TradingViewData.AmexVoo, Model, 4000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.Vix,    Model.TradingViewData.CboeVix, Model, 5000));
-            Task.Factory.StartNew(() => new TradingViewManager().Start(TradingViewTiker.Bnd,    Model.TradingViewData.AmexBnd, Model, 6000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UsdRub, Model.TradingViewData.UsdRub,  Model, 1000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.EurRub, Model.TradingViewData.EurRub,  Model, 1000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UkOil,  Model.TradingViewData.UkOil,   Model, 2000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.Gold,   Model.TradingViewData.Gold,    Model, 2000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.Spx,    Model.TradingViewData.SpSpx,   Model, 3000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.Voo,    Model.TradingViewData.AmexVoo, Model, 4000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.Vix,    Model.TradingViewData.CboeVix, Model, 5000));
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.Bnd,    Model.TradingViewData.AmexBnd, Model, 6000));
         }
 
-        private void StartNbRbExtractor()
+        private void StartNbRbPoller()
         {
             Task.Factory.StartNew(() => new NbRbPoller().Start(Model));
         }
+
+        private void StartBelStockPoller() { }
 
     }
 }

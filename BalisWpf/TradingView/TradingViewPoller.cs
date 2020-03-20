@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace BalisWpf
 {
-    public class TradingViewManager
+    public class TradingViewPoller
     {
         private TradingViewExtractor _tradingViewExtractor;
         private ShellVm _vm;
