@@ -10,27 +10,34 @@ namespace BalisWpf
         {
             while (true)
             {
-                if (vm.NbRbData.Yesterday == null || vm.NbRbData.Yesterday.Date.Date != DateTime.Today.AddDays(-1))
+                if (vm.NbRbVm.Yesterday == null || vm.NbRbVm.Yesterday.Date.Date != DateTime.Today.AddDays(-1))
                 {
                     var yesterday = await NbRbRatesExtractor.GetNbDayAsync(DateTime.Today.AddDays(-1));
                     if (yesterday != null)
-                        vm.NbRbData.Yesterday = yesterday;
+                        vm.NbRbVm.Yesterday = yesterday;
+                    else
+                        await Task.Delay(60000);
                 }
 
-                if (vm.NbRbData.Today == null || vm.NbRbData.Today.Date.Date != DateTime.Today)
+                if (vm.NbRbVm.Today == null || vm.NbRbVm.Today.Date.Date != DateTime.Today)
                 {
                     var today = await NbRbRatesExtractor.GetNbDayAsync(DateTime.Today);
                     if (today != null)
-                        vm.NbRbData.Today = today;
+                    {
+                        vm.NbRbVm.Today = today;
+                        vm.BelStockVm.NbRates = today;
+                    }
                 }
 
-                if ((vm.NbRbData.Tomorrow == null || vm.NbRbData.Tomorrow.Date.Date != DateTime.Today.AddDays(1)) 
+                if ((vm.NbRbVm.Tomorrow == null || vm.NbRbVm.Tomorrow.Date.Date != DateTime.Today.AddDays(1)) 
                     && DateTime.Now.Hour >= 13)
                 {
                     var tomorrow = await NbRbRatesExtractor.GetNbDayAsync(DateTime.Today.AddDays(1));
                     if (tomorrow != null)
-                        vm.NbRbData.Tomorrow = tomorrow;
+                        vm.NbRbVm.Tomorrow = tomorrow;
                 }
+
+                await Task.Delay(60000);
 
             }
         }

@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using BalisStandard;
 using BalisWpf.Annotations;
 
 namespace BalisWpf
 {
     public class ShellVm : INotifyPropertyChanged
     {
-        public NbRbData NbRbData { get; set; } = new NbRbData();
-       
-
-        public TradingViewData TradingViewData { get; set; } = new TradingViewData();
+        public NbRbVm NbRbVm { get; set; } = new NbRbVm();
+        public BelStockVm BelStockVm { get; set; } = new BelStockVm();
+        public TradingViewVm TradingViewVm { get; set; } = new TradingViewVm();
 
         private DateTime _lastCheck;
 
@@ -27,7 +27,7 @@ namespace BalisWpf
             }
         }
 
-        public List<string> TradingViewList => TradingViewData.F(_lastCheck);
+        public List<string> TradingViewList => TradingViewVm.F(_lastCheck);
 
     
 

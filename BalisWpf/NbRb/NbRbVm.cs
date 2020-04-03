@@ -7,7 +7,7 @@ using BalisWpf.Annotations;
 
 namespace BalisWpf
 {
-    public class NbRbData: INotifyPropertyChanged
+    public class NbRbVm: INotifyPropertyChanged
     {
         private NbRates _yesterday = new NbRates();
         private NbRates _today = new NbRates();

@@ -71,10 +71,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="BelStock\BelStockPoller.cs" />
+    <Compile Include="BelStock\BelStockVm.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="TradingView\TikerValues.cs" />
-    <Compile Include="TradingView\TradingViewData.cs" />
-    <Compile Include="NbRb\NbRbData.cs" />
+    <Compile Include="TradingView\TradingViewVm.cs" />
+    <Compile Include="NbRb\NbRbVm.cs" />
     <Compile Include="NbRb\NbRbPoller.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ShellViewModel.cs" />
@@ -122,8 +124,6 @@
       <Name>BalisStandard</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BelStock\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

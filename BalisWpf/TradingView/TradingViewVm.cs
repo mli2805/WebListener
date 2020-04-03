@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace BalisWpf
 {
-    public class TradingViewData
+    public class TradingViewVm
     {
         public TikerValues EurUsd { get; set; } = new TikerValues();
         public TikerValues UsdRub { get; set; } = new TikerValues();

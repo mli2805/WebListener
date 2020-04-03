@@ -1,9 +1,27 @@
 <Window x:Class="BalisWpf.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xml:lang="ru-RU"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DockPanel>
-            <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Model.TradingViewList}" Foreground="Blue"/>
-            <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Model.NbRbData.NbRbList}"/>
+        <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Model.TradingViewList}" Foreground="Blue"/>
+        <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Model.NbRbVm.NbRbList}"/>
+        <StackPanel DockPanel.Dock="Left">
+            <TextBlock Text="Bel stock (banki24.by)"/>
+            <TextBlock Margin="20,0,0,0" Text="{Binding Model.BelStockVm.Title}"/>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Width="245" >
+                    <TextBlock Text="{Binding Model.BelStockVm.UsdString}"/>
+                    <TextBlock Text="{Binding Model.BelStockVm.EurString}"/>
+                    <TextBlock Text="{Binding Model.BelStockVm.RubString}"/>
+                    <TextBlock Text=""/>
+                    <TextBlock Text="{Binding Model.BelStockVm.NewBasketString}"/>
+                    <TextBlock Text=""/>
+                    <TextBlock Text="{Binding Model.BelStockVm.EurUsdString}"/>
+                    <TextBlock Text="{Binding Model.BelStockVm.UsdRubString}"/>
+                    <TextBlock Text="{Binding Model.BelStockVm.EurRubString}"/>
+                    </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </DockPanel>
 
 </Window>
