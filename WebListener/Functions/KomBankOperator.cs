@@ -59,11 +59,15 @@ namespace WebListener
         }
         public void ApplyKomBankRateLine(KomBankRates result, ObservableCollection<KomBankRates> rows)
         {
-            if (result.StartedFrom == "error") return;
+            if (result.StartedFrom == "error" || result.StartedFrom == "") return;
 
             var oldLine = rows.LastOrDefault();
             if (oldLine == null)
                 ApplyFirstLine(result, rows);
+            else if (result.Bank == "БПС" && result.IsOlder(oldLine))
+            {
+                return;
+            }
             else if (result.IsDifferent(oldLine))
             {
                 if (result.Bank == "БИБ") 

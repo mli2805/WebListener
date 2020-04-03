@@ -105,6 +105,13 @@ namespace Extractors
                  !RubEurA.Equals(anotherLine.RubEurA) || !RubEurB.Equals(anotherLine.RubEurB);
         }
 
+        public bool IsOlder(KomBankRates anotherLine)
+        {
+            var thisDate = DateTime.Parse(StartedFrom);
+            var anotherLineDate = DateTime.Parse(anotherLine.StartedFrom);
+            return thisDate < anotherLineDate;
+        }
+
         public KomBankRates()
         {
         }
