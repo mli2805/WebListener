@@ -25,11 +25,14 @@
             </StackPanel>
         </Border>
         <Border DockPanel.Dock="Left"  BorderBrush="DarkGray" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Forecast"/>
-                <TextBlock Text="{Binding Model.ForecastRates.UsdString}"/>
-                <TextBlock Text="{Binding Model.ForecastRates.EurString}"/>
-                <TextBlock Text="{Binding Model.ForecastRates.RubString}"/>
+            <StackPanel Margin="5">
+                <TextBlock Text="{Binding Model.ForecastVm.Caption}"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="{Binding Model.ForecastVm.UsdString}"/>
+                <TextBlock Text="{Binding Model.ForecastVm.EurString}"/>
+                <TextBlock Text="{Binding Model.ForecastVm.RubString}"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="{Binding Model.ForecastVm.BasketString}"/>
             </StackPanel>
         </Border>
     </DockPanel>

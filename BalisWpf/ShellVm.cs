@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using BalisStandard;
 using BalisWpf.Annotations;
 
 namespace BalisWpf
@@ -30,7 +29,7 @@ namespace BalisWpf
                     if (NbRbVm.Today.Date.Year > 1)
                         ForecastVm.Initialize(NbRbVm.Today);
                 }
-                else ForecastVm.CalculateNewRates(TradingViewVm);
+                else ForecastVm.CalculateNewRates(TradingViewVm.Rates);
             }
         }
 

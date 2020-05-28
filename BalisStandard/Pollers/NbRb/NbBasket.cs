@@ -44,7 +44,7 @@ namespace BalisStandard
         /// <param name="currentBasket"></param>
         /// <param name="forexRates"></param>
         /// <returns></returns>
-        public static double ForecastUsingForex(double currentBasket, TradingViewVm forexRates)
+        public static double ForecastUsingForex(double currentBasket, TradingViewRates forexRates)
         {
             return currentBasket / (Math.Pow(forexRates.EurUsd.Lp, EurWage) * Math.Pow((1.0 / forexRates.UsdRub.Lp), RubWage)) ;
         }

@@ -19,11 +19,12 @@ namespace BalisWpf
         public string EurString => $"Eur  {Eur:#,0.0000}   ( {EurDelta:+#,0.0000;-#,0.0000;0} / {(EurDelta*100/Eur):+0.00;-0.00;0}% )";
         public string RubString => $"Rub  {Rub:#,0.0000}   ( {RubDelta:+#,0.0000;-#,0.0000;0} / {(RubDelta*100/Rub):+0.00;-0.00;0}% )";
 
-        public string BasketString => Basket.Equals(CurrentNbRates.Basket)
+        public string BasketString => CurrentNbRates == null || Basket.Equals(CurrentNbRates.Basket)
             ? $"{Basket:#,0.0000} "
             : $"{Basket:#,0.0000} ( {((Basket - CurrentNbRates.Basket)*10000):+#,0;-#,0;0} п / {((Basket/CurrentNbRates.Basket - 1)*100):+#,0.00;-#,0.00;0}% )"
             ;
 
+        public string Caption => "Прогноз";
         public NbRates CurrentNbRates;
         public double Basket;
        
@@ -33,7 +34,7 @@ namespace BalisWpf
             Basket = CurrentNbRates.Basket;
         }
 
-        public void CalculateNewRates(TradingViewVm forex)
+        public void CalculateNewRates(TradingViewRates forex)
         {
             Usd = NbBasket.ForecastUsingForex(Basket, forex);
             Eur = Usd * forex.EurUsd.Lp;
@@ -45,9 +46,10 @@ namespace BalisWpf
             OnPropertyChanged("UsdString");
             OnPropertyChanged("EurString");
             OnPropertyChanged("RubString");
+            OnPropertyChanged("BasketString");
         }
 
-        private void CalculateNewRatesFromRub(TradingViewVm forex)
+        private void CalculateNewRatesFromRub(TradingViewRates forex)
         {
             Usd = (Rub / 100) * forex.UsdRub.Lp;
             Eur = (Rub / 100) * forex.EurUsd.Lp * forex.UsdRub.Lp;
@@ -58,13 +60,13 @@ namespace BalisWpf
             RubDelta = Rub - CurrentNbRates.Rub;
         }
 
-        public void ForecastRatesFromAnotherBasket(double anotherBasket, TradingViewVm currentForex)
+        public void ForecastRatesFromAnotherBasket(double anotherBasket, TradingViewRates currentForex)
         {
             Basket = anotherBasket;
             CalculateNewRates(currentForex);
         }
 
-        public void ForecastRatesFromAnotherRub(TradingViewVm currentForex, double anotherRub)
+        public void ForecastRatesFromAnotherRub(TradingViewRates currentForex, double anotherRub)
         {
             Rub = anotherRub;
             CalculateNewRatesFromRub(currentForex);

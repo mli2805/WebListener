@@ -1,20 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using BalisStandard;
 
-namespace BalisStandard
+namespace BalisWpf
 {
     public class TradingViewVm
     {
-        public TikerValues EurUsd { get; set; } = new TikerValues();
-        public TikerValues UsdRub { get; set; } = new TikerValues();
-        public TikerValues EurRub { get; set; } = new TikerValues();
-        public TikerValues UkOil { get; set; } = new TikerValues();
-        public TikerValues Gold { get; set; } = new TikerValues();
-        public TikerValues SpSpx { get; set; } = new TikerValues();
-        public TikerValues AmexVoo { get; set; } = new TikerValues();
-        public TikerValues CboeVix { get; set; } = new TikerValues();
-        public TikerValues AmexBnd { get; set; } = new TikerValues();
+        public TradingViewRates Rates { get; set; } = new TradingViewRates();
 
         public List<string> F(DateTime lastCheck)
         {
@@ -22,22 +15,22 @@ namespace BalisStandard
             result.Add("tradingview.com");
             result.Add($"{lastCheck}");
             result.Add("");
-            result.Add($"Eur / Usd {EurUsd.Lp}  {EurUsd.Ch:+0.000;-0.000}");
-            result.Add($"{TimeStr(EurUsd)}");
-            result.Add($"Usd / Rub {UsdRub.Lp}  {UsdRub.Ch:+0.00;-0.00}");
-            result.Add($"Eur / Rub {EurRub.Lp}  {EurRub.Ch:+0.00;-0.00}");
+            result.Add($"Eur / Usd {Rates.EurUsd.Lp}  {Rates.EurUsd.Ch:+0.000;-0.000}");
+            result.Add($"{TimeStr(Rates.EurUsd)}");
+            result.Add($"Usd / Rub {Rates.UsdRub.Lp}  {Rates.UsdRub.Ch:+0.00;-0.00}");
+            result.Add($"Eur / Rub {Rates.EurRub.Lp}  {Rates.EurRub.Ch:+0.00;-0.00}");
             result.Add("");
-            result.Add($"Brent ${UkOil.Lp}  ({UkOil.Ch:+0.00;-0.00} {UkOil.Chp:+0.00;-0.00}%)");
-            result.Add($"Бочка {UkOil.Lp * UsdRub.Lp:0,0}");
-            result.Add($"{TimeStr(UkOil)}");
+            result.Add($"Brent ${Rates.UkOil.Lp}  ({Rates.UkOil.Ch:+0.00;-0.00} {Rates.UkOil.Chp:+0.00;-0.00}%)");
+            result.Add($"Бочка {Rates.UkOil.Lp * Rates.UsdRub.Lp:0,0}");
+            result.Add($"{TimeStr(Rates.UkOil)}");
             result.Add("");
-            result.Add($"Gold ${Gold.Lp: 0,0.0}/ozt  ({Gold.Ch:+0.00;-0.00}  {Gold.Chp:+0.0;-0.0}%)");
-            result.Add($" ${Gold.Lp / 31.1034768: 0.0}/g");
+            result.Add($"Gold ${Rates.Gold.Lp: 0,0.0}/ozt  ({Rates.Gold.Ch:+0.00;-0.00}  {Rates.Gold.Chp:+0.0;-0.0}%)");
+            result.Add($" ${Rates.Gold.Lp / 31.1034768: 0.0}/g");
             result.Add("");
-            result.AddRange(FSp(SpSpx, "SP:S&P_500"));
-            result.AddRange(FAmex(AmexBnd, "AMEX:BND"));
-            result.AddRange(FAmex(AmexVoo, "AMEX:VOO"));
-            result.AddRange(FCboe(CboeVix, "CBOE:VIX"));
+            result.AddRange(FSp(Rates.SpSpx, "SP:S&P_500"));
+            result.AddRange(FAmex(Rates.AmexBnd, "AMEX:BND"));
+            result.AddRange(FAmex(Rates.AmexVoo, "AMEX:VOO"));
+            result.AddRange(FCboe(Rates.CboeVix, "CBOE:VIX"));
 
             return result;
         }
