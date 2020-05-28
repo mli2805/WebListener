@@ -40,6 +40,7 @@ namespace BalisWpf
                 await Task.Delay(60000);
 
             }
+            // ReSharper disable once FunctionNeverReturns
         }
     }
 }

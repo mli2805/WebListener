@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace BalisWpf
+namespace BalisStandard
 {
     public class TradingViewVm
     {

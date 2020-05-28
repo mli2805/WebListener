@@ -12,6 +12,7 @@ namespace BalisWpf
         public NbRbVm NbRbVm { get; set; } = new NbRbVm();
         public BelStockVm BelStockVm { get; set; } = new BelStockVm();
         public TradingViewVm TradingViewVm { get; set; } = new TradingViewVm();
+        public ForecastVm ForecastVm { get; set;  } = new ForecastVm();
 
         private DateTime _lastCheck;
 
@@ -24,14 +25,16 @@ namespace BalisWpf
                 _lastCheck = value;
                 OnPropertyChanged();
                 OnPropertyChanged("TradingViewList");
+                if (ForecastVm.CurrentNbRates == null)
+                {
+                    if (NbRbVm.Today.Date.Year > 1)
+                        ForecastVm.Initialize(NbRbVm.Today);
+                }
+                else ForecastVm.CalculateNewRates(TradingViewVm);
             }
         }
 
         public List<string> TradingViewList => TradingViewVm.F(_lastCheck);
-
-    
-
-        public string Test { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

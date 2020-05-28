@@ -73,9 +73,8 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="BelStock\BelStockPoller.cs" />
     <Compile Include="BelStock\BelStockVm.cs" />
+    <Compile Include="Forecast\ForecastVm.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="TradingView\TikerValues.cs" />
-    <Compile Include="TradingView\TradingViewVm.cs" />
     <Compile Include="NbRb\NbRbVm.cs" />
     <Compile Include="NbRb\NbRbPoller.cs" />
     <Compile Include="Properties\Annotations.cs" />

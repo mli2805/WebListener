@@ -5,23 +5,33 @@
     <DockPanel>
         <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Model.TradingViewList}" Foreground="Blue"/>
         <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Model.NbRbVm.NbRbList}"/>
-        <StackPanel DockPanel.Dock="Left">
-            <TextBlock Text="Bel stock (banki24.by)"/>
-            <TextBlock Margin="20,0,0,0" Text="{Binding Model.BelStockVm.Title}"/>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Width="245" >
-                    <TextBlock Text="{Binding Model.BelStockVm.UsdString}"/>
-                    <TextBlock Text="{Binding Model.BelStockVm.EurString}"/>
-                    <TextBlock Text="{Binding Model.BelStockVm.RubString}"/>
-                    <TextBlock Text=""/>
-                    <TextBlock Text="{Binding Model.BelStockVm.NewBasketString}"/>
-                    <TextBlock Text=""/>
-                    <TextBlock Text="{Binding Model.BelStockVm.EurUsdString}"/>
-                    <TextBlock Text="{Binding Model.BelStockVm.UsdRubString}"/>
-                    <TextBlock Text="{Binding Model.BelStockVm.EurRubString}"/>
+        <Border DockPanel.Dock="Left" BorderBrush="DarkGray" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Bel stock (banki24.by)"/>
+                <TextBlock Margin="20,0,0,0" Text="{Binding Model.BelStockVm.Title}"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="245" >
+                        <TextBlock Text="{Binding Model.BelStockVm.UsdString}"/>
+                        <TextBlock Text="{Binding Model.BelStockVm.EurString}"/>
+                        <TextBlock Text="{Binding Model.BelStockVm.RubString}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Model.BelStockVm.NewBasketString}"/>
+                        <TextBlock Text=""/>
+                        <TextBlock Text="{Binding Model.BelStockVm.EurUsdString}"/>
+                        <TextBlock Text="{Binding Model.BelStockVm.UsdRubString}"/>
+                        <TextBlock Text="{Binding Model.BelStockVm.EurRubString}"/>
                     </StackPanel>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Border>
+        <Border DockPanel.Dock="Left"  BorderBrush="DarkGray" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Forecast"/>
+                <TextBlock Text="{Binding Model.ForecastRates.UsdString}"/>
+                <TextBlock Text="{Binding Model.ForecastRates.EurString}"/>
+                <TextBlock Text="{Binding Model.ForecastRates.RubString}"/>
+            </StackPanel>
+        </Border>
     </DockPanel>
 
 </Window>

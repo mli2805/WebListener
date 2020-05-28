@@ -1,6 +1,6 @@
 using System;
 
-namespace BalisWpf
+namespace BalisStandard
 {
     public class TikerValues
     {

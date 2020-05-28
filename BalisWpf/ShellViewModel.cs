@@ -9,7 +9,7 @@ namespace BalisWpf
 
         public ShellViewModel()
         {
-            Model = new ShellVm() { Test = "in C-tor" };
+            Model = new ShellVm();
 
             StartNbRbPoller();
             StartBelStockPoller();

@@ -85,6 +85,7 @@ namespace BalisWpf
                 return 0;
             var ms = jObject["market-status"].ToString();
             var marketStatus = JsonConvert.DeserializeObject<TradingViewMarketStatusObject>(ms);
+            if (marketStatus == null) return 0;
             _tikerValues.MarketStatus = marketStatus.Phase;
             return 1;
         }

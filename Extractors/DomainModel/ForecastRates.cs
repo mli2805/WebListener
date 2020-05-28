@@ -10,13 +10,13 @@
         public double EurDelta { get; set; }
         public double RubDelta { get; set; }
 
-        public string UsdString => $"Usd  {Usd:#,0.0000}   ( {UsdDelta.ToString("+#,0.0000;-#,0.0000;0")} / {(UsdDelta*100/Usd).ToString("+0.00;-0.00;0")}% )";
-        public string EurString => $"Eur  {Eur:#,0.0000}   ( {EurDelta.ToString("+#,0.0000;-#,0.0000;0")} / {(EurDelta*100/Eur).ToString("+0.00;-0.00;0")}% )";
-        public string RubString => $"Rub  {Rub:#,0.0000}   ( {RubDelta.ToString("+#,0.0000;-#,0.0000;0")} / {(RubDelta*100/Rub).ToString("+0.00;-0.00;0")}% )";
+        public string UsdString => $"Usd  {Usd:#,0.0000}   ( {UsdDelta:+#,0.0000;-#,0.0000;0} / {(UsdDelta*100/Usd):+0.00;-0.00;0}% )";
+        public string EurString => $"Eur  {Eur:#,0.0000}   ( {EurDelta:+#,0.0000;-#,0.0000;0} / {(EurDelta*100/Eur):+0.00;-0.00;0}% )";
+        public string RubString => $"Rub  {Rub:#,0.0000}   ( {RubDelta:+#,0.0000;-#,0.0000;0} / {(RubDelta*100/Rub):+0.00;-0.00;0}% )";
 
         public string BasketString => Basket.Equals(_currentNbRates.Basket)
             ? $"{Basket:#,0.0000} "
-            : $"{Basket:#,0.0000} ( {((Basket - _currentNbRates.Basket)*10000).ToString("+#,0;-#,0;0")} п / {((Basket/_currentNbRates.Basket - 1)*100).ToString("+#,0.00;-#,0.00;0")}% )"
+            : $"{Basket:#,0.0000} ( {((Basket - _currentNbRates.Basket)*10000):+#,0;-#,0;0} п / {((Basket/_currentNbRates.Basket - 1)*100):+#,0.00;-#,0.00;0}% )"
             ;
 
         private readonly NbRates _currentNbRates;
