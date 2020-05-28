@@ -7,7 +7,7 @@ using BalisWpf.Annotations;
 
 namespace BalisWpf
 {
-    public class NbRbVm: INotifyPropertyChanged
+    public class NbRbVm : INotifyPropertyChanged
     {
         private NbRates _yesterday = new NbRates();
         private NbRates _today = new NbRates();
@@ -20,6 +20,7 @@ namespace BalisWpf
             {
                 if (Equals(value, _yesterday)) return;
                 _yesterday = value;
+                OnPropertyChanged("YesterdayToScreen");
                 OnPropertyChanged("NbRbList");
             }
         }
@@ -31,6 +32,7 @@ namespace BalisWpf
             {
                 if (Equals(value, _today)) return;
                 _today = value;
+                OnPropertyChanged("TodayToScreen");
                 OnPropertyChanged("NbRbList");
             }
         }
@@ -47,6 +49,8 @@ namespace BalisWpf
         }
 
         public List<string> NbRbList => F();
+        public List<string> YesterdayToScreen => DayToScreen(Yesterday);
+        public List<string> TodayToScreen => DayToScreen(Today);
 
         public List<string> F()
         {
@@ -65,8 +69,41 @@ namespace BalisWpf
             result.Add($"Usd  {day.Usd}");
             result.Add($"Eur  {day.Eur}");
             result.Add($"Rub  {day.Rub}");
+            result.Add("");
             result.Add($"Корзина  {day.Basket:0.0000}");
             result.Add("");
+            return result;
+        }
+
+        public List<string> NamesToScreen =>
+            new List<string>()
+            {
+                "",
+                "Usd",
+                "Euro",
+                "100 Rub",
+                "",
+                "Корзина",
+                "",
+                "Eur / Usd",
+                "Usd / Rub",
+                "Eur / Rub",
+            };
+
+
+        public List<string> DayToScreen(NbRates day)
+        {
+            var result = new List<string>();
+            result.Add($"на {day.Date.ToString("dd/MM", CultureInfo.GetCultureInfo("en-US"))}");
+            result.Add($"{day.Usd:0.0000}");
+            result.Add($"{day.Eur:0.0000}");
+            result.Add($"{day.Rub:0.0000}");
+            result.Add("");
+            result.Add($"{day.Basket:0.0000}");
+            result.Add("");
+            result.Add($"{day.EurUsd:0.0000}");
+            result.Add($"{day.UsdRub:0.00}");
+            result.Add($"{day.EurRub:0.00}");
             return result;
         }
 

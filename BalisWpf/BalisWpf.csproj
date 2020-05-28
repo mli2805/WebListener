@@ -72,9 +72,19 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="BelStock\BelStockPoller.cs" />
-    <Compile Include="BelStock\BelStockVm.cs" />
+    <Compile Include="BelStock\BelStockView.xaml.cs">
+      <DependentUpon>BelStockView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BelStock\BelStockViewModel.cs" />
+    <Compile Include="Forecast\ForecastView.xaml.cs">
+      <DependentUpon>ForecastView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forecast\ForecastVm.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="NbRb\NbRbView.xaml.cs">
+      <DependentUpon>NbRbView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NbRb\NbRbViewModel.cs" />
     <Compile Include="NbRb\NbRbVm.cs" />
     <Compile Include="NbRb\NbRbPoller.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -85,10 +95,29 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TradingView\TradingViewPoller.cs" />
+    <Compile Include="TradingView\TradingViewView.xaml.cs">
+      <DependentUpon>TradingViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TradingView\TradingViewVm.cs" />
+    <Page Include="BelStock\BelStockView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forecast\ForecastView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NbRb\NbRbView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TradingView\TradingViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

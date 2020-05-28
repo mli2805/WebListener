@@ -12,7 +12,14 @@ namespace BalisWpf
             {
                 var stock = await extractor.GetStockAsync();
                 if (stock != null)
-                    vm.BelStockVm.BelStock = stock;
+                {
+                    if (stock.TradingState == BelStockState.TerminatedAlready 
+                        && vm.BelStockViewModel.BelStock.TradingState != BelStockState.TerminatedAlready)
+                    {
+                        //TODO: forecast initialize with new basket
+                    }
+                    vm.BelStockViewModel.BelStock = stock;
+                }
 
                 await Task.Delay(7000);
 

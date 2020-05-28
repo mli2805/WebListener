@@ -1,11 +1,10 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using BalisStandard;
-using BalisWpf.Annotations;
+using Caliburn.Micro;
 
 namespace BalisWpf
 {
-    public class BelStockVm : INotifyPropertyChanged
+    public class BelStockViewModel : Screen
     {
         public NbRates NbRates { get; set; } = new NbRates();
 
@@ -17,17 +16,25 @@ namespace BalisWpf
             {
                 if (Equals(value, _belStock)) return;
                 _belStock = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(UsdString));
-                OnPropertyChanged(nameof(EurString));
-                OnPropertyChanged(nameof(RubString));
-                OnPropertyChanged(nameof(NewBasketString));
-                OnPropertyChanged(nameof(EurUsdString));
-                OnPropertyChanged(nameof(EurRubString));
-                OnPropertyChanged(nameof(UsdRubString));
-                OnPropertyChanged(nameof(Title));
+                NotifyOfPropertyChange(nameof(Title));
+                NotifyOfPropertyChange(nameof(StockToScreen));
             }
         }
+
+
+        public List<string> StockToScreen =>
+           new List<string>()
+           {
+               UsdString,
+               EurString,
+               RubString,
+               "",
+               BuildNewBasketString(),
+               "",
+               EurUsdString,
+               UsdRubString,
+               EurRubString,
+           };
 
         public string DuringTradingSessionTemplate(BelStockCurrency currency, double nbrate)
         {
@@ -69,7 +76,6 @@ namespace BalisWpf
 
         private double _basketChangesDelta;
         private double _basketChangesCurrent;
-        public string NewBasketString => BuildNewBasketString();
         public string EurUsdString => _belStock.Eur.Average.Equals(-1) || _belStock.Usd.Average.Equals(-1) ? "" : $"{_belStock.Eur.Average / _belStock.Usd.Average:#,0.0000}";
         public string UsdRubString => _belStock.Usd.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) ? "" : $"{_belStock.Usd.Average * 100 / _belStock.Rub.Average:#,0.00}";
         public string EurRubString => _belStock.Eur.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) ? "" : $"{_belStock.Eur.Average * 100 / _belStock.Rub.Average:#,0.00}";
@@ -94,12 +100,7 @@ namespace BalisWpf
                    $"{_basketChangesDelta:+#,0.00;-#,0.00} п";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void ShowBelStockArchive() { }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

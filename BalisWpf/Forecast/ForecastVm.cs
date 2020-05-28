@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using BalisStandard;
 using BalisWpf.Annotations;
@@ -24,6 +25,17 @@ namespace BalisWpf
             : $"{Basket:#,0.0000} ( {((Basket - CurrentNbRates.Basket)*10000):+#,0;-#,0;0} п / {((Basket/CurrentNbRates.Basket - 1)*100):+#,0.00;-#,0.00;0}% )"
             ;
 
+        public List<string> ForecastList =>
+            new List<string>()
+            {
+                "",
+                UsdString,
+                EurString,
+                RubString,
+                "",
+                BasketString
+            };
+
         public string Caption => "Прогноз";
         public NbRates CurrentNbRates;
         public double Basket;
@@ -36,6 +48,7 @@ namespace BalisWpf
 
         public void CalculateNewRates(TradingViewRates forex)
         {
+            if (CurrentNbRates == null) return;
             Usd = NbBasket.ForecastUsingForex(Basket, forex);
             Eur = Usd * forex.EurUsd.Lp;
             Rub = Usd / forex.UsdRub.Lp * 100; // в корзине курс за 1 рур , а храним за 100
@@ -43,10 +56,7 @@ namespace BalisWpf
             EurDelta = Eur - CurrentNbRates.Eur;
             RubDelta = Rub - CurrentNbRates.Rub;
 
-            OnPropertyChanged("UsdString");
-            OnPropertyChanged("EurString");
-            OnPropertyChanged("RubString");
-            OnPropertyChanged("BasketString");
+            OnPropertyChanged("ForecastList");
         }
 
         private void CalculateNewRatesFromRub(TradingViewRates forex)
