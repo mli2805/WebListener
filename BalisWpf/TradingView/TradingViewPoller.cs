@@ -48,7 +48,14 @@ namespace BalisWpf
 
         private void TradingViewExtractorCrossRateFetched(object sender, List<string> e)
         {
-            Application.Current.Dispatcher.Invoke(() => ApplyRates(e));
+            try
+            {
+                Application.Current.Dispatcher.Invoke(() => ApplyRates(e));
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
         }
 
         private void ApplyRates(List<string> e)

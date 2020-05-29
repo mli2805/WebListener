@@ -9,6 +9,7 @@ namespace BalisStandard
 {
     public class BpsExtractor : IRatesLineExtractor
     {
+        public string BankTitle { get; set; } = "Белпросстрой";
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
             var json = await GetJsonAsync();

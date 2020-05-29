@@ -10,4 +10,8 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.112" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UtilsLib\UtilsLib.csproj" />
+  </ItemGroup>
+
 </Project>

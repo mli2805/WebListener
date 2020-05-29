@@ -7,6 +7,7 @@ namespace BalisStandard
 {
     public class BibExtractor : IRatesLineExtractor
     {
+        public string BankTitle { get; set; } = "Белинвест";
         const string NewMainPage = "https://www.belinvestbank.by/exchange-rates";
         const string NewCardRates = "courses-tab-cashless-content";
 

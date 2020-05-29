@@ -57,7 +57,8 @@ namespace WebListener
                     return null;
             }
         }
-        public void ApplyKomBankRateLine(KomBankRates result, ObservableCollection<KomBankRates> rows)
+
+        private void ApplyKomBankRateLine(KomBankRates result, ObservableCollection<KomBankRates> rows)
         {
             if (result.StartedFrom == "error" || result.StartedFrom == "") return;
 
@@ -66,7 +67,6 @@ namespace WebListener
                 ApplyFirstLine(result, rows);
             else if (result.Bank == "БПС" && result.IsOlder(oldLine))
             {
-                return;
             }
             else if (result.IsDifferent(oldLine))
             {

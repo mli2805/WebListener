@@ -7,6 +7,7 @@ namespace BalisStandard
 {
     public class DabrabytExtractor : IRatesLineExtractor
     {
+        public string BankTitle { get; set; } = "Дабрабыт";
         private const string Url = @"https://www.mmbank.by/currency_exchange/";
 
         private const string Nal = "НАЛИЧНЫЕ";

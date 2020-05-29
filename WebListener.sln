@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalisConsole", "BalisConsol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalisWpf", "BalisWpf\BalisWpf.csproj", "{53D4A7F2-14EE-49B3-95B0-EB1FAD7D958A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalisStandard", "BalisStandard\BalisStandard.csproj", "{A33957AC-CC26-4CED-A859-F94D14AF172B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalisStandard", "BalisStandard\BalisStandard.csproj", "{A33957AC-CC26-4CED-A859-F94D14AF172B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsLib", "UtilsLib\UtilsLib.csproj", "{42D2E901-D713-4494-97E5-2F2E64A3A4D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{A33957AC-CC26-4CED-A859-F94D14AF172B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A33957AC-CC26-4CED-A859-F94D14AF172B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A33957AC-CC26-4CED-A859-F94D14AF172B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42D2E901-D713-4494-97E5-2F2E64A3A4D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42D2E901-D713-4494-97E5-2F2E64A3A4D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42D2E901-D713-4494-97E5-2F2E64A3A4D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42D2E901-D713-4494-97E5-2F2E64A3A4D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

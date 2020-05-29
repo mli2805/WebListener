@@ -9,8 +9,10 @@ namespace BalisStandard
     // https://jsoneditoronline.org/
     public class PriorExtractor : IRatesLineExtractor
     {
+        public string BankTitle { get; set; } = "Приор";
         private const string Url =
             "https://www.priorbank.by/main?p_p_id=ExchangeRates_INSTANCE_ExchangeRatesCalculatorView&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=ajaxSideBarConverterGetRates&p_p_cacheability=cacheLevelPage";
+
 
 
         public async Task<KomBankRatesLine> GetRatesLineAsync()

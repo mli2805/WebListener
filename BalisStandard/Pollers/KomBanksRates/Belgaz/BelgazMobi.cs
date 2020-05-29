@@ -8,6 +8,7 @@ namespace BalisStandard
 {
     public class BelgazMobi : IRatesLineExtractor
     {
+        public string BankTitle { get; set; } = "Белгаз";
         private DateTime _startDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private const string Url = "https://mobapp-frontend.bgpb.by/telecard-clientapi/rest/v4/andorid_5.12.1/currentRates?branch=561&type_rate=PNN&type_rate=SNN&type_rate=ENN&base_crnc=*&all_bounds=true";
 
