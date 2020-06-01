@@ -6,7 +6,8 @@ namespace BalisWpf
 {
     public class BelStockViewModel : Screen
     {
-        public NbRates NbRates { get; set; } = new NbRates();
+        public NbRates PreviousTradeDayNbRates { get; set; } = new NbRates();
+        public NbRates TodayNbRates { get; set; } = new NbRates();
 
         private BelStock _belStock = new BelStock();
         public BelStock BelStock
@@ -25,9 +26,9 @@ namespace BalisWpf
         public List<string> StockToScreen =>
            new List<string>()
            {
-               UsdString,
-               EurString,
-               RubString,
+               OneStockCurrencyTemplate(_belStock.Usd, PreviousTradeDayNbRates.Usd, TodayNbRates.Usd),
+               OneStockCurrencyTemplate(_belStock.Eur, PreviousTradeDayNbRates.Eur, TodayNbRates.Eur),
+               OneStockCurrencyTemplate(_belStock.Rub, PreviousTradeDayNbRates.Rub, TodayNbRates.Rub),
                "",
                BuildNewBasketString(),
                "",
@@ -36,25 +37,22 @@ namespace BalisWpf
                EurRubString,
            };
 
-        public string DuringTradingSessionTemplate(BelStockCurrency currency, double nbrate)
+        private string OneStockCurrencyTemplate(BelStockCurrency currency, double previousNbRate, double todayNbRate)
+        {
+            return currency.Average.Equals(-1)
+                ? $" вчерашний курс {todayNbRate}"
+                : BelStock.TradingState == BelStockState.HasNotStartedYet
+                    ? OneCurrencyTemplate(currency, previousNbRate)
+                    : OneCurrencyTemplate(currency, todayNbRate);
+        }
+
+        private string OneCurrencyTemplate(BelStockCurrency currency, double nbrate)
         {
             var absoluteChanges = (currency.Average - nbrate).ToString("+0.0000;- 0.0000;0");
             var relativeChanges = ((currency.Average - nbrate) * 100 / nbrate).ToString("+0.00;- 0.00;0");
             var changes = $"({absoluteChanges} {relativeChanges}%)";
             return $"{currency.Average:#,0.0000} {changes}  {currency.Volume} млн {currency.LastDeal:#,0.0000}";
         }
-
-        public string UsdString => _belStock.Usd.Average.Equals(-1)
-            ? $" вчерашний курс {NbRates.Usd}"
-            : DuringTradingSessionTemplate(_belStock.Usd, NbRates.Usd);
-
-        public string EurString => _belStock.Eur.Average.Equals(-1)
-            ? $" вчерашний курс {NbRates.Eur}"
-            : DuringTradingSessionTemplate(_belStock.Eur, NbRates.Eur);
-
-        public string RubString => _belStock.Rub.Average.Equals(-1)
-            ? $" вчерашний курс {NbRates.Rub}"
-            : DuringTradingSessionTemplate(_belStock.Rub, NbRates.Rub);
 
         public string Title
         {
@@ -74,32 +72,27 @@ namespace BalisWpf
             }
         }
 
-        private double _basketChangesDelta;
-        private double _basketChangesCurrent;
         public string EurUsdString => _belStock.Eur.Average.Equals(-1) || _belStock.Usd.Average.Equals(-1) ? "" : $"{_belStock.Eur.Average / _belStock.Usd.Average:#,0.0000}";
         public string UsdRubString => _belStock.Usd.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) ? "" : $"{_belStock.Usd.Average * 100 / _belStock.Rub.Average:#,0.00}";
         public string EurRubString => _belStock.Eur.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) ? "" : $"{_belStock.Eur.Average * 100 / _belStock.Rub.Average:#,0.00}";
         private double CalculateNewBasket()
         {
-            var usd = _belStock.Usd.Average.Equals(-1) ? NbRates.Usd : _belStock.Usd.Average;
-            var eur = _belStock.Eur.Average.Equals(-1) ? NbRates.Eur : _belStock.Eur.Average;
-            var rub = _belStock.Rub.Average.Equals(-1) ? NbRates.Rub : _belStock.Rub.Average;
+            var usd = _belStock.Usd.Average.Equals(-1) ? TodayNbRates.Usd : _belStock.Usd.Average;
+            var eur = _belStock.Eur.Average.Equals(-1) ? TodayNbRates.Eur : _belStock.Eur.Average;
+            var rub = _belStock.Rub.Average.Equals(-1) ? TodayNbRates.Rub : _belStock.Rub.Average;
             return NbBasket.Calculate(usd, eur, rub / 100);
         }
         private string BuildNewBasketString()
         {
+            var oldBasket = _belStock.TradingState == BelStockState.HasNotStartedYet
+                ? PreviousTradeDayNbRates.Basket
+                : TodayNbRates.Basket;
             var newBasket = CalculateNewBasket();
-            var basketChanges = (newBasket - NbRates.Basket) * 10000;
-            if (!basketChanges.Equals(_basketChangesCurrent))
-            {
-                if (!_basketChangesCurrent.Equals(0)) _basketChangesDelta = basketChanges - _basketChangesCurrent;
-                _basketChangesCurrent = basketChanges;
-            }
             return $"{newBasket:#,0.0000} " +
-                   $"( {((newBasket - NbRates.Basket) * 10000):+0.00;-0.00} п / {((newBasket - NbRates.Basket) * 100 / newBasket):+0.00;-0.00}% ) " +
-                   $"{_basketChangesDelta:+#,0.00;-#,0.00} п";
+                   $"( {((newBasket - oldBasket) * 10000):+0.00;-0.00} п / {((newBasket - oldBasket) * 100 / newBasket):+0.00;-0.00}% ) ";
         }
 
+     
         public void ShowBelStockArchive() { }
 
     }

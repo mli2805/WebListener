@@ -12,6 +12,7 @@ namespace BalisWpf
             Model = new ShellVm();
 
             StartNbRbPoller();
+            Task.Delay(3000).Wait();
             StartBelStockPoller();
             StartTradingViewPoller();
         }

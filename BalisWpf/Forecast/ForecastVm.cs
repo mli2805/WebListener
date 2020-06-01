@@ -20,9 +20,9 @@ namespace BalisWpf
         public string EurString => $"Eur  {Eur:#,0.0000}   ( {EurDelta:+#,0.0000;-#,0.0000;0} / {(EurDelta*100/Eur):+0.00;-0.00;0}% )";
         public string RubString => $"Rub  {Rub:#,0.0000}   ( {RubDelta:+#,0.0000;-#,0.0000;0} / {(RubDelta*100/Rub):+0.00;-0.00;0}% )";
 
-        public string BasketString => CurrentNbRates == null || Basket.Equals(CurrentNbRates.Basket)
-            ? $"{Basket:#,0.0000} "
-            : $"{Basket:#,0.0000} ( {((Basket - CurrentNbRates.Basket)*10000):+#,0;-#,0;0} п / {((Basket/CurrentNbRates.Basket - 1)*100):+#,0.00;-#,0.00;0}% )"
+        public string BasketString => CurrentNbRates == null || _basket.Equals(CurrentNbRates.Basket)
+            ? $"{_basket:#,0.0000} "
+            : $"{_basket:#,0.0000} ( {((_basket - CurrentNbRates.Basket)*10000):+#,0;-#,0;0} п / {((_basket/CurrentNbRates.Basket - 1)*100):+#,0.00;-#,0.00;0}% )"
             ;
 
         public List<string> ForecastList =>
@@ -37,19 +37,19 @@ namespace BalisWpf
             };
 
         public string Caption => "Прогноз";
-        public NbRates CurrentNbRates;
-        public double Basket;
+        private NbRates CurrentNbRates;
+        private double _basket;
        
         public void Initialize(NbRates currentNbRates)
         {
             CurrentNbRates = currentNbRates;
-            Basket = CurrentNbRates.Basket;
+            _basket = CurrentNbRates.Basket;
         }
 
         public void CalculateNewRates(TradingViewRates forex)
         {
             if (CurrentNbRates == null) return;
-            Usd = NbBasket.ForecastUsingForex(Basket, forex);
+            Usd = NbBasket.ForecastUsingForex(_basket, forex);
             Eur = Usd * forex.EurUsd.Lp;
             Rub = Usd / forex.UsdRub.Lp * 100; // в корзине курс за 1 рур , а храним за 100
             UsdDelta = Usd - CurrentNbRates.Usd;
@@ -63,7 +63,7 @@ namespace BalisWpf
         {
             Usd = (Rub / 100) * forex.UsdRub.Lp;
             Eur = (Rub / 100) * forex.EurUsd.Lp * forex.UsdRub.Lp;
-            Basket = NbBasket.Calculate(Usd, Eur, Rub / 100);
+            _basket = NbBasket.Calculate(Usd, Eur, Rub / 100);
 
             UsdDelta = Usd - CurrentNbRates.Usd;
             EurDelta = Eur - CurrentNbRates.Eur;
@@ -72,7 +72,7 @@ namespace BalisWpf
 
         public void ForecastRatesFromAnotherBasket(double anotherBasket, TradingViewRates currentForex)
         {
-            Basket = anotherBasket;
+            _basket = anotherBasket;
             CalculateNewRates(currentForex);
         }
 

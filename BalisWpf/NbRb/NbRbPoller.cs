@@ -20,7 +20,7 @@ namespace BalisWpf
                         {
                             vm.NbRbViewModel.NbRbVm.PreviousTradeDay = today; // force to (re)read Previous day if Today changed
                             vm.NbRbViewModel.NbRbVm.Today = today;
-                            vm.BelStockViewModel.NbRates = today;
+                            vm.BelStockViewModel.TodayNbRates = today;
                             vm.ForecastVm.Initialize(today);
                             break;
                         }
@@ -32,7 +32,10 @@ namespace BalisWpf
                 {
                     var previousTradeDay = await NbRbRatesExtractor.GetNbDayAsync(vm.NbRbViewModel.NbRbVm.PreviousTradeDay.Date.AddDays(-1));
                     if (previousTradeDay != null)
+                    {
                         vm.NbRbViewModel.NbRbVm.PreviousTradeDay = previousTradeDay;
+                        vm.BelStockViewModel.PreviousTradeDayNbRates = previousTradeDay;
+                    }
                     else
                         await Task.Delay(60000);
                 }

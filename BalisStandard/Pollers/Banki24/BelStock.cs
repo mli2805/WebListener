@@ -20,5 +20,16 @@ namespace BalisStandard
             Eur = new BelStockCurrency();
             Rub = new BelStockCurrency();
         }
+
+        public NbRates GetTomorrow()
+        {
+            return new NbRates()
+            {
+                Date= TradingDate.AddDays(1),
+                Usd = Usd.Average,
+                Eur = Eur.Average,
+                Rub = Rub.Average,
+            };
+        }
     }
 }

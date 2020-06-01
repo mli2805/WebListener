@@ -16,7 +16,8 @@ namespace BalisWpf
                     if (stock.TradingState == BelStockState.TerminatedAlready 
                         && vm.BelStockViewModel.BelStock.TradingState != BelStockState.TerminatedAlready)
                     {
-                        //TODO: forecast initialize with new basket
+                       
+                        vm.ForecastVm.Initialize(stock.GetTomorrow());
                     }
                     vm.BelStockViewModel.BelStock = stock;
                 }
