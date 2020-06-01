@@ -8,7 +8,7 @@
     <DockPanel >
         <TextBlock Text="Курсы НБ РБ" TextAlignment="Center" DockPanel.Dock="Top" Margin="28,0,0,0"/>
         <ListBox DockPanel.Dock="Left" ItemsSource="{Binding NbRbVm.NamesToScreen}" BorderThickness="0"/>
-        <ListBox DockPanel.Dock="Left" ItemsSource="{Binding NbRbVm.YesterdayToScreen}" BorderThickness="0"  HorizontalContentAlignment="Right"/>
+        <ListBox DockPanel.Dock="Left" ItemsSource="{Binding NbRbVm.PreviousTradeDayToScreen}" BorderThickness="0"  HorizontalContentAlignment="Right"/>
         <ListBox DockPanel.Dock="Left" ItemsSource="{Binding NbRbVm.TodayToScreen}" BorderThickness="0" HorizontalContentAlignment="Right"/>
     </DockPanel>
 

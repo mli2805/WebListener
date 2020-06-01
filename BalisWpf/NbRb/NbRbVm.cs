@@ -9,18 +9,18 @@ namespace BalisWpf
 {
     public class NbRbVm : INotifyPropertyChanged
     {
-        private NbRates _yesterday = new NbRates();
+        private NbRates _previousTradeDay = new NbRates();
         private NbRates _today = new NbRates();
         private NbRates _tomorrow = new NbRates();
 
-        public NbRates Yesterday
+        public NbRates PreviousTradeDay
         {
-            get => _yesterday;
+            get => _previousTradeDay;
             set
             {
-                if (Equals(value, _yesterday)) return;
-                _yesterday = value;
-                OnPropertyChanged("YesterdayToScreen");
+                if (Equals(value, _previousTradeDay)) return;
+                _previousTradeDay = value;
+                OnPropertyChanged("PreviousTradeDayToScreen");
                 OnPropertyChanged("NbRbList");
             }
         }
@@ -49,13 +49,13 @@ namespace BalisWpf
         }
 
         public List<string> NbRbList => F();
-        public List<string> YesterdayToScreen => DayToScreen(Yesterday);
+        public List<string> PreviousTradeDayToScreen => DayToScreen(PreviousTradeDay);
         public List<string> TodayToScreen => DayToScreen(Today);
 
         public List<string> F()
         {
             var result = new List<string>();
-            result.AddRange(FDay(Yesterday));
+            result.AddRange(FDay(PreviousTradeDay));
             result.AddRange(FDay(Today));
             if (Tomorrow.Date.Year > 1)
                 result.AddRange(FDay(Tomorrow));

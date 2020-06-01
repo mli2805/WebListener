@@ -13,5 +13,11 @@ namespace BalisStandard
         public double UsdRub => Usd * 100 / Rub;
         public double EurRub => Eur * 100 / Rub;
 
+        public bool Equals(NbRates other)
+        {
+            if (other == null) return false;
+            return Usd.Equals(other.Usd) && Eur.Equals(other.Eur) && Rub.Equals(other.Rub);
+        }
+
     }
 }
