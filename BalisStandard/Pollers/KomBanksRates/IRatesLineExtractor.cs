@@ -4,7 +4,7 @@ namespace BalisStandard
 {
     public interface IRatesLineExtractor
     {
-        string BankTitle { get; set; } 
+        string BankTitle { get; } 
         Task<KomBankRatesLine> GetRatesLineAsync();
     }
 }

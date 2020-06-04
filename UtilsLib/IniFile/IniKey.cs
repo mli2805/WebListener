@@ -136,5 +136,8 @@
 
         // WebApi
         BindingProtocol,
+
+        // Sqlite
+        DbPath,
     }
 }

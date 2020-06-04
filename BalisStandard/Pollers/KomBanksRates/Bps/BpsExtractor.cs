@@ -9,7 +9,7 @@ namespace BalisStandard
 {
     public class BpsExtractor : IRatesLineExtractor
     {
-        public string BankTitle { get; set; } = "Белпросстрой";
+        public string BankTitle => KomBankE.Bps.ToString().ToUpper();
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
             var json = await GetJsonAsync();

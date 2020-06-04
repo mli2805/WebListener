@@ -22,5 +22,7 @@
         WebApi,
         Migrator,
         LoadTesting,
+
+        Sqlite,
     }
 }

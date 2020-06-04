@@ -43,8 +43,16 @@ namespace BanksListener
             services.AddSingleton<IMyLog>(logFile);
             logFile.AppendLine("BankListener WebApi service started");
 
-            new KomBanksPoller().Poll(logFile);
-            Banki24ArchiveManager.RunUpdatingInBackground();
+            var googleDrive = PathFinder.GetGoogleDriveDirectory();
+            string dataSourcePath;
+            if (string.IsNullOrEmpty(googleDrive))
+                dataSourcePath = @"..\bali.db";
+            else
+                dataSourcePath = googleDrive + @"\BanksListener\bali.db";
+            logFile.AppendLine($"dataSourcePath: {dataSourcePath}");
+            iniFile.Write(IniSection.Sqlite, IniKey.DbPath, dataSourcePath);
+            new KomBanksPoller(logFile, dataSourcePath).Poll();
+//            Banki24ArchiveManager.RunUpdatingInBackground();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +63,7 @@ namespace BanksListener
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 

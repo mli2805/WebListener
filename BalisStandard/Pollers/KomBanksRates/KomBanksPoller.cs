@@ -1,4 +1,7 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using UtilsLib;
 
 namespace BalisStandard
@@ -6,21 +9,26 @@ namespace BalisStandard
     public class KomBanksPoller
     {
         private IMyLog _logFile;
+        private readonly string _dbPath;
 
-        public async void Poll(IMyLog logFile)
+        public KomBanksPoller(IMyLog logFile, string dbPath)
         {
             _logFile = logFile;
+            _dbPath = dbPath;
+        }
 
+        public async void Poll()
+        {
             await Task.Factory.StartNew(() => Poll(new BelgazMobi()));
             await Task.Factory.StartNew(() => Poll(new BibExtractor()));
             await Task.Factory.StartNew(() => Poll(new PriorExtractor()));
             await Task.Factory.StartNew(() => Poll(new DabrabytExtractor()));
-            await Task.Factory.StartNew(() => Poll(new BpsExtractor()));
+            //            await Task.Factory.StartNew(() => Poll(new BpsExtractor()));
         }
 
         private async void Poll(IRatesLineExtractor ratesLineExtractor)
         {
-            _logFile.AppendLine($"{ratesLineExtractor.BankTitle} экстрактор запущен");
+            _logFile.AppendLine($"{ratesLineExtractor.BankTitle} extractor started");
             while (true)
             {
                 KomBankRatesLine rate;
@@ -31,12 +39,32 @@ namespace BalisStandard
                     await Task.Delay(2000);
                 }
 
-                var unused = await rate.Persist();
+                var unused = await Persist(rate);
                 await Task.Delay(15000);
 
             }
             // ReSharper disable once FunctionNeverReturns
         }
-     
+
+        private async Task<int> Persist(KomBankRatesLine rate)
+        {
+            using (BanksListenerContext db = new BanksListenerContext(_dbPath))
+            {
+                var last = await db.KomBankRates.Where(l => l.Bank == rate.Bank).OrderBy(c => c.LastCheck).LastOrDefaultAsync();
+                if (last == null || last.IsDifferent(rate))
+                {
+                    db.KomBankRates.Add(rate);
+                    _logFile.AppendLine($"{rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
+                }
+                else
+                {
+                    last.LastCheck = DateTime.Now;
+                    _logFile.AppendLine($"{rate.Bank} rate checked");
+                }
+
+                return await db.SaveChangesAsync();
+            }
+        }
+
     }
 }

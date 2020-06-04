@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using UtilsLib;
 
 namespace BalisStandard
 {
-    public static class Banki24ArchiveManager
+    public class Banki24ArchiveManager
     {
-        public static void RunUpdatingInBackground()
+        private readonly IMyLog _logFile;
+        private readonly string _dbPath;
+
+        public Banki24ArchiveManager(IMyLog logFile, string dbPath)
+        {
+            _logFile = logFile;
+            _dbPath = dbPath;
+        }
+
+        public void RunUpdatingInBackground()
         {
             var bw = new BackgroundWorker();
             bw.WorkerReportsProgress = true;
@@ -18,36 +28,36 @@ namespace BalisStandard
             bw.RunWorkerAsync();
         }
 
-        private static void Bw_DoWork(object sender, DoWorkEventArgs e)
+        private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
             UpdateDatabase(worker);
         }
 
         // UI thread
-        private static void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var st = (string)e.UserState;
-            Console.WriteLine(st);
+            _logFile.AppendLine(st);
         }
 
-        private static void UpdateDatabase(BackgroundWorker worker)
+        private void UpdateDatabase(BackgroundWorker worker)
         {
             var date =  GetDateToStartFrom().Result;
             var newLines =  GetArchiveFromDate(date, worker).Result;
             PersistRangeOfLines(newLines).Wait();
         }
 
-        private static async Task<int> PersistRangeOfLines(IEnumerable<BelStockArchiveOneCurrencyDay> newLines)
+        private async Task<int> PersistRangeOfLines(IEnumerable<BelStockArchiveOneCurrencyDay> newLines)
         {
-            using (BanksListenerContext db = new BanksListenerContext())
+            using (BanksListenerContext db = new BanksListenerContext(_dbPath))
             {
                 db.BelStockArchive.AddRange(newLines);
                 return await db.SaveChangesAsync();
             }
         }
 
-        private static async Task<List<BelStockArchiveOneCurrencyDay>> GetArchiveFromDate(DateTime date, BackgroundWorker worker)
+        private async Task<List<BelStockArchiveOneCurrencyDay>> GetArchiveFromDate(DateTime date, BackgroundWorker worker)
         {
             var newLines = new List<BelStockArchiveOneCurrencyDay>();
             while (date <= DateTime.Today.Date)
@@ -70,9 +80,9 @@ namespace BalisStandard
             return newLines;
         }
 
-        private static async Task<DateTime> GetDateToStartFrom()
+        private async Task<DateTime> GetDateToStartFrom()
         {
-            using (BanksListenerContext db = new BanksListenerContext())
+            using (BanksListenerContext db = new BanksListenerContext(_dbPath))
             {
                 var lastDateLine = db.BelStockArchive.OrderBy(d => d.Date).LastOrDefault();
                 if (lastDateLine == null)
