@@ -27,10 +27,21 @@ namespace BanksListener.Controllers
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
 
             var result = new List<KomBankRatesLine>();
-            var komBankRatesLines = db.KomBankRates.Where(r => r.Bank == "BIB").OrderByDescending(l => l.LastCheck).Take(5);
-            result.AddRange(komBankRatesLines);
             result.Add(await db.KomBankRates.Where(r => r.Bank == "BGPB").OrderByDescending(l=>l.LastCheck).FirstOrDefaultAsync());
+            result.Add(await db.KomBankRates.Where(r => r.Bank == "BIB").OrderByDescending(l=>l.LastCheck).FirstOrDefaultAsync());
             return result;
+        }
+
+        [HttpGet("get-last-five/{bankTitle}")]
+
+        public async Task<List<KomBankRatesLine>> GetLastFive(string bankTitle)
+        {
+            await using BanksListenerContext db = new BanksListenerContext(_dbPath);
+            return db.KomBankRates
+                .Where(r => r.Bank == bankTitle.ToUpper())
+                .OrderByDescending(l => l.LastCheck)
+                .Take(5)
+                .ToList();
         }
     }
 }
