@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:balisWpf="clr-namespace:BalisWpf"
-             mc:Ignorable="d" 
-             >
+             mc:Ignorable="d" d:DataContext="{d:DesignData KomBankViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="CenterAlign">
@@ -23,7 +22,13 @@
                 <balisWpf:ScrollToBottomOnAddBehavior />
             </i:Interaction.Behaviors>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{Binding KomBank}" Width="75" Binding="{Binding StartedFromForGrid}"/>
+                <DataGridTextColumn Width="75" Binding="{Binding StartedFromForGrid}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DataContext.BankTitle , RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
 
                 <DataGridTextColumn Header="  Usd" Width="110" Binding="{Binding Usd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
                 <DataGridTextColumn Header="  Eur" Width="110" Binding="{Binding Eur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>

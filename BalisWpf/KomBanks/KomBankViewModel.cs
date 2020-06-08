@@ -15,6 +15,7 @@ namespace BalisWpf
             cfg => cfg.AddProfile<MappingProfile>()).CreateMapper();
 
         public KomBankE KomBank;
+        public string BankTitle => KomBank.GetAbbreviation();
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
         public KomBankViewModel(KomBankE komBank)
