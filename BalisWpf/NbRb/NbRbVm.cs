@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using BalisStandard;
-using BalisWpf.Annotations;
 
 namespace BalisWpf
 {
@@ -20,8 +19,8 @@ namespace BalisWpf
             {
                 if (Equals(value, _previousTradeDay)) return;
                 _previousTradeDay = value;
-                OnPropertyChanged("PreviousTradeDayToScreen");
-                OnPropertyChanged("NbRbList");
+                OnPropertyChanged(nameof(PreviousTradeDayToScreen));
+                OnPropertyChanged(nameof(NbRbList));
             }
         }
 
@@ -32,8 +31,8 @@ namespace BalisWpf
             {
                 if (Equals(value, _today)) return;
                 _today = value;
-                OnPropertyChanged("TodayToScreen");
-                OnPropertyChanged("NbRbList");
+                OnPropertyChanged(nameof(TodayToScreen));
+                OnPropertyChanged(nameof(NbRbList));
             }
         }
 
@@ -44,7 +43,7 @@ namespace BalisWpf
             {
                 if (Equals(value, _tomorrow)) return;
                 _tomorrow = value;
-                OnPropertyChanged("NbRbList");
+                OnPropertyChanged(nameof(NbRbList));
             }
         }
 

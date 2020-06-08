@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using BalisStandard;
-using BalisWpf.Annotations;
 
 namespace BalisWpf
 {
@@ -56,7 +55,7 @@ namespace BalisWpf
             EurDelta = Eur - CurrentNbRates.Eur;
             RubDelta = Rub - CurrentNbRates.Rub;
 
-            OnPropertyChanged("ForecastList");
+            OnPropertyChanged(nameof(ForecastList));
         }
 
         private void CalculateNewRatesFromRub(TradingViewRates forex)

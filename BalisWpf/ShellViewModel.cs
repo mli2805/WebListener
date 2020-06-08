@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using BalisStandard;
+using UtilsLib;
 
 namespace BalisWpf
 {
@@ -7,7 +8,7 @@ namespace BalisWpf
     {
         public ShellVm Model { get; set; }
 
-        public ShellViewModel()
+        public ShellViewModel(IMyLog logFile)
         {
             Model = new ShellVm();
 
@@ -16,12 +17,12 @@ namespace BalisWpf
             StartBelStockPoller();
             StartTradingViewPollers();
 
-            StartKomBankPollers();
+            StartKomBankPollers(logFile);
         }
 
-        private void StartKomBankPollers()
+        private void StartKomBankPollers(IMyLog logFile)
         {
-            Task.Factory.StartNew(() => Model.KomBankListViewModel.Start());
+            Task.Factory.StartNew( () => Model.KomBankListViewModel.Start(logFile));
         }
 
         private void StartTradingViewPollers()

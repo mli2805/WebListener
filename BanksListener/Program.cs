@@ -1,3 +1,4 @@
+using Autofac;
 using BalisStandard;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -9,7 +10,10 @@ namespace BanksListener
     {
         public static void Main(string[] args)
         {
-            StartKomBankPollers();
+            var builder = new ContainerBuilder().WithProduction();
+            var container = builder.Build();
+
+            StartKomBankPollers(container);
 //            Banki24ArchiveManager.RunUpdatingInBackground();
             CreateHostBuilder(args).Build().Run();
         }
@@ -21,13 +25,10 @@ namespace BanksListener
                     webBuilder.UseStartup<Startup>();
                 });
 
-        private static void StartKomBankPollers()
+        private static void StartKomBankPollers(ILifetimeScope container)
         {
-            var iniFile = new IniFile();
-            iniFile.AssignFile("baliSelf.ini");
-
-            var logFile = new LogFile(iniFile);
-            logFile.AssignFile("baliSelf.log");
+            var iniFile = container.Resolve<IniFile>();
+            var logFile = container.Resolve<IMyLog>();
             logFile.AppendLine("BankListener pollers started");
 
             var googleDrive = PathFinder.GetGoogleDriveDirectory();
@@ -38,7 +39,7 @@ namespace BanksListener
                 dataSourcePath = googleDrive + @"\BanksListener\bali.db";
             logFile.AppendLine($"dataSourcePath: {dataSourcePath}");
             iniFile.Write(IniSection.Sqlite, IniKey.DbPath, dataSourcePath);
-            new KomBanksPoller(logFile, dataSourcePath).Poll();
+            new KomBanksPoller(container).Poll();
         }
     }
 }

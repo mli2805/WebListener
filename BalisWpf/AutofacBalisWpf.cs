@@ -8,8 +8,8 @@ namespace BalisWpf
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
-            builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
+            builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
 
         }

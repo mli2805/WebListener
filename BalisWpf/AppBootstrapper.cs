@@ -44,12 +44,10 @@ namespace BalisWpf
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacBalisWpf>();
 
-            var iniFile = new IniFile();
-            iniFile.AssignFile("BalisWpf.ini");
+            var iniFile = new IniFile().AssignFile("BalisWpf.ini");
             builder.RegisterInstance(iniFile);
 
-            var logFile = new LogFile(iniFile);
-            logFile.AssignFile("BalisWpf.log");
+            var logFile = new LogFile(iniFile).AssignFile("BalisWpf.log");
             builder.RegisterInstance(logFile);
             logFile.AppendLine("BalisWpf started");
 

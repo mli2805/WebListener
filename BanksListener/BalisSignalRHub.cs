@@ -16,6 +16,12 @@ namespace BanksListener
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, IniKey.Ip, "localhost");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eventType">This will be method name on Client</param>
+        /// <param name="dataInJson"></param>
+        /// <returns></returns>
         public async Task NotifyAll(string eventType, string dataInJson)
         {
             _logFile.AppendLine($"Hub received {eventType} event");

@@ -1,20 +1,26 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using UtilsLib;
 
 namespace BalisStandard
 {
     public class KomBanksPoller
     {
-        private IMyLog _logFile;
+        private readonly ILifetimeScope _container;
+        private readonly IMyLog _logFile;
         private readonly string _dbPath;
+        private BalisSignalRClient _balisSignalRClient;
 
-        public KomBanksPoller(IMyLog logFile, string dbPath)
+        public KomBanksPoller(ILifetimeScope container)
         {
-            _logFile = logFile;
-            _dbPath = dbPath;
+            _container = container;
+            _logFile = container.Resolve<IMyLog>();
+            var iniFile = container.Resolve<IniFile>();
+            _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
         }
 
         public async void Poll()
@@ -29,6 +35,8 @@ namespace BalisStandard
         private async void Poll(IRatesLineExtractor ratesLineExtractor)
         {
             _logFile.AppendLine($"{ratesLineExtractor.BankTitle} extractor started");
+            _balisSignalRClient = _container.Resolve<BalisSignalRClient>();
+            _balisSignalRClient.Start();
             while (true)
             {
                 KomBankRatesLine rate;
@@ -57,11 +65,13 @@ namespace BalisStandard
                         rate.StartedFrom = DateTime.Now; // Bib page does not contain date from
                     db.KomBankRates.Add(rate);
                     _logFile.AppendLine($"{rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
+                    _balisSignalRClient.NotifyAll("RateChanged", JsonConvert.SerializeObject(rate));
                 }
                 else
                 {
                     last.LastCheck = DateTime.Now;
                     _logFile.AppendLine($"{rate.Bank} rate checked");
+                    _balisSignalRClient.NotifyAll("TheSameRate", JsonConvert.SerializeObject(rate));
                 }
 
                 return await db.SaveChangesAsync();
