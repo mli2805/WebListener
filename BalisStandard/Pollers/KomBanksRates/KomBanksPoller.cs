@@ -53,6 +53,8 @@ namespace BalisStandard
                 var last = await db.KomBankRates.Where(l => l.Bank == rate.Bank).OrderBy(c => c.LastCheck).LastOrDefaultAsync();
                 if (last == null || last.IsDifferent(rate))
                 {
+                    if (rate.Bank == KomBankE.Bib.ToString().ToUpper())
+                        rate.StartedFrom = DateTime.Now; // Bib page does not contain date from
                     db.KomBankRates.Add(rate);
                     _logFile.AppendLine($"{rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
                 }

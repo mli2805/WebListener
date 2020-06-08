@@ -25,7 +25,7 @@
                 <DataGridTextColumn Width="75" Binding="{Binding StartedFromForGrid}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding DataContext.BankTitle , RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                            <TextBlock Text="{Binding DataContext.(balisWpf:KomBankViewModel.BankTitle), RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
