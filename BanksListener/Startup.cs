@@ -62,7 +62,7 @@ namespace BanksListener
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=KomBanks}/{action=GetLastRate}/{bankId?}");
-                endpoints.MapHub<SignalRHub>("/balisSignalRHub");
+                endpoints.MapHub<BalisSignalRHub>("/balisSignalRHub");
             });
         }
     }

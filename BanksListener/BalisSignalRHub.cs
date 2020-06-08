@@ -5,12 +5,12 @@ using UtilsLib;
 
 namespace BanksListener
 {
-    public class SignalRHub : Hub
+    public class BalisSignalRHub : Hub
     {
         private readonly IMyLog _logFile;
         private readonly string _localIpAddress;
 
-        public SignalRHub(IniFile iniFile, IMyLog logFile)
+        public BalisSignalRHub(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, IniKey.Ip, "localhost");

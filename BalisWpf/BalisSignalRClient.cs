@@ -7,7 +7,7 @@ namespace BalisWpf
 {
     public class BalisSignalRClient
     {
-        private const string _balisWebApiUrl = "http://localhost:1234/balisSignalRHub";
+        private const string _balisWebApiUrl = "http://localhost:8012/balisSignalRHub";
         private readonly IMyLog _logFile;
         private HubConnection _connection;
 
@@ -28,6 +28,11 @@ namespace BalisWpf
                     await Task.Delay(new Random().Next(0, 5) * 1000);
                     await _connection.StartAsync();
                 };
+                _connection.On<string, string>("ReceiveMessage", (user, message) =>
+                {
+                        var newMessage = $"{user}: {message}";
+                        _logFile.AppendLine(newMessage);
+                });
 
                 await _connection.StartAsync();
                 _logFile.AppendLine($"SignalR connection state is {_connection.State}");
@@ -38,16 +43,6 @@ namespace BalisWpf
             }
         }
 
-        public async Task NotifyAll(string eventType, string dataInJson)
-        {
-            try
-            {
-                await _connection.InvokeAsync("NotifyAll", eventType, dataInJson);
-            }
-            catch (Exception ex)
-            {
-                _logFile.AppendLine($"FtSignalRClient: {eventType} " + ex.Message);
-            }
-        }
+    
     }
 }

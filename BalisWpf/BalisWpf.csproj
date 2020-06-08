@@ -180,7 +180,6 @@
       <DependentUpon>ForecastView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forecast\ForecastVm.cs" />
-    <Compile Include="FtSignalRClient.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="KomBanks\KomBankListView.xaml.cs">
       <DependentUpon>KomBankListView.xaml</DependentUpon>
