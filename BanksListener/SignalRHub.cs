@@ -22,6 +22,7 @@ namespace BanksListener
             await Clients.All.SendAsync(eventType, dataInJson);
         }
 
+      
         private string GetRemoteAddress()
         {
             var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();

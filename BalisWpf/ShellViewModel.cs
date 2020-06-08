@@ -14,10 +14,17 @@ namespace BalisWpf
             StartNbRbPoller();
             Task.Delay(3000).Wait();
             StartBelStockPoller();
-            StartTradingViewPoller();
+            StartTradingViewPollers();
+
+            StartKomBankPollers();
         }
 
-        private void StartTradingViewPoller()
+        private void StartKomBankPollers()
+        {
+            Task.Factory.StartNew(() => Model.KomBankListViewModel.Start());
+        }
+
+        private void StartTradingViewPollers()
         {
             Task.Factory.StartNew(() => new TradingViewPoller().
                 Start(TradingViewTiker.EurUsd, Model.TradingViewVm.Rates.EurUsd, Model, 1000));

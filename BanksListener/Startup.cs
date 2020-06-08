@@ -1,4 +1,3 @@
-using BalisStandard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,17 +41,6 @@ namespace BanksListener
             logFile.AssignFile("baliWebApi.log");
             services.AddSingleton<IMyLog>(logFile);
             logFile.AppendLine("BankListener WebApi service started");
-
-            var googleDrive = PathFinder.GetGoogleDriveDirectory();
-            string dataSourcePath;
-            if (string.IsNullOrEmpty(googleDrive))
-                dataSourcePath = @"..\bali.db";
-            else
-                dataSourcePath = googleDrive + @"\BanksListener\bali.db";
-            logFile.AppendLine($"dataSourcePath: {dataSourcePath}");
-            iniFile.Write(IniSection.Sqlite, IniKey.DbPath, dataSourcePath);
-            new KomBanksPoller(logFile, dataSourcePath).Poll();
-//            Banki24ArchiveManager.RunUpdatingInBackground();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -23,17 +23,18 @@ namespace BalisWpf
             }
         }
 
-        public string Title => $"Tradingview.com {_lastCheck}";
+        public string Title => $"Tradingview.com {_lastCheck:dd.MM HH:mm:ss}";
         public List<string> LeftPanel =>
             new List<string>()
             {
                 "",
-                $"Eur / Usd {Rates.EurUsd.Lp}  {Rates.EurUsd.Ch:+0.000;-0.000}",
-                $"Usd / Rub {Rates.UsdRub.Lp}  {Rates.UsdRub.Ch:+0.00;-0.00}",
+                $"Eur / Usd {Rates.EurUsd.Lp:0.0000}  {Rates.EurUsd.Ch:+0.000;-0.000}",
+                $"Usd / Rub {Rates.UsdRub.Lp:0.000}  {Rates.UsdRub.Ch:+0.00;-0.00}",
                 "",
-                $"Eur / Rub {Rates.EurRub.Lp}  {Rates.EurRub.Ch:+0.00;-0.00}",
+                $"Eur / Rub {Rates.EurRub.Lp:0.000}  {Rates.EurRub.Ch:+0.00;-0.00}",
                 "",
-                $"Brent ${Rates.UkOil.Lp}  ({Rates.UkOil.Ch:+0.00;-0.00} {Rates.UkOil.Chp:+0.00;-0.00}%)",
+                $"Brent ${Rates.UkOil.Lp}",
+                $"     ({Rates.UkOil.Ch:+0.00;-0.00} {Rates.UkOil.Chp:+0.00;-0.00}%)",
                 $"Бочка {Rates.UkOil.Lp * Rates.UsdRub.Lp:0,0}",
             };
 
@@ -58,14 +59,14 @@ namespace BalisWpf
         {
             if (tv.CurrentSession == "out_of_session")
             {
-                yield return $"{tikerName} {tv.Lp}  (вчера {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
 //                yield return $" рынок закрыт";
             }
             else if (tv.CurrentSession == "pre_market")
             {
                 var ch = tv.PrevClosePrice - tv.OpenPrice;
                 var chp = ch / tv.OpenPrice * 100;
-                yield return $"{tikerName} {tv.PrevClosePrice}  (вчера {ch:+0.00;-0.00}  {chp:+0.00;-0.00}%)";
+                yield return $"{tikerName} {tv.PrevClosePrice}  (вче {ch:+0.00;-0.00}  {chp:+0.00;-0.00}%)";
 //                yield return $" премаркет: {tv.Lp} {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%";
             }
             else // tv.CurrentSession == "market"
@@ -79,7 +80,7 @@ namespace BalisWpf
         {
             if (tv.CurrentSession == "out_of_session")
             {
-                yield return $"{tikerName} {tv.Lp}  (вчера {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
 //                yield return $" рынок закрыт";
             }
             else // tv.CurrentSession == "market"
@@ -93,12 +94,12 @@ namespace BalisWpf
         {
             if (tv.CurrentSession == "out_of_session")
             {
-                yield return $"{tikerName} {tv.Lp}  (вчера {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
 //                yield return $" рынок закрыт";
             }
             else if (tv.CurrentSession == "pre_market" && tv.MarketStatus == "pre-market")
             {
-                yield return $"{tikerName} {tv.Lp}  (вчера {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
 //                yield return $" премаркет: {tv.Rtc} {tv.Rch:+0.00;-0.00}  {tv.Rchp:+0.00;-0.00}%";
             }
             else // tv.CurrentSession == "market"

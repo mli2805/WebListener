@@ -3,7 +3,7 @@
         xml:lang="ru-RU"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:balisWpf="clr-namespace:BalisWpf"
-        >
+        Height="836" SizeToContent="Width">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom">
             <balisWpf:NbRbView Margin="5" DataContext="{Binding Model.NbRbViewModel}" DockPanel.Dock="Left"/>
@@ -12,7 +12,7 @@
             <balisWpf:TradingViewView Margin="5" DataContext="{Binding Model.TradingViewVm}" DockPanel.Dock="Left"/>
             <StackPanel/>
         </DockPanel>
-        <StackPanel Name="KomBanksPanel" DockPanel.Dock="Top"></StackPanel>
+        <balisWpf:KomBankListView DockPanel.Dock="Top" DataContext="{Binding Model.KomBankListViewModel}"/>
     </DockPanel>
 
 </Window>

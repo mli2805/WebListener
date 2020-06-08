@@ -38,6 +38,9 @@
     <Reference Include="Autofac, Version=5.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
@@ -171,11 +174,24 @@
       <DependentUpon>BelStockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BelStock\BelStockViewModel.cs" />
+    <Compile Include="DataGridBehaviors\ScrollToBottomDatagridBehavior.cs" />
+    <Compile Include="DataGridBehaviors\ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="Forecast\ForecastView.xaml.cs">
       <DependentUpon>ForecastView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forecast\ForecastVm.cs" />
+    <Compile Include="FtSignalRClient.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="KomBanks\KomBankListView.xaml.cs">
+      <DependentUpon>KomBankListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KomBanks\KomBankListViewModel.cs" />
+    <Compile Include="KomBanks\KomBankRateVm.cs" />
+    <Compile Include="KomBanks\KomBankView.xaml.cs">
+      <DependentUpon>KomBankView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KomBanks\KomBankViewModel.cs" />
+    <Compile Include="MappingProfile.cs" />
     <Compile Include="NbRb\NbRbView.xaml.cs">
       <DependentUpon>NbRbView.xaml</DependentUpon>
     </Compile>
@@ -199,6 +215,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forecast\ForecastView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KomBanks\KomBankListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KomBanks\KomBankView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

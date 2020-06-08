@@ -24,6 +24,7 @@ namespace BanksListener.Controllers
         [HttpGet]
         public async Task<List<KomBankRatesLine>> Get()
         {
+            _logFile.AppendLine("request received");
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
 
             var result = new List<KomBankRatesLine>();
@@ -33,7 +34,6 @@ namespace BanksListener.Controllers
         }
 
         [HttpGet("get-last-five/{bankTitle}")]
-
         public async Task<List<KomBankRatesLine>> GetLastFive(string bankTitle)
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);

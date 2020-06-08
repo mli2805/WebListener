@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="BalisWpf.KomBankView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:balisWpf="clr-namespace:BalisWpf"
+             mc:Ignorable="d" 
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel >
+        <Border DockPanel.Dock="Bottom" Height="4" HorizontalAlignment="Stretch" Background="Azure"/>
+        <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
+                      IsReadOnly="True">
+            <i:Interaction.Behaviors>
+                <balisWpf:ScrollToBottomDatagridBehavior/>
+                <balisWpf:ScrollToBottomOnAddBehavior />
+            </i:Interaction.Behaviors>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{Binding KomBank}" Width="75" Binding="{Binding StartedFromForGrid}"/>
+
+                <DataGridTextColumn Header="  Usd" Width="110" Binding="{Binding Usd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                <DataGridTextColumn Header="  Eur" Width="110" Binding="{Binding Eur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                <DataGridTextColumn Header="  Rub" Width="100" Binding="{Binding Rub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+                <DataGridTextColumn Header="  Eur/Usd" Width="100" Binding="{Binding EurUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                <DataGridTextColumn Header="  EurByrUsd" Width="100" Binding="{Binding EurByrUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
+                <DataGridTextColumn Header="  UsdRub нал" Width="80" Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="LightGray"/>
+                <DataGridTextColumn Header="  UsdByrRub" Width="90" Binding="{Binding UsdByrRub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+                <DataGridTextColumn Header="  EurRub нал" Width="80" Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="LightGray"/>
+                <DataGridTextColumn Header="  EurByrRub" Width="90" Binding="{Binding EurByrRub}" HeaderStyle="{StaticResource CenterAlign}"/>
+
+                <DataGridTextColumn Header="Last check" Width="70" Binding="{Binding LastCheckForGrid}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>
