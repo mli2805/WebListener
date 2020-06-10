@@ -33,14 +33,14 @@ namespace BanksListener.Controllers
             return result;
         }
 
-        [HttpGet("get-last-five/{bankTitle}")]
-        public async Task<List<KomBankRatesLine>> GetLastFive(string bankTitle)
+        [HttpGet("get-some-last/{bankTitle}")]
+        public async Task<List<KomBankRatesLine>> GetSomeLast(string bankTitle)
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
             return db.KomBankRates
                 .Where(r => r.Bank == bankTitle.ToUpper())
                 .OrderByDescending(l => l.LastCheck)
-                .Take(5)
+                .Take(13)
                 .ToList();
         }
     }

@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>BalisWpf.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=5.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
@@ -173,6 +176,9 @@
       <DependentUpon>BelStockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BelStock\BelStockViewModel.cs" />
+    <Compile Include="Changes.xaml.cs">
+      <DependentUpon>Changes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataGridBehaviors\ScrollToBottomDatagridBehavior.cs" />
     <Compile Include="DataGridBehaviors\ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="Forecast\ForecastView.xaml.cs">
@@ -211,6 +217,10 @@
     <Page Include="BelStock\BelStockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Changes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Forecast\ForecastView.xaml">
       <SubType>Designer</SubType>
@@ -274,6 +284,8 @@
       <Name>UtilsLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="BalisWpf.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
@@ -42,7 +43,12 @@ namespace BalisWpf
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     Rows.Add(vm);
-                    MessageBox.Show($"{data.Bank} rates changed at {data.StartedFrom}");
+                    var notify = new Changes
+                    {
+                        MessageBlock = { Text = vm.Bank + " " + vm.StartedFrom }
+                    };
+                    notify.Show();   
+                    //MessageBox.Show($"{data.Bank} rates changed at {data.StartedFrom}");
                 });
             }
             else
@@ -56,17 +62,24 @@ namespace BalisWpf
             }
         }
 
-        public async Task<KomBankViewModel> GetLastFive()
+        public async Task<KomBankViewModel> GetSomeLast()
         {
-            var webApiUrl = @"http://localhost:8012/bali/get-last-five/" + KomBank.ToString().ToUpper();
+            var webApiUrl = @"http://localhost:8012/bali/get-some-last/" + KomBank.ToString().ToUpper();
 
-            var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
-            var lastFive = JsonConvert.DeserializeObject<IEnumerable<KomBankRatesLine>>(response);
-
-            foreach (var line in lastFive.Reverse())
+            try
             {
-                var vm = Mapper.Map<KomBankRateVm>(line);
-                Rows.Add(vm);
+                var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
+                var lastFive = JsonConvert.DeserializeObject<IEnumerable<KomBankRatesLine>>(response);
+
+                foreach (var line in lastFive.Reverse())
+                {
+                    var vm = Mapper.Map<KomBankRateVm>(line);
+                    Rows.Add(vm);
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
             }
 
             return this;

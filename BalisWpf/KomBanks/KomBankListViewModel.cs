@@ -21,7 +21,7 @@ namespace BalisWpf
 
             foreach (var komBank in _firstPageList)
             {
-                var viewModel = await new KomBankViewModel(komBank, _logFile, _balisSignalRClient).GetLastFive();
+                var viewModel = await new KomBankViewModel(komBank, _logFile, _balisSignalRClient).GetSomeLast();
                 Application.Current.Dispatcher.Invoke(() => Banks.Add(viewModel));
 
             }

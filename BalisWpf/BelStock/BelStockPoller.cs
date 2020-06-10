@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows;
 using BalisStandard;
 
 namespace BalisWpf
@@ -12,16 +13,17 @@ namespace BalisWpf
             {
                 var stock = await extractor.GetStockAsync();
                 if (stock != null)
-                {
-                    if (stock.TradingState == BelStockState.TerminatedAlready 
-                        && vm.BelStockViewModel.BelStock.TradingState != BelStockState.TerminatedAlready)
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
+                        if (stock.TradingState == BelStockState.TerminatedAlready 
+                            && vm.BelStockViewModel.BelStock.TradingState != BelStockState.TerminatedAlready)
+                        {
                        
-                        vm.ForecastVm.Initialize(stock.GetTomorrow());
-                    }
-                    vm.BelStockViewModel.BelStock = stock;
-                }
-
+                            vm.ForecastVm.Initialize(stock.GetTomorrow());
+                        }
+                        vm.BelStockViewModel.BelStock = stock;
+                    });
+              
                 await Task.Delay(7000);
 
             }
