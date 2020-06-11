@@ -23,8 +23,7 @@ namespace BalisWpf
             _tradingViewExtractor = new TradingViewExtractor(tiker);
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
 
-            _tradingViewExtractor.ConnectWebSocket().Wait();
-            _tradingViewExtractor.RequestSession().Wait();
+            _tradingViewExtractor.ConnectWebSocketAndRequestSession().Wait();
             _tradingViewExtractor.RequestData().Wait();
 
             while (true)
@@ -36,10 +35,10 @@ namespace BalisWpf
                 }
                 else
                 {
+                    Thread.Sleep(100);
                     _tradingViewExtractor = new TradingViewExtractor(tiker);
                     _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
-                    _tradingViewExtractor.ConnectWebSocket().Wait();
-                    _tradingViewExtractor.RequestSession().Wait();
+                    _tradingViewExtractor.ConnectWebSocketAndRequestSession().Wait();
                     _tradingViewExtractor.RequestData().Wait();
                 }
             }

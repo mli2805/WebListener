@@ -13,56 +13,57 @@ namespace BalisStandard
         private ClientWebSocket ClientWebSocket;
         private CancellationTokenSource cts;
 
-        private string FrameIt(string request) { return $"~m~{request.Length}~m~{request}"; }
-        private const string EurUsdRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURUSD\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string UsdRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string EurRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:EURRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string BrentRequest = "{\"p\":[\"my_session\",\"FX:UKOIL\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string GoldRequest = "{\"p\":[\"my_session\",\"FX:XAUUSD\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string VooRequest = "{\"p\":[\"my_session\",\"AMEX:VOO\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string BndRequest = "{\"p\":[\"my_session\",\"NASDAQ:BND\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string VixRequest = "{\"p\":[\"my_session\",\"CBOE:VIX\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
-        private const string SpxRequest = "{\"p\":[\"my_session\",\"SP:SPX\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string tradingViewAddress = "wss://data.tradingview.com/socket.io/websocket";
+        private const string sessionRequest = "~m~50~m~{\"p\":[\"my_session\",\"\"],\"m\":\"quote_create_session\"}";
+
+        private readonly Uri tradingViewUri;
+        private readonly ArraySegment<byte> buffer;
 
         public TradingViewExtractor(TradingViewTiker tiker)
         {
             _tiker = tiker;
+
+            tradingViewUri = new Uri(tradingViewAddress);
+            var encoded = Encoding.UTF8.GetBytes(sessionRequest);
+            buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
+
             ClientWebSocket = new ClientWebSocket();
             ClientWebSocket.Options.UseDefaultCredentials = true;
             ClientWebSocket.Options.SetRequestHeader("Origin", "https://www.tradingview.com");
             cts = new CancellationTokenSource();
         }
 
-        public async Task RequestData()
+        public async Task ConnectWebSocketAndRequestSession()
         {
             try
             {
-                var token = cts.Token;
-                var currentRequest = FrameIt(TikerToRequest(_tiker));
-                var request = Encoding.UTF8.GetBytes(currentRequest);
-                var buffer2 = new ArraySegment<byte>(request, 0, request.Length);
-                await ClientWebSocket.SendAsync(buffer2, WebSocketMessageType.Text, true, token);
+                await ClientWebSocket.ConnectAsync(tradingViewUri, cts.Token);
+                await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, cts.Token);
+
             }
             catch (Exception e)
             {
                 Console.WriteLine($@"Exception {e.Message}");
-                Console.WriteLine($"{ClientWebSocket.State}");
             }
         }
 
-        public async Task RequestSession()
+      
+        public async Task RequestData()
         {
-            var token = cts.Token;
-            const string sessionRequest = "~m~50~m~{\"p\":[\"my_session\",\"\"],\"m\":\"quote_create_session\"}";
-            var encoded = Encoding.UTF8.GetBytes(sessionRequest);
-            var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
-            await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, token);
-            Console.WriteLine();
-            Console.WriteLine("Session requested.");
-            Console.WriteLine();
+            try
+            {
+                await ClientWebSocket.SendAsync(_tiker.ToBufferizedRequest(),
+                    WebSocketMessageType.Text, true, cts.Token);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($@"Exception {e.Message}");
+            }
         }
 
+
         private string _remainsOfMessage = "";
+
         public async Task<bool> ReceiveData()
         {
             try
@@ -83,24 +84,11 @@ namespace BalisStandard
             catch (Exception e)
             {
                 Console.WriteLine($"Exception {e.Message}");
-                Console.WriteLine($"{ClientWebSocket.State}");
                 return false;
             }
         }
 
-        public async Task ConnectWebSocket()
-        {
-            var uri = new Uri("wss://data.tradingview.com/socket.io/websocket");
-            await ClientWebSocket.ConnectAsync(uri, cts.Token);
-            Console.WriteLine(ClientWebSocket.State);
-        }
-
-        public async Task CloseWebSocket()
-        {
-            await ClientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cts.Token);
-            Console.WriteLine(ClientWebSocket.State);
-        }
-
+     
         public event DataFetchedEventHandler CrossRateFetched;
         protected virtual void OnCrossRateFetched(List<string> e)
         {
@@ -116,45 +104,34 @@ namespace BalisStandard
         private string ParseSocketData(string message, out List<string> jsonList)
         {
             jsonList = new List<string>();
-            while (message.Length > 3)
+            try
             {
-                var str = message.Substring(3);
-                var pos = str.IndexOf("~m~", StringComparison.InvariantCulture);
-                var lengthStr = str.Substring(0, pos);
-                var length = int.Parse(lengthStr);
+                while (message.Length > 3)
+                {
+                    var str = message.Substring(3);
+                    var pos = str.IndexOf("~m~", StringComparison.InvariantCulture);
+                    var lengthStr = str.Substring(0, pos);
+                    var length = int.Parse(lengthStr);
 
-                if (message.Length >= length + 3 + 3 + lengthStr.Length)
-                {
-                    var jsonStr = str.Substring(3 + lengthStr.Length, length);
-                    jsonList.Add(jsonStr);
-                    message = str.Substring(length + 3 + lengthStr.Length);
-                    if (message == "")
-                        return "";
+                    if (message.Length >= length + 3 + 3 + lengthStr.Length)
+                    {
+                        var jsonStr = str.Substring(3 + lengthStr.Length, length);
+                        jsonList.Add(jsonStr);
+                        message = str.Substring(length + 3 + lengthStr.Length);
+                        if (message == "")
+                            return "";
+                    }
+                    else
+                    {
+                        return message;
+                    }
                 }
-                else
-                {
-                    return message;
-                }
+                return message;
             }
-            return message;
-        }
-
-        private string TikerToRequest(TradingViewTiker tiker)
-        {
-            switch (tiker)
+            catch (Exception)
             {
-                case TradingViewTiker.EurUsd: return EurUsdRequest;
-                case TradingViewTiker.UsdRub: return UsdRubRequest;
-                case TradingViewTiker.EurRub: return EurRubRequest;
-                case TradingViewTiker.UkOil: return BrentRequest;
-                case TradingViewTiker.Gold: return GoldRequest;
-                case TradingViewTiker.Voo: return VooRequest;
-                case TradingViewTiker.Vix: return VixRequest;
-                case TradingViewTiker.Spx: return SpxRequest;
-                case TradingViewTiker.Bnd: return BndRequest;
+                return "";
             }
-
-            return null;
         }
     }
 }

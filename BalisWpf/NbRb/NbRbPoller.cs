@@ -47,6 +47,7 @@ namespace BalisWpf
                         await Task.Delay(60000);
                 }
 
+                // ReSharper disable once PossibleNullReferenceException
                 if ((vm.NbRbViewModel.NbRbVm.Tomorrow == null || vm.NbRbViewModel.NbRbVm.Tomorrow.Date.Date != DateTime.Today.AddDays(1))
                     && DateTime.Now.Hour >= 13)
                 {

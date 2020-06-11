@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -8,18 +9,24 @@ namespace BalisStandard
     {
         public static JObject TryParse(string message)
         {
-            if (!message.StartsWith("{\"m"))
+            try
+            {
+                if (!message.StartsWith("{\"m"))
+                    return null;
+
+                var root = JsonConvert.DeserializeObject<TradingViewJsonRootObject>(message);
+                var p = root.P[1].ToString();
+                if (root.M != "qsd")
+                    return null;
+
+                var branch = JsonConvert.DeserializeObject<TradingViewJsonPayloadObject>(p);
+
+                return JObject.Parse(branch.V.ToString());
+            }
+            catch (Exception)
+            {
                 return null;
-
-            var root = JsonConvert.DeserializeObject<TradingViewJsonRootObject>(message);
-            var p = root.P[1].ToString();
-            if (root.M != "qsd")
-                return null;
-
-            var branch = JsonConvert.DeserializeObject<TradingViewJsonPayloadObject>(p);
-//            var tikerName = branch.N;
-
-            return JObject.Parse(branch.V.ToString());
+            }
         }
 
     }

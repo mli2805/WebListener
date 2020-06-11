@@ -22,8 +22,7 @@ namespace BalisConsole
             _tradingViewExtractor = new TradingViewExtractor(TradingViewTiker.UkOil);
             _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
 
-            _tradingViewExtractor.ConnectWebSocket().Wait();
-            _tradingViewExtractor.RequestSession().Wait();
+            _tradingViewExtractor.ConnectWebSocketAndRequestSession().Wait();
             _tradingViewExtractor.RequestData().Wait();
 
             while (true)
@@ -37,8 +36,7 @@ namespace BalisConsole
                 {
                     _tradingViewExtractor = new TradingViewExtractor(TradingViewTiker.UkOil);
                     _tradingViewExtractor.CrossRateFetched += TradingViewExtractorCrossRateFetched;
-                    _tradingViewExtractor.ConnectWebSocket().Wait();
-                    _tradingViewExtractor.RequestSession().Wait();
+                    _tradingViewExtractor.ConnectWebSocketAndRequestSession().Wait();
                     _tradingViewExtractor.RequestData().Wait();
                 }
             }
