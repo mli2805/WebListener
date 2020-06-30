@@ -23,7 +23,7 @@ namespace BalisStandard
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
         }
 
-        public async void Poll()
+        public async void StartThreads()
         {
             await Task.Factory.StartNew(() => Poll(new BelgazMobi()));
             await Task.Factory.StartNew(() => Poll(new BibExtractor()));

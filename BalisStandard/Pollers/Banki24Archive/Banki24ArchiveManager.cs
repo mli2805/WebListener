@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using UtilsLib;
 
 namespace BalisStandard
@@ -12,71 +12,65 @@ namespace BalisStandard
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
 
-        public Banki24ArchiveManager(IMyLog logFile, string dbPath)
+        public Banki24ArchiveManager(ILifetimeScope container)
         {
-            _logFile = logFile;
-            _dbPath = dbPath;
+            _logFile = container.Resolve<IMyLog>();
+            var iniFile = container.Resolve<IniFile>();
+            _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
         }
 
-        public void RunUpdatingInBackground()
+        public async void StartThread()
         {
-            var bw = new BackgroundWorker();
-            bw.WorkerReportsProgress = true;
-            bw.DoWork += Bw_DoWork;
-            bw.ProgressChanged += Bw_ProgressChanged;
-
-            bw.RunWorkerAsync();
+            await Task.Factory.StartNew(Poll);
         }
 
-        private void Bw_DoWork(object sender, DoWorkEventArgs e)
+        private async void Poll()
         {
-            var worker = sender as BackgroundWorker;
-            UpdateDatabase(worker);
-        }
-
-        // UI thread
-        private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            var st = (string)e.UserState;
-            _logFile.AppendLine(st);
-        }
-
-        private void UpdateDatabase(BackgroundWorker worker)
-        {
-            var date =  GetDateToStartFrom().Result;
-            var newLines =  GetArchiveFromDate(date, worker).Result;
-            PersistRangeOfLines(newLines).Wait();
-        }
-
-        private async Task<int> PersistRangeOfLines(IEnumerable<BelStockArchiveOneCurrencyDay> newLines)
-        {
-            using (BanksListenerContext db = new BanksListenerContext(_dbPath))
+            _logFile.AppendLine("Banki24 archive extractor started");
+            var date = new DateTime(1, 1, 1);
+            while (true)
             {
-                db.BelStockArchive.AddRange(newLines);
-                return await db.SaveChangesAsync();
+                if (date.Date < DateTime.Today.Date || (DateTime.Now.Hour >= 10 && DateTime.Now.Hour <= 13))
+                    date = await UpdateDatabase();
+                await Task.Delay(15 * 60 * 1000);
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
-        private async Task<List<BelStockArchiveOneCurrencyDay>> GetArchiveFromDate(DateTime date, BackgroundWorker worker)
+        private async Task<DateTime> UpdateDatabase()
         {
-            var newLines = new List<BelStockArchiveOneCurrencyDay>();
+            var date = await GetDateToStartFrom();
             while (date <= DateTime.Today.Date)
             {
-                var usdLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Usd);
-                if (usdLine != null)
-                {
-                    newLines.Add(usdLine);
-                    var eurLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Eur);
-                    if (eurLine != null)
-                        newLines.Add(eurLine);
-                    var rubLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Rub);
-                    if (rubLine != null)
-                        newLines.Add(rubLine);
-                }
-
+                var newLines = await GetArchiveFromDate(date);
+                if (newLines.Any())
+                    await PersistRangeOfLines(newLines);
+                _logFile.AppendLine($"Banki24 archive for {date.Date:d} extracted");
                 date = date.AddDays(1);
-                worker.ReportProgress(0, $"GetArchiveFromDate {date}");
             }
+
+            return date;
+        }
+
+        private async Task PersistRangeOfLines(List<BelStockArchiveOneCurrencyDay> newLines)
+        {
+            await using BanksListenerContext db = new BanksListenerContext(_dbPath);
+            db.BelStockArchive.AddRange(newLines);
+            await db.SaveChangesAsync();
+        }
+
+        private async Task<List<BelStockArchiveOneCurrencyDay>> GetArchiveFromDate(DateTime date)
+        {
+            var newLines = new List<BelStockArchiveOneCurrencyDay>();
+            var usdLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Usd);
+            if (usdLine != null)
+                newLines.Add(usdLine);
+            var eurLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Eur);
+            if (eurLine != null)
+                newLines.Add(eurLine);
+            var rubLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Rub);
+            if (rubLine != null)
+                newLines.Add(rubLine);
             return newLines;
         }
 

@@ -28,7 +28,7 @@ namespace BalisStandard
         {
             try
             {
-                var pos = webpage.IndexOf("<h3>Характеристики торгов</h3>", StringComparison.Ordinal);
+                var pos = webpage.IndexOf("<h3>Характеристики торгов", StringComparison.Ordinal);
                 var posFrom = webpage.IndexOf("table", pos, StringComparison.Ordinal);
                 var posTo = webpage.IndexOf("/table", posFrom, StringComparison.Ordinal);
 

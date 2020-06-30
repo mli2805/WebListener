@@ -13,8 +13,9 @@ namespace BanksListener
             var builder = new ContainerBuilder().WithProduction();
             var container = builder.Build();
 
-            StartKomBankPollers(container);
-//            Banki24ArchiveManager.RunUpdatingInBackground();
+            Initialize(container);
+            new Banki24ArchiveManager(container).StartThread();
+            new KomBanksPoller(container).StartThreads();
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -25,7 +26,7 @@ namespace BanksListener
                     webBuilder.UseStartup<Startup>();
                 });
 
-        private static void StartKomBankPollers(ILifetimeScope container)
+        private static void Initialize(ILifetimeScope container)
         {
             var iniFile = container.Resolve<IniFile>();
             var logFile = container.Resolve<IMyLog>();
@@ -39,7 +40,6 @@ namespace BanksListener
                 dataSourcePath = googleDrive + @"\BanksListener\bali.db";
             logFile.AppendLine($"dataSourcePath: {dataSourcePath}");
             iniFile.Write(IniSection.Sqlite, IniKey.DbPath, dataSourcePath);
-            new KomBanksPoller(container).Poll();
         }
     }
 }

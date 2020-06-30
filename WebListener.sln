@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebListener", "WebListener\WebListener.csproj", "{735DB625-06BA-4FCA-871D-63EF00FEBE07}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extractors", "Extractors\Extractors.csproj", "{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BanksListener", "BanksListener\BanksListener.csproj", "{C0551604-CA30-4F5E-8006-79EB314FF8F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalisConsole", "BalisConsole\BalisConsole.csproj", "{9FA3C7BF-F44F-4559-9D7D-BE7E71A7E4E7}"
@@ -23,14 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3CC9962-A04E-43EE-B2F7-AF3F939B1D91}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0551604-CA30-4F5E-8006-79EB314FF8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
