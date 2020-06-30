@@ -8,9 +8,9 @@ namespace BalisWpf
     {
         public ShellVm Model { get; set; }
 
-        public ShellViewModel(IMyLog logFile)
+        public ShellViewModel(IMyLog logFile, ShellVm shellVm)
         {
-            Model = new ShellVm();
+            Model = shellVm;
 
             StartNbRbPoller();
             Task.Delay(3000).Wait();

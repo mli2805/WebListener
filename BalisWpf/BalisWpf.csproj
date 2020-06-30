@@ -173,6 +173,10 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacBalisWpf.cs" />
+    <Compile Include="BelStockArchive\BelStockArchiveView.xaml.cs">
+      <DependentUpon>BelStockArchiveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BelStockArchive\BelStockArchiveViewModel.cs" />
     <Compile Include="BelStock\BelStockPoller.cs" />
     <Compile Include="BelStock\BelStockView.xaml.cs">
       <DependentUpon>BelStockView.xaml</DependentUpon>
@@ -216,6 +220,10 @@
       <DependentUpon>TradingViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TradingView\TradingViewVm.cs" />
+    <Page Include="BelStockArchive\BelStockArchiveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BelStock\BelStockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -6,6 +6,15 @@ namespace BalisWpf
 {
     public class BelStockViewModel : Screen
     {
+        private readonly IWindowManager _windowManager;
+        private readonly BelStockArchiveViewModel _belStockArchiveViewModel;
+
+        public BelStockViewModel(IWindowManager windowManager, BelStockArchiveViewModel belStockArchiveViewModel)
+        {
+            _windowManager = windowManager;
+            _belStockArchiveViewModel = belStockArchiveViewModel;
+        }
+
         public NbRates PreviousTradeDayNbRates { get; set; } = new NbRates();
         public NbRates TodayNbRates { get; set; } = new NbRates();
 
@@ -92,8 +101,11 @@ namespace BalisWpf
                    $"( {((newBasket - oldBasket) * 10000):+0.00;-0.00} п / {((newBasket - oldBasket) * 100 / newBasket):+0.00;-0.00}% ) ";
         }
 
-     
-        public void ShowBelStockArchive() { }
+
+        public void ShowBelStockArchive()
+        {
+            _windowManager.ShowWindow(_belStockArchiveViewModel);
+        }
 
     }
 }

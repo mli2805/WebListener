@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalisStandard", "BalisStand
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsLib", "UtilsLib\UtilsLib.csproj", "{42D2E901-D713-4494-97E5-2F2E64A3A4D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebListener", "WebListener\WebListener.csproj", "{735DB625-06BA-4FCA-871D-63EF00FEBE07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{42D2E901-D713-4494-97E5-2F2E64A3A4D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42D2E901-D713-4494-97E5-2F2E64A3A4D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42D2E901-D713-4494-97E5-2F2E64A3A4D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{735DB625-06BA-4FCA-871D-63EF00FEBE07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

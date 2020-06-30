@@ -12,6 +12,9 @@ namespace BalisWpf
             builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
 
+            builder.RegisterType<ShellVm>();
+            builder.RegisterType<BelStockViewModel>();
+            builder.RegisterType<BelStockArchiveViewModel>();
         }
     }
 }
