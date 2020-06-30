@@ -29,6 +29,7 @@ namespace BalisStandard
             await Task.Factory.StartNew(() => Poll(new BibExtractor()));
             await Task.Factory.StartNew(() => Poll(new PriorExtractor()));
             await Task.Factory.StartNew(() => Poll(new DabrabytExtractor()));
+            await Task.Factory.StartNew(() => Poll(new BelvebExtractor()));
             //            await Task.Factory.StartNew(() => Poll(new BpsExtractor()));
         }
 

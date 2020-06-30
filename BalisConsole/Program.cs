@@ -12,8 +12,15 @@ namespace BalisConsole
         private static TradingViewExtractor _tradingViewExtractor;
         static void Main()
         {
-            TradingMain();
+            BelVeb();
             Console.ReadKey();
+        }
+
+        private static async void BelVeb()
+        {
+            var extractor = new BelvebExtractor();
+            var rate = await extractor.GetRatesLineAsync();
+            Console.WriteLine(rate);
         }
 
         // ReSharper disable once UnusedMember.Local
