@@ -104,6 +104,7 @@ namespace BalisWpf
 
         public void ShowBelStockArchive()
         {
+            _belStockArchiveViewModel.Initialize();
             _windowManager.ShowWindow(_belStockArchiveViewModel);
         }
 
