@@ -2,9 +2,10 @@
 
 namespace BalisWpf
 {
-    public class BelStockArchiveDay
+    public class BelStockArchiveLine
     {
         public DateTime Date { get; set; }
+        public string Timestamp { get; set; }
         public double UsdRate { get; set; }
         public double UsdTurnover { get; set; }
         public double EuroRate { get; set; }

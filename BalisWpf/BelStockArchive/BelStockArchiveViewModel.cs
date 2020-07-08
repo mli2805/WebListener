@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using BalisStandard;
 using Caliburn.Micro;
@@ -9,22 +10,15 @@ using UtilsLib;
 
 namespace BalisWpf
 {
-    public static class EnumerableExt
-    {
-        public static void Do<T>(this IEnumerable<T> enumerable, Action<T> action)
-        {
-            foreach (var element in enumerable)
-            {
-                action(element);
-            }
-        }
-    }
     public class BelStockArchiveViewModel : Screen
     {
         private readonly string _dbPath;
+        private int _mode;
 
         private List<BelStockArchiveOneCurrencyDay> data;
-        public ObservableCollection<BelStockArchiveDay> Rows { get; set; } = new ObservableCollection<BelStockArchiveDay>();
+        private List<BelStockArchiveLine> plainDailyData;
+        private List<BelStockArchiveLine> monthData;
+        public ObservableCollection<BelStockArchiveLine> Rows { get; set; } = new ObservableCollection<BelStockArchiveLine>();
 
         public BelStockArchiveViewModel(ILifetimeScope container)
         {
@@ -32,20 +26,57 @@ namespace BalisWpf
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
         }
 
-        public async void Initialize()
+        public async Task Initialize()
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
             data = db.BelStockArchive.ToList();
-            Rows.Clear();
-            data
+            plainDailyData = data
                 .GroupBy(d => d.Date)
                 .Select(ToBelStockArchiveDay)
-                .Do(Rows.Add);
+                .ToList();
+
+            InitializeMainTable();
+
+            monthData = plainDailyData
+                .GroupBy(d => $"{d.Date:MMM yyyy}")
+                .Select(ToBelStockArchiveMonth)
+                .ToList();
         }
 
-        private static BelStockArchiveDay ToBelStockArchiveDay(IGrouping<DateTime, BelStockArchiveOneCurrencyDay> day)
+        private void InitializeMainTable()
         {
-            var belStockDay = new BelStockArchiveDay() {Date = day.Key.Date,};
+            Rows.Clear();
+            plainDailyData.Do(Rows.Add);
+        }
+
+
+        private void InitializeMonthTable()
+        {
+            Rows.Clear();
+            monthData.Do(Rows.Add);
+        }
+
+        private static BelStockArchiveLine ToBelStockArchiveMonth(IGrouping<string, BelStockArchiveLine> days)
+        {
+            var belStockMonth = new BelStockArchiveLine() { Timestamp = days.Key };
+            belStockMonth.UsdTurnover = days.Sum(d => d.UsdTurnover);
+            var usdTurnoverInByn = days.Sum(d => d.UsdRate * d.UsdTurnover);
+            belStockMonth.UsdRate = usdTurnoverInByn / belStockMonth.UsdTurnover;
+
+            belStockMonth.EuroTurnover = days.Sum(d => d.EuroTurnover);
+            var euroTurnoverInByn = days.Sum(d => d.EuroRate * d.EuroTurnover);
+            belStockMonth.EuroRate = euroTurnoverInByn / belStockMonth.EuroTurnover;
+
+            belStockMonth.RubTurnover = days.Sum(d => d.RubTurnover);
+            var rubTurnoverInByn = days.Sum(d => d.RubRate * d.RubTurnover);
+            belStockMonth.RubRate = rubTurnoverInByn / belStockMonth.RubTurnover;
+
+            return belStockMonth;
+        }
+
+        private static BelStockArchiveLine ToBelStockArchiveDay(IGrouping<DateTime, BelStockArchiveOneCurrencyDay> day)
+        {
+            var belStockDay = new BelStockArchiveLine() { Date = day.Key, Timestamp = $"{day.Key:dd.MM.yyyy}"};
 
             var usd = day.FirstOrDefault(l => l.Currency == Currency.Usd);
             if (usd == null) return belStockDay;
@@ -61,6 +92,20 @@ namespace BalisWpf
             belStockDay.RubRate = rub?.TurnoverInByn / rub?.TurnoverInCurrency * 100 ?? 0;
 
             return belStockDay;
+        }
+
+        public void Toggle()
+        {
+            if (_mode == 0) InitializeMonthTable();
+            else if (_mode == 1) InitializeMainTable();
+
+            _mode++;
+            if (_mode == 2) _mode = 0;
+        }
+
+        public void SaveAs()
+        {
+            // Google sheet !? 
         }
     }
 }

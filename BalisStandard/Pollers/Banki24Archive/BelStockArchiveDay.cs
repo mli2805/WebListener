@@ -2,12 +2,12 @@
 
 namespace BalisStandard
 {
-    public class BelStockArchiveDay
-    {
-        public BelStockArchiveOneCurrencyDay Usd { get; set; }
-        public BelStockArchiveOneCurrencyDay Eur { get; set; }
-        public BelStockArchiveOneCurrencyDay Rub { get; set; }
-    }
+//    public class BelStockArchiveDay
+//    {
+//        public BelStockArchiveOneCurrencyDay Usd { get; set; }
+//        public BelStockArchiveOneCurrencyDay Eur { get; set; }
+//        public BelStockArchiveOneCurrencyDay Rub { get; set; }
+//    }
 
     public class BelStockArchiveOneCurrencyDay
     {

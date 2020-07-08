@@ -6,22 +6,28 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:balisWpf="clr-namespace:BalisWpf"
         mc:Ignorable="d"
-        Title="BelStockArchiveView" SizeToContent="Width" Height="800">
-    <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True">
-        <i:Interaction.Behaviors>
-            <balisWpf:ScrollToBottomDatagridBehavior/>
-            <balisWpf:ScrollToBottomOnAddBehavior />
-        </i:Interaction.Behaviors>
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="Date" Width="75" Binding="{Binding Date, StringFormat=\{0:dd.MM.yyyy\}}"/>
-            <DataGridTextColumn Header="Usd rate" Width="75" Binding="{Binding UsdRate, StringFormat={}{0:0.0000}}"/>
-            <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding UsdTurnover, StringFormat={}{0:0.0}}"/>
-            <DataGridTextColumn Header="Euro rate" Width="75" Binding="{Binding EuroRate, StringFormat={}{0:0.0000}}"/>
-            <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding EuroTurnover, StringFormat={}{0:0.0}}"/>
-            <DataGridTextColumn Header="Rub rate" Width="75" Binding="{Binding RubRate, StringFormat={}{0:0.0000}}"/>
-            <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding RubTurnover, StringFormat={}{0:0.0}}"/>
-            <DataGridTextColumn Header="Total" Width="75" Binding="{Binding TotalTurnover, StringFormat={}{0:0.0}}"/>
+        Title="BelStockArchiveView" SizeToContent="Width" Height="800" WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" Height="710">
+            <i:Interaction.Behaviors>
+                <balisWpf:ScrollToBottomDatagridBehavior/>
+                <balisWpf:ScrollToBottomOnAddBehavior />
+            </i:Interaction.Behaviors>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Timestamp" Width="75" Binding="{Binding Timestamp}"/>
+                <DataGridTextColumn Header="Usd rate" Width="75" Binding="{Binding UsdRate, StringFormat={}{0:0.0000}}"/>
+                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding UsdTurnover, StringFormat={}{0:0.0}}"/>
+                <DataGridTextColumn Header="Euro rate" Width="75" Binding="{Binding EuroRate, StringFormat={}{0:0.0000}}"/>
+                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding EuroTurnover, StringFormat={}{0:0.0}}"/>
+                <DataGridTextColumn Header="Rub rate" Width="75" Binding="{Binding RubRate, StringFormat={}{0:0.0000}}"/>
+                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding RubTurnover, StringFormat={}{0:0.0}}"/>
+                <DataGridTextColumn Header="Total" Width="75" Binding="{Binding TotalTurnover, StringFormat={}{0:0.0}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal">
+            <Button Name="Toggle" Margin="10" Width="120" Height="24">Toggle</Button>
+            <Button Name="SaveAs" Margin="10" Width="120" Height="24">Save as</Button>
+        </StackPanel>
+    </StackPanel>
 
-        </DataGrid.Columns>
-    </DataGrid>
 </Window>

@@ -231,11 +231,12 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacBalisWpf.cs" />
-    <Compile Include="BelStockArchive\BelStockArchiveDay.cs" />
+    <Compile Include="BelStockArchive\BelStockArchiveLine.cs" />
     <Compile Include="BelStockArchive\BelStockArchiveView.xaml.cs">
       <DependentUpon>BelStockArchiveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BelStockArchive\BelStockArchiveViewModel.cs" />
+    <Compile Include="BelStockArchive\EnumerableExt.cs" />
     <Compile Include="BelStock\BelStockPoller.cs" />
     <Compile Include="BelStock\BelStockView.xaml.cs">
       <DependentUpon>BelStockView.xaml</DependentUpon>
