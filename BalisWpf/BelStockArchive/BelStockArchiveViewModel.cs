@@ -18,6 +18,7 @@ namespace BalisWpf
         private List<BelStockArchiveOneCurrencyDay> data;
         private List<BelStockArchiveLine> plainDailyData;
         private List<BelStockArchiveLine> monthData;
+        private List<BelStockArchiveLine> dayOfMonthData;
         public ObservableCollection<BelStockArchiveLine> Rows { get; set; } = new ObservableCollection<BelStockArchiveLine>();
 
         public BelStockArchiveViewModel(ILifetimeScope container)
@@ -32,7 +33,7 @@ namespace BalisWpf
             data = db.BelStockArchive.ToList();
             plainDailyData = data
                 .GroupBy(d => d.Date)
-                .Select(ToBelStockArchiveDay)
+                .Select(ToBelStockArchiveDate)
                 .ToList();
 
             InitializeMainTable();
@@ -40,6 +41,12 @@ namespace BalisWpf
             monthData = plainDailyData
                 .GroupBy(d => $"{d.Date:MMM yyyy}")
                 .Select(ToBelStockArchiveMonth)
+                .ToList();
+
+            dayOfMonthData = plainDailyData
+                .GroupBy(d => $"{d.Date:dd}-е")
+                .Select(ToBelStockArchiveDayOfMonth)
+                .OrderBy(l => l.Timestamp)
                 .ToList();
         }
 
@@ -49,11 +56,16 @@ namespace BalisWpf
             plainDailyData.Do(Rows.Add);
         }
 
-
         private void InitializeMonthTable()
         {
             Rows.Clear();
             monthData.Do(Rows.Add);
+        }
+
+        private void InitializeDayOfMonthTable()
+        {
+            Rows.Clear();
+            dayOfMonthData.Do(Rows.Add);
         }
 
         private static BelStockArchiveLine ToBelStockArchiveMonth(IGrouping<string, BelStockArchiveLine> days)
@@ -74,9 +86,18 @@ namespace BalisWpf
             return belStockMonth;
         }
 
-        private static BelStockArchiveLine ToBelStockArchiveDay(IGrouping<DateTime, BelStockArchiveOneCurrencyDay> day)
+        private static BelStockArchiveLine ToBelStockArchiveDayOfMonth(IGrouping<string, BelStockArchiveLine> days)
         {
-            var belStockDay = new BelStockArchiveLine() { Date = day.Key, Timestamp = $"{day.Key:dd.MM.yyyy}"};
+            var belStockMonth = new BelStockArchiveLine() { Timestamp = days.Key };
+            belStockMonth.UsdTurnover = days.Sum(d => d.UsdTurnover) / days.Count();
+            belStockMonth.EuroTurnover = days.Sum(d => d.EuroTurnover) / days.Count();
+            belStockMonth.RubTurnover = days.Sum(d => d.RubTurnover) / days.Count();
+            return belStockMonth;
+        }
+
+        private static BelStockArchiveLine ToBelStockArchiveDate(IGrouping<DateTime, BelStockArchiveOneCurrencyDay> day)
+        {
+            var belStockDay = new BelStockArchiveLine() { Date = day.Key, Timestamp = $"{day.Key:dd.MM.yyyy}" };
 
             var usd = day.FirstOrDefault(l => l.Currency == Currency.Usd);
             if (usd == null) return belStockDay;
@@ -96,12 +117,22 @@ namespace BalisWpf
 
         public void Toggle()
         {
-            if (_mode == 0) InitializeMonthTable();
-            else if (_mode == 1) InitializeMainTable();
+            switch (_mode)
+            {
+                case 0:
+                    InitializeMonthTable();
+                    break;
+                case 1:
+                    InitializeDayOfMonthTable();
+                    break;
+                case 2:
+                    InitializeMainTable();
+                    break;
+            }
 
             _mode++;
-            if (_mode == 2) _mode = 0;
-        }
+            if (_mode == 3) _mode = 0;
+         }
 
         public void SaveAs()
         {
