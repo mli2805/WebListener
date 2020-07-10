@@ -23,7 +23,7 @@ namespace BalisStandard
             }
             catch (Exception e)
             {
-                Console.WriteLine($@"{e.Message} in Bib parser");
+                Console.WriteLine($@"{e.Message} in BelVEB parser");
                 return null;
             }
         }
@@ -39,24 +39,27 @@ namespace BalisStandard
 
             double usdBuy;
             double usdSale;
-            if (!GetOneCurrency(table, "1 usd", out usdBuy, out usdSale))
-                return null;
-            rates.UsdA = usdBuy;
-            rates.UsdB = usdSale;
+            if (GetOneCurrency(table, "1 usd", out usdBuy, out usdSale))
+            {
+                rates.UsdA = usdBuy;
+                rates.UsdB = usdSale;
+            }
 
             double euroBuy;
             double euroSale;
-            if (!GetOneCurrency(table, "1 eur", out euroBuy, out euroSale))
-                return null;
-            rates.EurA = euroBuy;
-            rates.EurB = euroSale;
+            if (GetOneCurrency(table, "1 eur", out euroBuy, out euroSale))
+            {
+                rates.EurA = euroBuy;
+                rates.EurB = euroSale;
+            }
 
             double usdEuro;
             double euroUsd;
-            if (!GetOneCurrency(table, "EUR/USD", out usdEuro, out euroUsd))
-                return null;
-            rates.EurUsdA = usdEuro;
-            rates.EurUsdB = euroUsd;
+            if (GetOneCurrency(table, "EUR/USD", out usdEuro, out euroUsd))
+            {
+                rates.EurUsdA = usdEuro;
+                rates.EurUsdB = euroUsd;
+            }
 
             return rates;
         }
