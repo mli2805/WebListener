@@ -9,7 +9,7 @@ namespace BalisStandard
 {
     public class BalisSignalRClient : INotifyPropertyChanged
     {
-        private const string _balisWebApiUrl = "http://localhost:8012/balisSignalRHub";
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private HubConnection _connection;
         private Tuple<string, string> _eventProperty;
@@ -25,8 +25,9 @@ namespace BalisStandard
             }
         }
 
-        public BalisSignalRClient(IMyLog logFile)
+        public BalisSignalRClient(IniFile iniFile, IMyLog logFile)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
         }
 
@@ -39,7 +40,10 @@ namespace BalisStandard
         {
             try
             {
-                _connection = new HubConnectionBuilder().WithUrl(_balisWebApiUrl).Build();
+                var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11081");
+                string url = $"http://{baliApiUrl}/balisSignalRHub";
+                _logFile.AppendLine($"SignalR connection to {url}");
+                _connection = new HubConnectionBuilder().WithUrl(url).Build();
 
                 _connection.Closed += async (error) =>
                 {
@@ -56,8 +60,8 @@ namespace BalisStandard
                 _connection.On<string>("TheSameRate", (dataInJson) =>
                 {
                     EventProperty = new Tuple<string, string>("TheSameRate", dataInJson);
-//                    var newMessage = $"TheSameRate: {dataInJson}";
-//                    _logFile.AppendLine(newMessage);
+                    //                    var newMessage = $"TheSameRate: {dataInJson}";
+                    //                    _logFile.AppendLine(newMessage);
                 });
 
                 await _connection.StartAsync();

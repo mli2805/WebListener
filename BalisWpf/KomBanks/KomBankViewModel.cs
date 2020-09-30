@@ -17,14 +17,16 @@ namespace BalisWpf
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingProfile>()).CreateMapper();
 
+        private readonly IniFile _iniFile;
         public KomBankE KomBank;
         private readonly IMyLog _logFile;
         private readonly BalisSignalRClient _balisSignalRClient;
         public string BankTitle => KomBank.GetAbbreviation();
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
-        public KomBankViewModel(KomBankE komBank, IMyLog logFile, BalisSignalRClient balisSignalRClient)
+        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, BalisSignalRClient balisSignalRClient)
         {
+            _iniFile = iniFile;
             KomBank = komBank;
             _logFile = logFile;
             _balisSignalRClient = balisSignalRClient;
@@ -64,7 +66,8 @@ namespace BalisWpf
 
         public async Task<KomBankViewModel> GetSomeLast()
         {
-            var webApiUrl = @"http://localhost:8012/bali/get-some-last/" + KomBank.ToString().ToUpper();
+            var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11081");
+            var webApiUrl = $@"http://{baliApiUrl}/bali/get-some-last/" + KomBank.ToString().ToUpper();
 
             try
             {

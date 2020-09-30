@@ -105,6 +105,7 @@ namespace BalisWpf
         public async void ShowBelStockArchive()
         {
             await _belStockArchiveViewModel.Initialize();
+//            await _belStockArchiveViewModel.Fetch();
             _windowManager.ShowWindow(_belStockArchiveViewModel);
         }
 

@@ -139,5 +139,7 @@
 
         // Sqlite
         DbPath,
+        BaliApiUrl,
+        BelstockPortionSize,
     }
 }

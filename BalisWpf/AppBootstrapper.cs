@@ -49,14 +49,14 @@ namespace BalisWpf
             builder.RegisterInstance(logFile);
             logFile.AppendLine("BalisWpf started");
 
-            var googleDrive = BalisStandard.PathFinder.GetGoogleDriveDirectory();
-            string dataSourcePath;
-            if (string.IsNullOrEmpty(googleDrive))
-                dataSourcePath = @"..\bali.db";
-            else
-                dataSourcePath = googleDrive + @"\BanksListener\bali.db";
-            logFile.AppendLine($"dataSourcePath: {dataSourcePath}");
-            iniFile.Write(IniSection.Sqlite, IniKey.DbPath, dataSourcePath);
+//            var googleDrive = BalisStandard.PathFinder.GetGoogleDriveDirectory();
+//            string dataSourcePath;
+//            if (string.IsNullOrEmpty(googleDrive))
+//                dataSourcePath = @"..\bali.db";
+//            else
+//                dataSourcePath = googleDrive + @"\BanksListener\bali.db";
+//            logFile.AppendLine($"dataSourcePath: {dataSourcePath}");
+//            iniFile.Write(IniSection.Sqlite, IniKey.DbPath, dataSourcePath);
             
             _container = builder.Build();
         }

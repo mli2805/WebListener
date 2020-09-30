@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "bali",
+      "launchUrl": "bali/get-belstock-archive/5",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -8,7 +8,7 @@ namespace BalisWpf
     {
         public ShellVm Model { get; set; }
 
-        public ShellViewModel(IMyLog logFile, ShellVm shellVm)
+        public ShellViewModel(IniFile iniFile, IMyLog logFile, ShellVm shellVm)
         {
             Model = shellVm;
 
@@ -17,12 +17,12 @@ namespace BalisWpf
             StartBelStockPoller();
             StartTradingViewPollers();
 
-            StartKomBankPollers(logFile);
+            StartKomBankPollers(iniFile, logFile);
         }
 
-        private void StartKomBankPollers(IMyLog logFile)
+        private void StartKomBankPollers(IniFile iniFile, IMyLog logFile)
         {
-            Task.Factory.StartNew( () => Model.KomBankListViewModel.Start(logFile));
+            Task.Factory.StartNew( () => Model.KomBankListViewModel.Start(iniFile, logFile));
         }
 
         private void StartTradingViewPollers()

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-using Autofac;
 using BalisStandard;
 using Caliburn.Micro;
+using Newtonsoft.Json;
 using UtilsLib;
 
 namespace BalisWpf
 {
     public class BelStockArchiveViewModel : Screen
     {
-        private readonly string _dbPath;
+        private readonly IniFile _iniFile;
         private int _mode;
 
         private List<BelStockArchiveOneCurrencyDay> data;
@@ -22,16 +23,41 @@ namespace BalisWpf
         private List<BelStockArchiveLine> dayOfMonthData;
         public ObservableCollection<BelStockArchiveLine> Rows { get; set; } = new ObservableCollection<BelStockArchiveLine>();
 
-        public BelStockArchiveViewModel(ILifetimeScope container)
+        public BelStockArchiveViewModel(IniFile iniFile)
         {
-            var iniFile = container.Resolve<IniFile>();
-            _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
+            _iniFile = iniFile;
+        }
+
+        private async Task Fetch()
+        {
+            var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11081");
+            int portionSize = _iniFile.Read(IniSection.General, IniKey.BelstockPortionSize, 100);
+            data = new List<BelStockArchiveOneCurrencyDay>();
+            try
+            {
+                int portionNumber = 0;
+                while (true)
+                {
+                    var webApiUrl = $@"http://{baliApiUrl}/bali/get-belstock-archive/{portionNumber}";
+                    var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
+                    var portion = JsonConvert.DeserializeObject<List<BelStockArchiveOneCurrencyDay>>(response);
+                    data.AddRange(portion);
+                    if (portion.Count < portionSize) break;
+                    portionNumber++;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public async Task Initialize()
         {
-            await using BanksListenerContext db = new BanksListenerContext(_dbPath);
-            data = db.BelStockArchive.ToList();
+//            await using BanksListenerContext db = new BanksListenerContext(_dbPath);
+//            data = db.BelStockArchive.ToList();
+
+            await Fetch();
             plainDailyData = data
                 .GroupBy(d => d.Date)
                 .Select(ToBelStockArchiveDate)

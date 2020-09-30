@@ -12,11 +12,13 @@ namespace BanksListener.Controllers
     [Route("[controller]")]
     public class BaliController : ControllerBase
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
 
         public BaliController(IniFile iniFile, IMyLog logFile)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, @"..\bali.db");
         }
@@ -28,8 +30,8 @@ namespace BanksListener.Controllers
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
 
             var result = new List<KomBankRatesLine>();
-            result.Add(await db.KomBankRates.Where(r => r.Bank == "BGPB").OrderByDescending(l=>l.LastCheck).FirstOrDefaultAsync());
-            result.Add(await db.KomBankRates.Where(r => r.Bank == "BIB").OrderByDescending(l=>l.LastCheck).FirstOrDefaultAsync());
+            result.Add(await db.KomBankRates.Where(r => r.Bank == "BGPB").OrderByDescending(l => l.LastCheck).FirstOrDefaultAsync());
+            result.Add(await db.KomBankRates.Where(r => r.Bank == "BIB").OrderByDescending(l => l.LastCheck).FirstOrDefaultAsync());
             return result;
         }
 
@@ -43,5 +45,18 @@ namespace BanksListener.Controllers
                 .Take(13)
                 .ToList();
         }
+
+        [HttpGet("get-belstock-archive/{portion}")]
+        public async Task<List<BelStockArchiveOneCurrencyDay>> GetBelstockArchive(int portion)
+        {
+            int portionSize = _iniFile.Read(IniSection.General, IniKey.BelstockPortionSize, 100);
+            await using BanksListenerContext db = new BanksListenerContext(_dbPath);
+            return db.BelStockArchive.OrderBy(l=>l.Date)
+                .Skip(portion*portionSize)
+                .Take(portionSize)
+                .ToList();
+        }
+
+
     }
 }
