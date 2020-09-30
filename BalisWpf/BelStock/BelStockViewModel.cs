@@ -60,7 +60,7 @@ namespace BalisWpf
             var absoluteChanges = (currency.Average - nbrate).ToString("+0.0000;- 0.0000;0");
             var relativeChanges = ((currency.Average - nbrate) * 100 / nbrate).ToString("+0.00;- 0.00;0");
             var changes = $"({absoluteChanges} {relativeChanges}%)";
-            return $"{currency.Average:#,0.0000} {changes}  {currency.Volume} млн {currency.LastDeal:#,0.0000}";
+            return $"{currency.Average:#,0.0000} {changes}  {currency.Volume} / {currency.DealsCount:0.}  {currency.LastDeal:#,0.0000}";
         }
 
         public string Title

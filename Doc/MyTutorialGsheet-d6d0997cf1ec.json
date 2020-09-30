@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mytutorialgsheet",
+  "private_key_id": "d6d0997cf1ecc82a79d15e4d3ba392f96eaea3dd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCbW4zEcMH+Ev/j\nfew16DTmwoxIumNwzvwabDAvW71g7BdEvin6COkxtZ4TKihwm/BaKv8dmvtg/OJr\nTuDnG0YBJv2ZA3h31YyZS8k7bjgyTaA5IvUB60gEmhq1sF4/E94zVVfowcHjlbeM\nQZrNBUFO3Dc7FyHM90dKcnoZRYcAF0s1ocFRZAtDTdPMSztgcFWja/S5l3TELhSj\nr5byp1tBd02b7F5ST2AZ5FJhwZlQo6CAy+2xr520ErdWEBmzEj9ntk4kobbA/lqA\nKmdIfe/TYiI/m05t/jGjzQ24zcfnUB01CDOtVK7oOKXC4YScGqpEMVJx3acZsxVa\nxIMkfd4XAgMBAAECggEAEnAhGsdPHrpeiD9Po241qRV51L/aQW8vWGtypIw8w54B\nfPUcwkIAexfU9O1R81tugSUNNhRItVAOBzJLWuJPwp9ABcL1rzM3BpKKBXWlUcMI\nuv89GMc1uuYXOWz/InlXK7x7PHKSclI4gHrgxmhTQeq821R5fHv0iA9iElHAHfB2\naytNxv6QV3jPFEXfUQdq8PwovUyw+13NtygFcZjCjyvSD0WkNphZs/LnBEki4urP\nuPqKsjp4FnOShMgS9uGVaJtUnnSYBZZBfR1ihPnbIbsOdZsaAVtRsK9/I99ZihCI\nwMcPk8itEC981lcQcx32jnpuYl03HNTD+2f/jGNVoQKBgQDPS9q8/1NuqDyDu5YG\nSA5LnpYiQFkSN3e2rvJE7P3AIs7U+HapjRQp54+FyeV0U9a6rF6qMLau59sNDl0v\nFRR6X8HBNBYd0AzTgJHkDQEg7a/DBxvttplSwoTB2USlxuGIQ1FOORz+tGPTEvTV\nlw0KwBS0LJMRf5jTQ70DZFGy7wKBgQC/28P1K608O/ncPZIA7kuotrqDXiRO7nBs\naAK/cEuI0nvukGFAP9kN5pxSLqnyKuOWQJJE3F4IPgsAsuk7WuVWoimyuy+OVk6z\n2NxkWQgHMVNP3Hx+hVJ4dBpKDQF73iReQ85zWThibss+lTPAIPM8wvGa4ygsm1t3\nNNl0am/nWQKBgCtbFx3OXRnY0AdRVZhsu6ivO4FgagC4Xy5zOrKVyqDD5vR+Hvtp\nSV1WVBtMVdRVsKSMZqQ72gmM7rC1X2H4i7bojjKlfTaxC+20h07mNWU4sTkeJIY8\nWacIjhGpKoVtqkAArGGq6liPTA2aemCt3glwkSP56qyPPlx5X2/1LG07AoGAeGbK\nSwnl5W8eFoDtJ3hkMrS5x8dEseQg2WdMkic+v9aXv9cLsO5goMCgSVLPhBI2UQyk\nvmItAK8u6HletMkOM5gA4xFlfsXbDjKB3NeimiDyT6Pm3N9+KelythYDYGDAIggb\nf3f2Uo+FLPklSOVkwDT2umTjyVqVw/F+pfhF0cECgYEArhi5LmPGr496nO8Bb+Z3\nxhRZrE/khFUjbGJ0CH29wnxEIAAw+UrMfjbs6YrFL0C/qQbAdivwF8zCC68b3Jg6\nMkgKgK1R2nLxNF8lMxp1jTtobKHhPekCDfXtDC9d27SvuYudt1sdCF49nZ0PKIym\n3qJctsIwaVZW1gO57StHD5U=\n-----END PRIVATE KEY-----\n",
+  "client_email": "mycsharp-account@mytutorialgsheet.iam.gserviceaccount.com",
+  "client_id": "112434972037048493658",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mycsharp-account%40mytutorialgsheet.iam.gserviceaccount.com"
+}

@@ -32,6 +32,8 @@ namespace BalisStandard
             {
                 if (date.Date < DateTime.Today.Date || (DateTime.Now.Hour >= 10 && DateTime.Now.Hour <= 13))
                     date = await UpdateDatabase();
+                else
+                    _logFile.AppendLine("Banki24: it is not a time to check archive.");
                 await Task.Delay(15 * 60 * 1000);
             }
             // ReSharper disable once FunctionNeverReturns
@@ -44,8 +46,12 @@ namespace BalisStandard
             {
                 var newLines = await GetArchiveFromDate(date);
                 if (newLines.Any())
+                {
                     await PersistRangeOfLines(newLines);
-                _logFile.AppendLine($"Banki24 archive for {date.Date:d} extracted");
+                    _logFile.AppendLine($"Banki24 archive for {date.Date:d} extracted");
+                }
+                else
+                    _logFile.AppendLine($"Banki24 archive has no news for {date.Date:d}.");
                 date = date.AddDays(1);
             }
 

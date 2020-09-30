@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -136,7 +137,23 @@ namespace BalisWpf
 
         public void SaveAs()
         {
-            // Google sheet !? 
+            var gsh = new GoogleSheetsHelper(@"..\ini\MyTutorialGsheet-d6d0997cf1ec.json",
+                "1U72wGk-LojflkxPAWH-rDv2FGc8iIvPiNRGTy7CTB3I/");
+            var row1 = new GoogleSheetRow();
+            var row2 = new GoogleSheetRow();
+ 
+            var cell1 = new GoogleSheetCell() { CellValue = "Header 1", IsBold = true, BackgroundColor = Color.DarkGoldenrod};
+            var cell2 = new GoogleSheetCell() { CellValue = "Header 2", BackgroundColor = Color.Cyan };
+ 
+            var cell3 = new GoogleSheetCell() { CellValue = "Value 1"};
+            var cell4 = new GoogleSheetCell() { CellValue = "Value 2"};
+ 
+            row1.Cells.AddRange(new List<GoogleSheetCell>() {cell1, cell2});
+            row2.Cells.AddRange(new List<GoogleSheetCell>() { cell3, cell4 });
+ 
+            var rows = new List<GoogleSheetRow>() { row1, row2 };
+ 
+            gsh.AddCells(new GoogleSheetParameters() {SheetName="Sheet1", RangeColumnStart = 1, RangeRowStart = 1 }, rows);
         }
     }
 }

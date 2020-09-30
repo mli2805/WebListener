@@ -20,18 +20,33 @@ namespace BalisStandard
                     .GetDataAsync());
                 if (belStock == null)
                     return null;
-                if (belStock.Usd.Average > -1) 
-                    belStock.Usd.LastDeal = ParseLastDealRate(await ((HttpWebRequest)WebRequest.Create(UrlUsd))
+                if (belStock.Usd.Average > -1)
+                {
+                    var usdPage = await ((HttpWebRequest)WebRequest.Create(UrlUsd))
                         .InitializeForKombanks()
-                        .GetDataAsync());
-                if (belStock.Eur.Average > -1) 
-                    belStock.Eur.LastDeal = ParseLastDealRate(await ((HttpWebRequest)WebRequest.Create(UrlEur))
+                        .GetDataAsync();
+                    belStock.Usd.LastDeal = ParseLastDealRate(usdPage);
+                    belStock.Usd.DealsCount = ParseDealsCount(usdPage);
+                }
+
+                if (belStock.Eur.Average > -1)
+                {
+                    var eurPage = await ((HttpWebRequest)WebRequest.Create(UrlEur))
                         .InitializeForKombanks()
-                        .GetDataAsync());
-                if (belStock.Rub.Average > -1) 
-                    belStock.Rub.LastDeal = ParseLastDealRate(await ((HttpWebRequest)WebRequest.Create(UrlRub))
+                        .GetDataAsync();
+                    belStock.Eur.LastDeal = ParseLastDealRate(eurPage);
+                    belStock.Eur.DealsCount = ParseDealsCount(eurPage);
+                }
+
+                if (belStock.Rub.Average > -1)
+                {
+                    var rubPage = await ((HttpWebRequest)WebRequest.Create(UrlRub))
                         .InitializeForKombanks()
-                        .GetDataAsync());
+                        .GetDataAsync();
+                    belStock.Rub.LastDeal = ParseLastDealRate(rubPage);
+                    belStock.Rub.DealsCount = ParseDealsCount(rubPage);
+                }
+
                 return belStock;
             }
             catch (Exception e)
@@ -44,6 +59,15 @@ namespace BalisStandard
         private double ParseLastDealRate(string webData)
         {
             var pos = webData.IndexOf("Курс последней сделки", StringComparison.Ordinal);
+            var posFrom = webData.IndexOf("<td>", pos + 2, StringComparison.Ordinal);
+            var posTo = webData.IndexOf("</td>", posFrom + 2, StringComparison.Ordinal);
+            var rateString = webData.Substring(posFrom + 5, posTo - posFrom - 1);
+            var rate = SpecialOperations.ParseDoubleFromWebTrash(rateString);
+            return rate;
+        }
+        private double ParseDealsCount(string webData)
+        {
+            var pos = webData.IndexOf("Количество сделок", StringComparison.Ordinal);
             var posFrom = webData.IndexOf("<td>", pos + 2, StringComparison.Ordinal);
             var posTo = webData.IndexOf("</td>", posFrom + 2, StringComparison.Ordinal);
             var rateString = webData.Substring(posFrom + 5, posTo - posFrom - 1);
@@ -109,19 +133,19 @@ namespace BalisStandard
             return BelStockState.FetchingError;
         }
 
-     
+
         private DateTime GetTradingDate(string table, int startIndex)
         {
             var pos = table.IndexOf("</span", startIndex, StringComparison.Ordinal);
             var dateString = table.Substring(pos - 10, 10);
             DateTime result;
-            if (DateTime.TryParse(dateString, out result)) return result; else return new DateTime(1900,1,1);
+            if (DateTime.TryParse(dateString, out result)) return result; else return new DateTime(1900, 1, 1);
         }
         private void GetForCurrency(string table, string currency, out double rate, out string volume)
         {
             var key = string.Format("<a href=\"/exchange/currencymarket/{0}\">{1}</a>", currency.ToLower(), currency);
             var pos = table.IndexOf(key, StringComparison.Ordinal);
-            pos = table.IndexOf("<p class=\"text-center h2\">", pos+5, StringComparison.Ordinal);
+            pos = table.IndexOf("<p class=\"text-center h2\">", pos + 5, StringComparison.Ordinal);
             var posFrom = pos + 29;
             var posTo = table.IndexOf("<span", posFrom, StringComparison.Ordinal);
             if (posTo - posFrom - 2 < 0)
@@ -134,7 +158,7 @@ namespace BalisStandard
             rate = SpecialOperations.ParseDoubleFromWebTrash(rateString);
 
             pos = table.IndexOf(">Объём, млн. USD</span>", posTo, StringComparison.Ordinal);
-            posFrom = table.IndexOf(">", pos+27, StringComparison.Ordinal);
+            posFrom = table.IndexOf(">", pos + 27, StringComparison.Ordinal);
             posTo = table.IndexOf("</span", posFrom, StringComparison.Ordinal);
             volume = table.Substring(posFrom + 1, posTo - posFrom - 1);
         }
