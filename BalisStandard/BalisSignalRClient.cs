@@ -40,7 +40,7 @@ namespace BalisStandard
         {
             try
             {
-                var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11081");
+                var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:1108");
                 string url = $"http://{baliApiUrl}/balisSignalRHub";
                 _logFile.AppendLine($"SignalR connection to {url}");
                 _connection = new HubConnectionBuilder().WithUrl(url).Build();

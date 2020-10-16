@@ -66,7 +66,7 @@ namespace BalisWpf
 
         public async Task<KomBankViewModel> GetSomeLast()
         {
-            var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11081");
+            var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:1108");
             var webApiUrl = $@"http://{baliApiUrl}/bali/get-some-last/" + KomBank.ToString().ToUpper();
 
             try

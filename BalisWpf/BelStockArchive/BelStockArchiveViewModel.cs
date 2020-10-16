@@ -30,7 +30,7 @@ namespace BalisWpf
 
         private async Task Fetch()
         {
-            var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11081");
+            var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:1108");
             int portionSize = _iniFile.Read(IniSection.General, IniKey.BelstockPortionSize, 100);
             data = new List<BelStockArchiveOneCurrencyDay>();
             try
