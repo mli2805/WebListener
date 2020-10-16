@@ -1,9 +1,11 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using BalisStandard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using UtilsLib;
 
 namespace BanksListener
 {
@@ -15,6 +17,7 @@ namespace BanksListener
         }
 
         public IConfiguration Configuration { get; }
+        public ILifetimeScope AutofacContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,20 +35,27 @@ namespace BanksListener
                 .AddNewtonsoftJson();
 
             services.AddSignalR();
+        }
 
-            var iniFile = new IniFile();
-            iniFile.AssignFile("baliWebApi.ini");
-            services.AddSingleton(iniFile);
-
-            var logFile = new LogFile(iniFile);
-            logFile.AssignFile("baliWebApi.log");
-            services.AddSingleton<IMyLog>(logFile);
-            logFile.AppendLine("BankListener WebApi service started");
+        // ConfigureContainer is where you can register things directly
+        // with Autofac. This runs after ConfigureServices so the things
+        // here will override registrations made in ConfigureServices.
+        // Don't build the container; that gets done for you by the factory.
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // Register your own things directly with Autofac here. Don't
+            // call builder.Populate(), that happens in AutofacServiceProviderFactory
+            // for you.
+            builder.RegisterModule(new AutofacModule());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            new Banki24ArchiveManager(AutofacContainer).StartThread();
+            new KomBanksPoller(AutofacContainer).StartThreads();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
