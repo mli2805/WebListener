@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="Autofac" Version="6.0.0" />
     <PackageReference Include="Google.Apis" Version="1.48.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.48.0" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.48.0.2007" />
