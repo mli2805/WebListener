@@ -1,3 +1,4 @@
+using System.IO;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +9,8 @@ namespace BanksListener
     {
         public static void Main(string[] args)
         {
+//            File.WriteAllText(@"c:\tmp\file.txt", "asdfdaf");
+
             CreateHostBuilder(args)
                 .Build()
                 .Run();
