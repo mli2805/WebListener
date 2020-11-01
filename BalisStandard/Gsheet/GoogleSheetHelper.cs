@@ -160,7 +160,7 @@ namespace BalisStandard
         {
             var spreadsheet = service.Spreadsheets.Get(spreadSheetId).Execute();
             var sheet = spreadsheet.Sheets.FirstOrDefault(s => s.Properties.Title == spreadSheetName);
-            int sheetId = (int)sheet.Properties.SheetId;
+            int sheetId = sheet?.Properties.SheetId ?? -1;
             return sheetId;
         }
     }

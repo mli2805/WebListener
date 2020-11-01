@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Threading;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BalisStandard;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using UtilsLib;
 
 namespace BanksListener
 {
@@ -53,6 +56,10 @@ namespace BanksListener
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            var _logFile = AutofacContainer.Resolve<IMyLog>();
+            _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");
             new Banki24ArchiveManager(AutofacContainer).StartThread();
             new KomBanksPoller(AutofacContainer).StartThreads();
 

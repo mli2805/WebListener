@@ -16,7 +16,7 @@ namespace BanksListener
             logFile.AssignFile("baliWebApi.log");
             builder.RegisterInstance<IMyLog>(logFile);
 
-            builder.RegisterType<BalisSignalRClient>();
+            builder.RegisterType<ForPollerSignalRClient>();
         }
     }
 }

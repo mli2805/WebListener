@@ -9,7 +9,7 @@ namespace BanksListener
     {
         public static void Main(string[] args)
         {
-//            File.WriteAllText(@"c:\tmp\file.txt", "asdfdaf");
+            File.WriteAllText(@"c:\tmp\file.txt", "asdfdaf");
 
             CreateHostBuilder(args)
                 .Build()

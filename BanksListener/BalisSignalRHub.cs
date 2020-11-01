@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using UtilsLib;
@@ -24,11 +25,12 @@ namespace BanksListener
         /// <returns></returns>
         public async Task NotifyAll(string eventType, string dataInJson)
         {
-            _logFile.AppendLine($"Hub received {eventType} event");
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _logFile.AppendLine($"Thread id {tid}: Hub received {eventType} event from client with id = {Context.ConnectionId}");
             await Clients.All.SendAsync(eventType, dataInJson);
         }
 
-      
+
         private string GetRemoteAddress()
         {
             var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
@@ -38,16 +40,18 @@ namespace BanksListener
 
         public override async Task OnConnectedAsync()
         {
-            _logFile.AppendLine($"OnConnectedAsync ClientIp = {GetRemoteAddress()}");
+            _logFile.AppendLine($"SignalR Hub OnConnectedAsync: User {Context.User.Identity.Name}" +
+                                $" connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
-            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {GetRemoteAddress()}");
+            _logFile.AppendLine($"SignalR Hub OnDisconnectedAsync: User {Context.User.Identity.Name}" +
+                                $" from = {GetRemoteAddress()} with id {Context.ConnectionId}");
 
             await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
-          
+
         }
     }
 }

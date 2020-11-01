@@ -20,25 +20,25 @@ namespace BalisWpf
         private readonly IniFile _iniFile;
         public KomBankE KomBank;
         private readonly IMyLog _logFile;
-        private readonly BalisSignalRClient _balisSignalRClient;
+        private readonly ForWpfAppSignalRClient _forWpfAppSignalRClient;
         public string BankTitle => KomBank.GetAbbreviation();
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
-        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, BalisSignalRClient balisSignalRClient)
+        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, ForWpfAppSignalRClient forWpfAppSignalRClient)
         {
             _iniFile = iniFile;
             KomBank = komBank;
             _logFile = logFile;
-            _balisSignalRClient = balisSignalRClient;
-            balisSignalRClient.PropertyChanged += BalisSignalRClient_PropertyChanged;
+            _forWpfAppSignalRClient = forWpfAppSignalRClient;
+            forWpfAppSignalRClient.PropertyChanged += BalisSignalRClient_PropertyChanged;
         }
 
         private void BalisSignalRClient_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName != "EventProperty") return;
-            var data = JsonConvert.DeserializeObject<KomBankRatesLine>(_balisSignalRClient.EventProperty.Item2);
+            var data = JsonConvert.DeserializeObject<KomBankRatesLine>(_forWpfAppSignalRClient.EventProperty.Item2);
             if (data.Bank != KomBank.ToString().ToUpper()) return;
-            if (_balisSignalRClient.EventProperty.Item1 == "RateChanged")
+            if (_forWpfAppSignalRClient.EventProperty.Item1 == "RateChanged")
             {
                 _logFile.AppendLine($"Rate changed in: {data.Bank} at {data.LastCheck}");
                 var vm = Mapper.Map<KomBankRateVm>(data);

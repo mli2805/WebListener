@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace BalisStandard
         private readonly ILifetimeScope _container;
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
-        private BalisSignalRClient _balisSignalRClient;
+        private ForPollerSignalRClient _forPollerSignalRClient;
 
         public KomBanksPoller(ILifetimeScope container)
         {
@@ -35,9 +36,11 @@ namespace BalisStandard
 
         private async void Poll(IRatesLineExtractor ratesLineExtractor)
         {
-            _logFile.AppendLine($"{ratesLineExtractor.BankTitle} extractor started");
-            _balisSignalRClient = _container.Resolve<BalisSignalRClient>();
-            _balisSignalRClient.Start();
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _logFile.AppendLine($"{ratesLineExtractor.BankTitle} extractor started in thread {tid}");
+         //   _balisSignalRClient = _container.Resolve<BalisSignalRClient>();
+            _forPollerSignalRClient = _container.Resolve<ForPollerSignalRClient>();
+            _forPollerSignalRClient.Start();
             while (true)
             {
                 KomBankRatesLine rate;
@@ -59,20 +62,21 @@ namespace BalisStandard
         {
             using (BanksListenerContext db = new BanksListenerContext(_dbPath))
             {
+                var tid = Thread.CurrentThread.ManagedThreadId;
                 var last = await db.KomBankRates.Where(l => l.Bank == rate.Bank).OrderBy(c => c.LastCheck).LastOrDefaultAsync();
                 if (last == null || last.IsDifferent(rate))
                 {
                     if (rate.Bank == KomBankE.Bib.ToString().ToUpper())
                         rate.StartedFrom = DateTime.Now; // Bib page does not contain date from
                     db.KomBankRates.Add(rate);
-                    _logFile.AppendLine($"{rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
-                    _balisSignalRClient.NotifyAll("RateChanged", JsonConvert.SerializeObject(rate));
+                    _logFile.AppendLine($"Thread id {tid}: {rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
+                    _forPollerSignalRClient.NotifyAll("RateChanged", JsonConvert.SerializeObject(rate));
                 }
                 else
                 {
                     last.LastCheck = DateTime.Now;
-                    _logFile.AppendLine($"{rate.Bank} rate checked");
-                    _balisSignalRClient.NotifyAll("TheSameRate", JsonConvert.SerializeObject(rate));
+                    _logFile.AppendLine($"Thread id {tid}: Poller of {rate.Bank} - rate checked");
+                    _forPollerSignalRClient.NotifyAll("TheSameRate", JsonConvert.SerializeObject(rate));
                 }
 
                 return await db.SaveChangesAsync();
