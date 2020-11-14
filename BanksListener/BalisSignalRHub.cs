@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
@@ -10,11 +11,14 @@ namespace BanksListener
     {
         private readonly IMyLog _logFile;
         private readonly string _localIpAddress;
+        private readonly Process _process;
+
 
         public BalisSignalRHub(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, IniKey.Ip, "localhost");
+            _process = Process.GetCurrentProcess();
         }
 
         /// <summary>
@@ -28,6 +32,8 @@ namespace BanksListener
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Thread id {tid}: Hub received {eventType} event from client with id = {Context.ConnectionId}");
             await Clients.All.SendAsync(eventType, dataInJson);
+            var memory64 = _process.PrivateMemorySize64 / 1024;
+            _logFile.AppendLine($"Process's private memory usage {memory64:0,0}K");
         }
 
 

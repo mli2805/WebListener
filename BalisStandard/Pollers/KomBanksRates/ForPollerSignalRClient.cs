@@ -29,14 +29,19 @@ namespace BalisStandard
                 var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
                 string url = $"http://{baliApiUrl}/balisSignalRHub";
                 _logFile.AppendLine($"SignalR connection to {url}");
-                _connection = new HubConnectionBuilder().WithUrl(url).Build();
+                _connection = new HubConnectionBuilder()
+                    .WithUrl(url)
+                    .WithAutomaticReconnect()
+                    .Build();
 
                 _connection.Closed += async (error) =>
                 {
-                    _logFile.AppendLine("BalisSignalRClient connection was closed. Restarting...");
-                    await Task.Delay(new Random().Next(0, 5) * 1000);
-                    await _connection.StartAsync();
-                    _logFile.AppendLine($"SignalR connection state is {_connection.State}");
+                    await Task.Delay(1);
+                    _logFile.AppendLine($"ForPollerSignalRClient closed: {error.Message}");
+//                    _logFile.AppendLine("ForPollerSignalRClient connection was closed. Restarting...");
+//                    await Task.Delay(new Random().Next(0, 5) * 1000);
+//                    await _connection.StartAsync();
+//                    _logFile.AppendLine($"SignalR connection state is {_connection.State}");
                 };
              
                 await _connection.StartAsync();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BalisStandard;
@@ -46,13 +47,29 @@ namespace BanksListener.Controllers
                 .ToList();
         }
 
+        [HttpGet("get-last-for-every}")]
+        public async Task<List<KomBankRatesLine>> GetLastForEvery()
+        {
+            await using BanksListenerContext db = new BanksListenerContext(_dbPath);
+            var result = new List<KomBankRatesLine>();
+            foreach (KomBankE komBank in Enum.GetValues(typeof(KomBankE)))
+            {
+                var lastLine = db.KomBankRates
+                    .OrderByDescending(l => l.LastCheck)
+                    .FirstOrDefault(r => r.Bank == komBank.ToString());
+                if (lastLine != null)
+                    result.Add(lastLine);
+            }
+            return result;
+        }
+
         [HttpGet("get-belstock-archive/{portion}")]
         public async Task<List<BelStockArchiveOneCurrencyDay>> GetBelstockArchive(int portion)
         {
             int portionSize = _iniFile.Read(IniSection.General, IniKey.BelstockPortionSize, 100);
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
-            return db.BelStockArchive.OrderBy(l=>l.Date)
-                .Skip(portion*portionSize)
+            return db.BelStockArchive.OrderBy(l => l.Date)
+                .Skip(portion * portionSize)
                 .Take(portionSize)
                 .ToList();
         }
