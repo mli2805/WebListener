@@ -17,67 +17,75 @@ namespace BalisWpf
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingProfile>()).CreateMapper();
 
-        private readonly IniFile _iniFile;
+        private readonly string _baliApiUrl;
         public KomBankE KomBank;
         private readonly IMyLog _logFile;
-        private readonly ForWpfAppSignalRClient _forWpfAppSignalRClient;
         public string BankTitle => KomBank.GetAbbreviation();
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
-        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, ForWpfAppSignalRClient forWpfAppSignalRClient)
+        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile)
         {
-            _iniFile = iniFile;
             KomBank = komBank;
             _logFile = logFile;
-            _forWpfAppSignalRClient = forWpfAppSignalRClient;
-            forWpfAppSignalRClient.PropertyChanged += BalisSignalRClient_PropertyChanged;
+            _baliApiUrl = iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
         }
 
-        private void BalisSignalRClient_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public async Task StartPolling()
         {
-            if (e.PropertyName != "EventProperty") return;
-            var data = JsonConvert.DeserializeObject<KomBankRatesLine>(_forWpfAppSignalRClient.EventProperty.Item2);
-            if (data.Bank != KomBank.ToString().ToUpper()) return;
-            if (_forWpfAppSignalRClient.EventProperty.Item1 == "RateChanged")
+            while (true)
             {
-                _logFile.AppendLine($"Rate changed in: {data.Bank} at {data.LastCheck}");
-                var vm = Mapper.Map<KomBankRateVm>(data);
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    Rows.Add(vm);
-                    var notify = new Changes
-                    {
-                        MessageBlock = { Text = vm.Bank + " " + vm.StartedFrom }
-                    };
-                    notify.Show();   
-                    //MessageBox.Show($"{data.Bank} rates changed at {data.StartedFrom}");
-                });
+                await Task.Delay(3000);
+                await GetOneLast();
             }
-            else
+            // ReSharper disable once FunctionNeverReturns
+        }
+
+        private async Task GetOneLast()
+        {
+            var webApiUrl = $@"http://{_baliApiUrl}/bali/get-one-last/" + KomBank.ToString().ToUpper();
+
+            try
             {
-                _logFile.AppendLine($"The same rate for: {data.Bank} at {data.LastCheck}");
+                var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
+                var oneLine = JsonConvert.DeserializeObject<KomBankRatesLine>(response);
+
+                var vm = Mapper.Map<KomBankRateVm>(oneLine);
+                var last = Rows.FirstOrDefault(r => r.Id == vm.Id);
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var last = Rows.Last();
-                    last.LastCheck = data.LastCheck;
+                    if (last == null)
+                    {
+                        Rows.Add(vm);
+                        var notify = new Changes
+                        {
+                            MessageBlock = { Text = vm.Bank + " " + vm.StartedFrom }
+                        };
+                        notify.Show();
+                    }
+                    else
+                        last.LastCheck = vm.LastCheck;
                 });
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
             }
         }
 
         public async Task<KomBankViewModel> GetSomeLast()
         {
-            var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
-            var webApiUrl = $@"http://{baliApiUrl}/bali/get-some-last/" + KomBank.ToString().ToUpper();
+            var webApiUrl = $@"http://{_baliApiUrl}/bali/get-some-last/" + KomBank.ToString().ToUpper();
 
             try
             {
                 var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
-                var lastFive = JsonConvert.DeserializeObject<IEnumerable<KomBankRatesLine>>(response);
+                var lastLines = JsonConvert.DeserializeObject<IEnumerable<KomBankRatesLine>>(response);
 
-                foreach (var line in lastFive.Reverse())
+                foreach (var line in lastLines.Reverse())
                 {
                     var vm = Mapper.Map<KomBankRateVm>(line);
-                    Rows.Add(vm);
+                    Application.Current.Dispatcher.Invoke(() => { Rows.Add(vm); });
                 }
             }
             catch (Exception e)

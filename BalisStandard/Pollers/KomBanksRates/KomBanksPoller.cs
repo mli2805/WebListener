@@ -4,21 +4,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using UtilsLib;
 
 namespace BalisStandard
 {
     public class KomBanksPoller
     {
-        private readonly ILifetimeScope _container;
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
-        private ForPollerSignalRClient _forPollerSignalRClient;
 
         public KomBanksPoller(ILifetimeScope container)
         {
-            _container = container;
             _logFile = container.Resolve<IMyLog>();
             var iniFile = container.Resolve<IniFile>();
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
@@ -38,9 +34,6 @@ namespace BalisStandard
         {
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"{ratesLineExtractor.BankTitle} extractor started in thread {tid}");
-         //   _balisSignalRClient = _container.Resolve<BalisSignalRClient>();
-            _forPollerSignalRClient = _container.Resolve<ForPollerSignalRClient>();
-            _forPollerSignalRClient.Start();
             while (true)
             {
                 KomBankRatesLine rate;
@@ -70,13 +63,11 @@ namespace BalisStandard
                         rate.StartedFrom = DateTime.Now; // Bib page does not contain date from
                     db.KomBankRates.Add(rate);
                     _logFile.AppendLine($"Thread id {tid}: {rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
-                    _forPollerSignalRClient.NotifyAll("RateChanged", JsonConvert.SerializeObject(rate));
                 }
                 else
                 {
                     last.LastCheck = DateTime.Now;
                     _logFile.AppendLine($"Thread id {tid}: Poller of {rate.Bank} - rate checked");
-                    _forPollerSignalRClient.NotifyAll("TheSameRate", JsonConvert.SerializeObject(rate));
                 }
 
                 return await db.SaveChangesAsync();

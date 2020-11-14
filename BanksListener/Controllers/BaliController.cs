@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BalisStandard;
@@ -47,20 +46,14 @@ namespace BanksListener.Controllers
                 .ToList();
         }
 
-        [HttpGet("get-last-for-every}")]
-        public async Task<List<KomBankRatesLine>> GetLastForEvery()
+        [HttpGet("get-one-last/{bankTitle}")]
+        public async Task<KomBankRatesLine> GetLastForEvery(string bankTitle)
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
-            var result = new List<KomBankRatesLine>();
-            foreach (KomBankE komBank in Enum.GetValues(typeof(KomBankE)))
-            {
-                var lastLine = db.KomBankRates
-                    .OrderByDescending(l => l.LastCheck)
-                    .FirstOrDefault(r => r.Bank == komBank.ToString());
-                if (lastLine != null)
-                    result.Add(lastLine);
-            }
-            return result;
+
+            return db.KomBankRates
+                .OrderByDescending(l => l.LastCheck)
+                .FirstOrDefault(r => r.Bank == bankTitle.ToUpper());
         }
 
         [HttpGet("get-belstock-archive/{portion}")]

@@ -250,7 +250,6 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacBalisWpf.cs" />
-    <Compile Include="ForWpfAppSignalRClient.cs" />
     <Compile Include="BelStockArchive\BelStockArchiveLine.cs" />
     <Compile Include="BelStockArchive\BelStockArchiveView.xaml.cs">
       <DependentUpon>BelStockArchiveView.xaml</DependentUpon>

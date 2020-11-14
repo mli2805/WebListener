@@ -36,8 +36,6 @@ namespace BanksListener
 
             services.AddControllers()
                 .AddNewtonsoftJson();
-
-            services.AddSignalR();
         }
 
         // ConfigureContainer is where you can register things directly
@@ -78,8 +76,7 @@ namespace BanksListener
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=KomBanks}/{action=GetLastRate}/{bankId?}");
-                endpoints.MapHub<BalisSignalRHub>("/balisSignalRHub");
+                    pattern: "{controller=BaliController}/{action=GetLastRate}/{bankId?}");
             });
         }
     }
