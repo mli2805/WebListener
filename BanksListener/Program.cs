@@ -10,7 +10,7 @@ namespace BanksListener
     {
         public static void Main(string[] args)
         {
-            File.WriteAllText(@"c:\tmp\file.txt", DateTime.Now.ToLongTimeString());
+            File.WriteAllText($@"c:\tmp\{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.txt", DateTime.Now.ToString("F"));
 
             CreateHostBuilder(args)
                 .Build()
