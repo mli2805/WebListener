@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Autofac;
 using Microsoft.EntityFrameworkCore;
 using UtilsLib;
 
@@ -13,10 +12,16 @@ namespace BalisStandard
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
 
-        public KomBanksPoller(ILifetimeScope container)
+        //        public KomBanksPoller(ILifetimeScope container)
+        //        {
+        //            _logFile = container.Resolve<IMyLog>();
+        //            var iniFile = container.Resolve<IniFile>();
+        //            _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
+        //        }
+
+        public KomBanksPoller(IniFile iniFile, IMyLog logFile)
         {
-            _logFile = container.Resolve<IMyLog>();
-            var iniFile = container.Resolve<IniFile>();
+            _logFile = logFile;
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
         }
 

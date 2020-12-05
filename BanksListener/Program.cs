@@ -23,6 +23,8 @@ namespace BanksListener
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                    webBuilder.UseUrls("http://*:11082");
+                })
+                .UseWindowsService();
     }
 }

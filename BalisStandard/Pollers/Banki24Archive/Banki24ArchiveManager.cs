@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Autofac;
 using UtilsLib;
 
 namespace BalisStandard
@@ -12,10 +11,16 @@ namespace BalisStandard
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
 
-        public Banki24ArchiveManager(ILifetimeScope container)
+//        public Banki24ArchiveManager(ILifetimeScope container)
+//        {
+//            _logFile = container.Resolve<IMyLog>();
+//            var iniFile = container.Resolve<IniFile>();
+//            _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
+//        }
+
+        public Banki24ArchiveManager(IniFile iniFile, IMyLog logFile)
         {
-            _logFile = container.Resolve<IMyLog>();
-            var iniFile = container.Resolve<IniFile>();
+            _logFile = logFile;
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
         }
 
@@ -24,7 +29,7 @@ namespace BalisStandard
             await Task.Factory.StartNew(Poll);
         }
 
-        private async void Poll()
+        private async Task Poll()
         {
             _logFile.AppendLine("Banki24 archive extractor started");
             var date = new DateTime(1, 1, 1);

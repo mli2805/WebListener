@@ -20,7 +20,7 @@
     "BanksListener": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "get-some-last/BIB",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

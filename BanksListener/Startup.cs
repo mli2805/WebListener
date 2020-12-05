@@ -1,14 +1,9 @@
-using System.Diagnostics;
-using System.Threading;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using BalisStandard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using UtilsLib;
 
 namespace BanksListener
 {
@@ -20,7 +15,7 @@ namespace BanksListener
         }
 
         public IConfiguration Configuration { get; }
-        public ILifetimeScope AutofacContainer { get; private set; }
+//        public ILifetimeScope AutofacContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,8 +29,12 @@ namespace BanksListener
                     .SetIsOriginAllowed(hostName => true);
             }));
 
+
             services.AddControllers()
                 .AddNewtonsoftJson();
+
+            services.AddHostedService<Banki24ArchiveHostedService>();
+            services.AddHostedService<KomBanksHostedService>();
         }
 
         // ConfigureContainer is where you can register things directly
@@ -53,14 +52,6 @@ namespace BanksListener
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            var _logFile = AutofacContainer.Resolve<IMyLog>();
-            _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");
-            new Banki24ArchiveManager(AutofacContainer).StartThread();
-            new KomBanksPoller(AutofacContainer).StartThreads();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

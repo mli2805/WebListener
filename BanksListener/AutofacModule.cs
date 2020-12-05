@@ -1,4 +1,5 @@
 using Autofac;
+using BalisStandard;
 using UtilsLib;
 
 namespace BanksListener
@@ -14,6 +15,9 @@ namespace BanksListener
             var logFile = new LogFile(iniFile);
             logFile.AssignFile("baliWebApi.log");
             builder.RegisterInstance<IMyLog>(logFile);
+
+            builder.RegisterType<Banki24ArchiveManager>();
+            builder.RegisterType<KomBanksPoller>();
         }
     }
 }
