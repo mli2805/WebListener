@@ -12,13 +12,6 @@ namespace BalisStandard
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
 
-        //        public KomBanksPoller(ILifetimeScope container)
-        //        {
-        //            _logFile = container.Resolve<IMyLog>();
-        //            var iniFile = container.Resolve<IniFile>();
-        //            _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
-        //        }
-
         public KomBanksPoller(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
@@ -33,6 +26,7 @@ namespace BalisStandard
             await Task.Factory.StartNew(() => Poll(new DabrabytExtractor()));
             await Task.Factory.StartNew(() => Poll(new BelvebExtractor()));
             //            await Task.Factory.StartNew(() => Poll(new BpsExtractor()));
+            await Task.Factory.StartNew(() => Poll(new AlfaExtractor()));
         }
 
         private async void Poll(IRatesLineExtractor ratesLineExtractor)

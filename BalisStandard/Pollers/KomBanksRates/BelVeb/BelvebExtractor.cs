@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace BalisStandard
     {
         public string BankTitle => KomBankE.Bveb.ToString().ToUpper();
         private const string MainPage = "https://belveb.by";
+
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
             var mainPage = await ((HttpWebRequest)WebRequest.Create(MainPage))
@@ -43,6 +45,12 @@ namespace BalisStandard
             {
                 rates.UsdA = usdBuy;
                 rates.UsdB = usdSale;
+            }
+
+            if (rates.UsdA < 1)
+            {
+                File.WriteAllText(@"c:/belveb.txt", table);
+                return null;
             }
 
             double euroBuy;
@@ -103,7 +111,5 @@ namespace BalisStandard
                 return false;
             }
         }
-
-
     }
 }

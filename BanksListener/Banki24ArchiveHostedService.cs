@@ -6,6 +6,7 @@ using UtilsLib;
 
 namespace BanksListener
 {
+        // https://www.taithienbo.com/hosting-a-background-task-in-an-asp-net-core-application-running-on-iis/
     public class Banki24ArchiveHostedService : IHostedService
     {
         private readonly IMyLog _logFile;
@@ -33,7 +34,6 @@ namespace BanksListener
 
 
         /*
-        // https://www.taithienbo.com/hosting-a-background-task-in-an-asp-net-core-application-running-on-iis/
         public Task StartAsync(CancellationToken cancellationToken) 
         {
             // Invoke the DoWork method every 5 seconds. 

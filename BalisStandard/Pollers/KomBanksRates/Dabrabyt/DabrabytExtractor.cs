@@ -27,7 +27,7 @@ namespace BalisStandard
 
         private KomBankRatesLine ParseThreeTables(string page)
         {
-            var result = new KomBankRatesLine { Bank = KomBankE.Mmb.ToString().ToUpper() };
+            var result = new KomBankRatesLine { Bank = BankTitle };
 
             if (!FetchTable(page, Nal, out string table))
                 return null;
