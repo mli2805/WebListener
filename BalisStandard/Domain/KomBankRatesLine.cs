@@ -31,5 +31,10 @@ namespace BalisStandard
                    !RubUsdA.Equals(anotherLine.RubUsdA) || !RubUsdB.Equals(anotherLine.RubUsdB) ||
                    !RubEurA.Equals(anotherLine.RubEurA) || !RubEurB.Equals(anotherLine.RubEurB);
         }
+
+        public override string ToString()
+        {
+            return $"{Bank} from {StartedFrom}: USD {UsdA}-{UsdB};  EUR {EurA}-{EurB};  RUB {RubA}-{RubB} ....";
+        }
     }
 }

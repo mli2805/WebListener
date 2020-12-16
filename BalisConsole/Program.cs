@@ -7,13 +7,13 @@ namespace BalisConsole
     {
         static void Main()
         {
-            AlfaBank();
+            Test();
             Console.ReadKey();
         }
 
-        private static async void AlfaBank()
+        private static async void Test()
         {
-            var extractor = new AlfaExtractor();
+            var extractor = new DabrabytExtractor();
             var rate = await extractor.GetRatesLineAsync();
             Console.WriteLine(rate);
         }

@@ -8,7 +8,7 @@ namespace BalisStandard
     public class DabrabytExtractor : IRatesLineExtractor
     {
         public string BankTitle => KomBankE.Mmb.ToString().ToUpper();
-        private const string Url = @"https://www.mmbank.by/currency_exchange/";
+        private const string Url = @"https://bankdabrabyt.by/currency_exchange/";
 
         private const string Nal = "НАЛИЧНЫЕ";
         private const string Conversion = "КОНВЕРСИЯ";
