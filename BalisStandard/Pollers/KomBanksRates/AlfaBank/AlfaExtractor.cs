@@ -9,7 +9,7 @@ namespace BalisStandard
 {
     public class AlfaExtractor : IRatesLineExtractor
     {
-        public string BankTitle => KomBankE.Bgpb.ToString().ToUpper();
+        public string BankTitle => KomBankE.Alfa.ToString().ToUpper();
         private const string Url = @"https://developerhub.alfabank.by:8273/partner/1.0.0/public/rates";
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
