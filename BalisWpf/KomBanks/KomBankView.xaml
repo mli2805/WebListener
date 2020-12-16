@@ -21,6 +21,18 @@
                 <balisWpf:ScrollToBottomDatagridBehavior/>
                 <balisWpf:ScrollToBottomOnAddBehavior />
             </i:Interaction.Behaviors>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding State}" Value="Fresh">
+                            <Setter Property="Background" Value="LightGreen"/>
+                        </DataTrigger> 
+                        <DataTrigger Binding="{Binding State}" Value="Expired">
+                            <Setter Property="Background" Value="OrangeRed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Width="75" Binding="{Binding StartedFromForGrid}">
                     <DataGridTextColumn.HeaderTemplate>

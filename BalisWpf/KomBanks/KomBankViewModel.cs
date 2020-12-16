@@ -21,6 +21,7 @@ namespace BalisWpf
         public KomBankE KomBank;
         private readonly IMyLog _logFile;
         public string BankTitle => KomBank.GetAbbreviation();
+
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
         public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile)
@@ -49,21 +50,26 @@ namespace BalisWpf
                 var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
                 var oneLine = JsonConvert.DeserializeObject<KomBankRatesLine>(response);
 
-                var vm = Mapper.Map<KomBankRateVm>(oneLine);
-                var last = Rows.FirstOrDefault(r => r.Id == vm.Id);
+                var newLine = Mapper.Map<KomBankRateVm>(oneLine);
+                var last = Rows.FirstOrDefault(r => r.Id == newLine.Id);
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     if (last == null)
                     {
-                        Rows.Add(vm);
+                        newLine.State = "Fresh";
+                        Rows.Add(newLine);
                         var notify = new Changes
                         {
-                            MessageBlock = { Text = vm.Bank + " " + vm.StartedFrom }
+                            MessageBlock = { Text = newLine.Bank + " " + newLine.StartedFrom }
                         };
                         notify.Show();
                     }
                     else
-                        last.LastCheck = vm.LastCheck;
+                    {
+                        last.State = newLine.LastCheck - DateTime.Now > TimeSpan.FromSeconds(45) ? "Expired" : "";
+
+                        last.LastCheck = newLine.LastCheck;
+                    }
                 });
 
             }
