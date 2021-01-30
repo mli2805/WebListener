@@ -48,6 +48,13 @@ namespace BalisWpf
             try
             {
                 var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
+                if (string.IsNullOrEmpty(response))
+                {
+                    var lastLine = Rows.Last();
+                    lastLine.State = DateTime.Now - lastLine.LastCheck > TimeSpan.FromSeconds(45) ? "Expired" : "";
+                    return;
+                }
+
                 var oneLine = JsonConvert.DeserializeObject<KomBankRatesLine>(response);
 
                 var newLine = Mapper.Map<KomBankRateVm>(oneLine);
@@ -66,8 +73,7 @@ namespace BalisWpf
                     }
                     else
                     {
-                        last.State = newLine.LastCheck - DateTime.Now > TimeSpan.FromSeconds(45) ? "Expired" : "";
-
+                        last.State = DateTime.Now - newLine.LastCheck > TimeSpan.FromSeconds(45) ? "Expired" : "";
                         last.LastCheck = newLine.LastCheck;
                     }
                 });
