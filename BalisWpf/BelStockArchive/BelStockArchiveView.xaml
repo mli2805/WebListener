@@ -22,11 +22,13 @@
                 <DataGridTextColumn Header="Rub rate" Width="75" Binding="{Binding RubRate, StringFormat={}{0:0.0000}}"/>
                 <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding RubTurnover, StringFormat={}{0:0.0}}"/>
                 <DataGridTextColumn Header="Total" Width="75" Binding="{Binding TotalTurnover, StringFormat={}{0:0.0}}"/>
+                <DataGridTextColumn Header="Basket" Width="75" Binding="{Binding Basket, StringFormat={}{0:0.0000}}"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal">
             <Button Name="Toggle" Margin="10" Width="120" Height="24">Toggle</Button>
             <Button Name="SaveAs" Margin="10" Width="120" Height="24">Save as</Button>
+            <Button Name="MonthlyChart" Margin="10" Width="120" Height="24">Monthly chart</Button>
         </StackPanel>
     </StackPanel>
 

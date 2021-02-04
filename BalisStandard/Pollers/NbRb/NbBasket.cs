@@ -20,12 +20,6 @@ namespace BalisStandard
             return Math.Pow(usd, UsdWage) * Math.Pow(eur, EurWage) * Math.Pow(rub, RubWage);
         }
 
-        public static double GetBasket(this NbRates nbRates)
-        {
-            return Math.Pow(nbRates.Usd, UsdWage) * Math.Pow(nbRates.Eur, EurWage) * Math.Pow(nbRates.Rub, RubWage);
-
-        }
-
         /// <summary>
         /// Basket = Usd^UsdWage * Eur^EurWage * Rub^RubWage
         /// где курсы валют это колво бинов за 1-цу валюты

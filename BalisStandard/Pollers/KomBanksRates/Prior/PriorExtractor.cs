@@ -38,7 +38,7 @@ namespace BalisStandard
         private KomBankRatesLine Parse(string page)
         {
             var priorList = (RootObject)JsonConvert.DeserializeObject(page, typeof(RootObject));
-            if (priorList.Message != "success")
+            if (priorList == null || priorList.Message != "success")
                 return null;
 
             var result = new KomBankRatesLine { Bank = KomBankE.Prior.ToString().ToUpper() };

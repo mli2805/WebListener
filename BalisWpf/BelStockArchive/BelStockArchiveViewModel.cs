@@ -15,6 +15,8 @@ namespace BalisWpf
     public class BelStockArchiveViewModel : Screen
     {
         private readonly IniFile _iniFile;
+        private readonly IWindowManager _windowManager;
+        private readonly MonthlyChartViewModel _monthlyChartViewModel;
         private int _mode;
 
         private List<BelStockArchiveOneCurrencyDay> data;
@@ -23,9 +25,11 @@ namespace BalisWpf
         private List<BelStockArchiveLine> dayOfMonthData;
         public ObservableCollection<BelStockArchiveLine> Rows { get; set; } = new ObservableCollection<BelStockArchiveLine>();
 
-        public BelStockArchiveViewModel(IniFile iniFile)
+        public BelStockArchiveViewModel(IniFile iniFile, IWindowManager windowManager, MonthlyChartViewModel monthlyChartViewModel)
         {
             _iniFile = iniFile;
+            _windowManager = windowManager;
+            _monthlyChartViewModel = monthlyChartViewModel;
         }
 
         private async Task Fetch()
@@ -180,6 +184,12 @@ namespace BalisWpf
             var rows = new List<GoogleSheetRow>() { row1, row2 };
  
             gsh.AddCells(new GoogleSheetParameters() {SheetName="Sheet1", RangeColumnStart = 1, RangeRowStart = 1 }, rows);
+        }
+
+        public void MonthlyChart()
+        {
+            _monthlyChartViewModel.Initialize(Rows);
+            _windowManager.ShowWindow(_monthlyChartViewModel);
         }
     }
 }

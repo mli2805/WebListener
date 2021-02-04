@@ -1,4 +1,5 @@
 ﻿using System;
+using BalisStandard;
 
 namespace BalisWpf
 {
@@ -14,5 +15,8 @@ namespace BalisWpf
         public double RubTurnover { get; set; }
 
         public double TotalTurnover => UsdTurnover + EuroTurnover + RubTurnover;
+
+        public double Basket => NbBasket.Calculate(UsdRate, EuroRate, RubRate / 100);
+
     }
 }

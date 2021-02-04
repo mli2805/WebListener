@@ -64,6 +64,8 @@ namespace BalisWpf
                     if (last == null)
                     {
                         newLine.State = "Fresh";
+                        if (Rows.Any())
+                            Rows.Last().State = "";
                         Rows.Add(newLine);
                         var notify = new Changes
                         {

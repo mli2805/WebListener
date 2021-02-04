@@ -25,6 +25,7 @@ namespace BalisStandard
             {
                 var result = new KomBankRatesLine() { Bank = KomBankE.Bps.ToString().ToUpper() };
                 var bpsRootObject = (BpsRootObject)JsonConvert.DeserializeObject(json, typeof(BpsRootObject));
+                if (bpsRootObject == null) return null;
                 DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 result.StartedFrom = start.AddMilliseconds(bpsRootObject.date).ToLocalTime();
 

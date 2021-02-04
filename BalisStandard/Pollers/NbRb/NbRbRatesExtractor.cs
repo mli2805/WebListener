@@ -19,7 +19,7 @@ namespace BalisStandard
                 return null;
 
             var nbList = (List<NbRbSiteRate>)JsonConvert.DeserializeObject(json, typeof(List<NbRbSiteRate>));
-            if (nbList.Count == 0) return null;
+            if (nbList == null || nbList.Count == 0) return null;
             var result = new NbRates() { Date = date };
             var usdRate = nbList.First(c => c.Cur_Abbreviation == "USD");
             result.Usd = usdRate.Cur_OfficialRate;
