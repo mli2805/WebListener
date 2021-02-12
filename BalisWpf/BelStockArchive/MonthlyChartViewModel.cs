@@ -17,7 +17,7 @@ namespace BalisWpf
         public void Initialize(ObservableCollection<BelStockArchiveLine> rows)
         {
             _rates = rows;
-            var start = new DateTime(2020, 9, 1);
+            // var start = new DateTime(2020, 9, 1);
 
             OneMonth(2020, 9, MyPlotModel, OxyColor.FromArgb(255, 0, 0, 255));
             OneMonth(2020, 10, MyPlotModel, OxyColor.FromArgb(255, 0, 255, 0));

@@ -13,7 +13,7 @@ namespace BalisConsole
 
         private static async void Test()
         {
-            var extractor = new DabrabytExtractor();
+            var extractor = new MtbExtractor();
             var rate = await extractor.GetRatesLineAsync();
             Console.WriteLine(rate);
         }

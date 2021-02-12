@@ -47,25 +47,25 @@ namespace BalisStandard
             };
 
             double usdBuy;
-            double usdSale;
-            if (!GetOneCurrency(table, "USD", out usdBuy, out usdSale))
+            double usdSell;
+            if (!GetOneCurrency(table, "USD", out usdBuy, out usdSell))
                 return null;
             rates.UsdA = usdBuy;
-            rates.UsdB = usdSale;
+            rates.UsdB = usdSell;
 
             double euroBuy;
-            double euroSale;
-            if (!GetOneCurrency(table, "EUR", out euroBuy, out euroSale))
+            double euroSell;
+            if (!GetOneCurrency(table, "EUR", out euroBuy, out euroSell))
                 return null;
             rates.EurA = euroBuy;
-            rates.EurB = euroSale;
+            rates.EurB = euroSell;
 
             double rubBuy;
-            double rubSale;
-            if (!GetOneCurrency(table, "RUB", out rubBuy, out rubSale))
+            double rubSell;
+            if (!GetOneCurrency(table, "RUB", out rubBuy, out rubSell))
                 return null;
             rates.RubA = rubBuy;
-            rates.RubB = rubSale;
+            rates.RubB = rubSell;
 
             return rates;
         }
@@ -79,10 +79,10 @@ namespace BalisStandard
             var pos2 = table.IndexOf("td_buy", pos, StringComparison.Ordinal);
             var strBuy = table.Substring(pos2 + 61, 10);
             var pos3 = table.IndexOf("td_sell", pos2+10, StringComparison.Ordinal);
-            var strSale = table.Substring(pos3 + 62, 10);
+            var strSell = table.Substring(pos3 + 62, 10);
 
             if (!double.TryParse(strBuy, NumberStyles.Any, new CultureInfo("en-US"), out buy)) return false;
-            return double.TryParse(strSale, NumberStyles.Any, new CultureInfo("en-US"), out sale);
+            return double.TryParse(strSell, NumberStyles.Any, new CultureInfo("en-US"), out sale);
         }
 
     }

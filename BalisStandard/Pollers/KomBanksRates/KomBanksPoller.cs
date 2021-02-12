@@ -27,6 +27,7 @@ namespace BalisStandard
             await Task.Factory.StartNew(() => Poll(new BelvebExtractor()));
             //            await Task.Factory.StartNew(() => Poll(new BpsExtractor()));
             await Task.Factory.StartNew(() => Poll(new AlfaExtractor()));
+            await Task.Factory.StartNew(() => Poll(new MtbExtractor()));
         }
 
         private async void Poll(IRatesLineExtractor ratesLineExtractor)

@@ -40,11 +40,11 @@ namespace BalisStandard
             };
 
             double usdBuy;
-            double usdSale;
-            if (GetOneCurrency(table, "1 usd", out usdBuy, out usdSale))
+            double usdSell;
+            if (GetOneCurrency(table, "1 usd", out usdBuy, out usdSell))
             {
                 rates.UsdA = usdBuy;
-                rates.UsdB = usdSale;
+                rates.UsdB = usdSell;
             }
 
             if (rates.UsdA < 1)
@@ -54,11 +54,11 @@ namespace BalisStandard
             }
 
             double euroBuy;
-            double euroSale;
-            if (GetOneCurrency(table, "1 eur", out euroBuy, out euroSale))
+            double euroSell;
+            if (GetOneCurrency(table, "1 eur", out euroBuy, out euroSell))
             {
                 rates.EurA = euroBuy;
-                rates.EurB = euroSale;
+                rates.EurB = euroSell;
             }
 
             double usdEuro;
