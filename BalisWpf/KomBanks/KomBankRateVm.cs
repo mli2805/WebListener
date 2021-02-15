@@ -65,6 +65,11 @@ namespace BalisWpf
 
         public string LastCheckForGrid => $"{_lastCheck:dd.MM.yyy\nHH:mm:ss}";
 
+        public void SetIfExpired()
+        {
+            var timeSpan = TimeSpan.FromSeconds((Bank == "BNB" ? 60 : 15) * 3);
+            State = DateTime.Now - LastCheck > timeSpan ? "Expired" : "";
+        }
         #endregion
 
         private static string FormatStartedFromForGrid(string startedFrom)
