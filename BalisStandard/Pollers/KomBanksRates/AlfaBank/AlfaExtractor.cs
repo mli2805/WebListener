@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -10,70 +8,63 @@ namespace BalisStandard
     public class AlfaExtractor : IRatesLineExtractor
     {
         public string BankTitle => KomBankE.Alfa.ToString().ToUpper();
-        private const string Url = @"https://developerhub.alfabank.by:8273/partner/1.0.0/public/rates";
+        private const string Url = @"https://www.alfabank.by/exchange/digital/";
+
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
-            var page = await ((HttpWebRequest)WebRequest.Create(Url))
+            var mainPage = await ((HttpWebRequest)WebRequest.Create(Url))
                 .InitializeForKombanks()
                 .GetDataAsync();
-            if (string.IsNullOrEmpty(page))
+            if (string.IsNullOrEmpty(mainPage))
                 return null;
 
-            return ParseJson(page);
+            try
+            {
+                var indexOfStart = mainPage.IndexOf("data-initial='", StringComparison.InvariantCulture) + 14;
+                var indexOfEnd = mainPage.IndexOf("'", indexOfStart, StringComparison.InvariantCulture) - 1;
+                var length = indexOfEnd - indexOfStart + 1;
+                var json = mainPage.Substring(indexOfStart, length);
+
+                return Parse(json);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($@"{e.Message} in Prior parser");
+                return null;
+            }
         }
 
-        private KomBankRatesLine ParseJson(string page)
+        private KomBankRatesLine Parse(string json)
         {
-            AlfaRoot list = JsonConvert.DeserializeObject<AlfaRoot>(page);
-            var result = new KomBankRatesLine();
-            result.Bank = BankTitle;
-//            result.StartedFrom = DateTime.Now; // v 1.0.1
-            result.StartedFrom = list.rates.First().date;
+            var alfaRoot = JsonConvert.DeserializeObject<AlfaRoot>(json);
+            if (alfaRoot == null)
+                return null;
 
-            var usdRate = list.rates.First(r => r.buyCode == 933 && r.sellCode == 840);
-            result.UsdA = usdRate.sellRate;
-            result.UsdB = usdRate.buyRate;
+            var result = new KomBankRatesLine()
+            {
+                Bank = BankTitle,
+                LastCheck = DateTime.Now,
+                StartedFrom = alfaRoot.initialItems[0].currenciesData[0].date,
+                UsdA = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[0].purchase.value,
+                UsdB = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[0].sell.value,
 
-            var eurRate = list.rates.First(r => r.buyCode == 933 && r.sellCode == 978);
-            result.EurA = eurRate.sellRate;
-            result.EurB = eurRate.buyRate;
+                EurA = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[1].purchase.value,
+                EurB = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[1].sell.value,
 
-            var rubRate = list.rates.First(r => r.buyCode == 933 && r.sellCode == 643);
-            result.RubA = rubRate.sellRate;
-            result.RubB = rubRate.buyRate;
+                RubA = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[2].purchase.value,
+                RubB = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[2].sell.value,
 
-            var eurUsdRate = list.rates.First(r => r.buyCode == 840 && r.sellCode == 978);
-            result.EurUsdA = eurUsdRate.sellRate;
-            result.EurUsdB = eurUsdRate.buyRate;
+                EurUsdA = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[0].purchase.value,
+                EurUsdB = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[0].sell.value,
 
-            var rubUsdRate = list.rates.First(r => r.buyCode == 643 && r.sellCode == 840);
-            result.RubUsdA = rubUsdRate.sellRate;
-            result.RubUsdB = rubUsdRate.buyRate;
+                RubEurA = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[1].purchase.value,
+                RubEurB = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[1].sell.value,
 
-            var rubEurRate = list.rates.First(r => r.buyCode == 643 && r.sellCode == 978);
-            result.RubEurA = rubEurRate.sellRate;
-            result.RubEurB = rubEurRate.buyRate;
+                RubUsdA = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[2].purchase.value,
+                RubUsdB = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[2].sell.value,
+            };
 
-            result.LastCheck = DateTime.Now;
             return result;
         }
-    }
-
-    public class AlfaRate
-    {
-        public double sellRate { get; set; }
-        public string sellIso { get; set; }
-        public int sellCode { get; set; }
-        public double buyRate { get; set; }
-        public string buyIso { get; set; }
-        public int buyCode { get; set; }
-        public int quantity { get; set; }
-        public string name { get; set; }
-        public DateTime date { get; set; }
-    }
-
-    public class AlfaRoot
-    {
-        public List<AlfaRate> rates { get; set; }
     }
 }

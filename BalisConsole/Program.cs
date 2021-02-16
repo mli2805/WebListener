@@ -13,7 +13,7 @@ namespace BalisConsole
 
         private static async void Test()
         {
-            var extractor = new BnbExtractor();
+            var extractor = new AlfaExtractor();
             var rate = await extractor.GetRatesLineAsync();
             Console.WriteLine(rate);
         }
