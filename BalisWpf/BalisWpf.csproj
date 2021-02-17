@@ -287,11 +287,15 @@
       <DependentUpon>KomBankListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="KomBanks\KomBankListViewModel.cs" />
-    <Compile Include="KomBanks\KomBankRateVm.cs" />
-    <Compile Include="KomBanks\KomBankView.xaml.cs">
+    <Compile Include="KomBanks\OneKomBankControl\KomBankRateVm.cs" />
+    <Compile Include="KomBanks\KomBankTnCView.xaml.cs">
+      <DependentUpon>KomBankTnCView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KomBanks\KomBankTnCViewModel.cs" />
+    <Compile Include="KomBanks\OneKomBankControl\KomBankView.xaml.cs">
       <DependentUpon>KomBankView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KomBanks\KomBankViewModel.cs" />
+    <Compile Include="KomBanks\OneKomBankControl\KomBankViewModel.cs" />
     <Compile Include="MappingProfile.cs" />
     <Compile Include="NbRb\NbRbView.xaml.cs">
       <DependentUpon>NbRbView.xaml</DependentUpon>
@@ -335,7 +339,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KomBanks\KomBankView.xaml">
+    <Page Include="KomBanks\KomBankTnCView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KomBanks\OneKomBankControl\KomBankView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -392,6 +400,7 @@
   <ItemGroup>
     <Resource Include="BalisWpf.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.2.0.2\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.2.0.2\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

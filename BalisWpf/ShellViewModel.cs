@@ -1,15 +1,18 @@
 using System.Threading.Tasks;
 using BalisStandard;
+using Caliburn.Micro;
 using UtilsLib;
 
 namespace BalisWpf
 {
-    public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
+    public class ShellViewModel : PropertyChangedBase, IShell
     {
+        private readonly IWindowManager _windowManager;
         public ShellVm Model { get; set; }
 
-        public ShellViewModel(IniFile iniFile, IMyLog logFile, ShellVm shellVm)
+        public ShellViewModel(IniFile iniFile, IMyLog logFile, IWindowManager windowManager, ShellVm shellVm)
         {
+            _windowManager = windowManager;
             Model = shellVm;
 
             StartNbRbPoller();
@@ -22,7 +25,7 @@ namespace BalisWpf
 
         private void StartKomBankPollers(IniFile iniFile, IMyLog logFile)
         {
-            Task.Factory.StartNew( () => Model.KomBankListViewModel.Start(iniFile, logFile));
+            Task.Factory.StartNew( () => Model.KomBankListViewModel.Start(iniFile, logFile, _windowManager));
         }
 
         private void StartTradingViewPollers()
@@ -47,8 +50,6 @@ namespace BalisWpf
         private void StartBelStockPoller()
         {
             Task.Factory.StartNew(() => new BelStockPoller().Start(Model));
-
         }
-
     }
 }

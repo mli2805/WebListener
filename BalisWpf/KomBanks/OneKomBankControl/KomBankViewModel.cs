@@ -5,8 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using AutoMapper;
 using BalisStandard;
+using Caliburn.Micro;
 using Newtonsoft.Json;
 using UtilsLib;
 
@@ -20,15 +22,24 @@ namespace BalisWpf
         private readonly string _baliApiUrl;
         public KomBankE KomBank;
         private readonly IMyLog _logFile;
+        private readonly IWindowManager _windowManager;
         public string BankTitle => KomBank.GetAbbreviation();
+
 
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
-        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile)
+        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, IWindowManager windowManager)
         {
             KomBank = komBank;
             _logFile = logFile;
+            _windowManager = windowManager;
             _baliApiUrl = iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
+        }
+
+        public void ShowForm()
+        {
+            var vm = new KomBankTnCViewModel();
+            _windowManager.ShowWindow(vm);
         }
 
         public async Task StartPolling()

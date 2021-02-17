@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:cal="http://www.caliburnproject.org"
              xmlns:balisWpf="clr-namespace:BalisWpf"
              mc:Ignorable="d" d:DataContext="{d:DesignData KomBankViewModel}">
     <UserControl.Resources>
@@ -17,10 +19,6 @@
         <Border DockPanel.Dock="Bottom" Height="4" HorizontalAlignment="Stretch" Background="Azure"/>
         <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
                       IsReadOnly="True">
-            <i:Interaction.Behaviors>
-                <balisWpf:ScrollToBottomDatagridBehavior/>
-                <balisWpf:ScrollToBottomOnAddBehavior />
-            </i:Interaction.Behaviors>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -33,6 +31,11 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show" cal:Message.Attach="ShowForm"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Width="75" Binding="{Binding StartedFromForGrid}">
                     <DataGridTextColumn.HeaderTemplate>
