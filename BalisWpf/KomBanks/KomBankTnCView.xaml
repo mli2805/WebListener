@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         SizeToContent="Width" Height="700">
     <DockPanel>
-
+        <balisWpf:KomBankView DataContext="{Binding KomBankViewModel}"/>
     </DockPanel>
 </Window>

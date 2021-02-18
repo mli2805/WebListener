@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using AutoMapper;
 using BalisStandard;
 using Caliburn.Micro;
@@ -20,6 +19,7 @@ namespace BalisWpf
             cfg => cfg.AddProfile<MappingProfile>()).CreateMapper();
 
         private readonly string _baliApiUrl;
+        private readonly IniFile _iniFile;
         public KomBankE KomBank;
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
@@ -30,15 +30,17 @@ namespace BalisWpf
 
         public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, IWindowManager windowManager)
         {
+            _iniFile = iniFile;
             KomBank = komBank;
             _logFile = logFile;
             _windowManager = windowManager;
             _baliApiUrl = iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
         }
 
-        public void ShowForm()
+        public async void ShowForm()
         {
-            var vm = new KomBankTnCViewModel();
+            var vm = new KomBankTnCViewModel(KomBank, _iniFile, _logFile, _windowManager);
+            await vm.Initialize();
             _windowManager.ShowWindow(vm);
         }
 
