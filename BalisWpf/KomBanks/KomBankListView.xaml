@@ -6,14 +6,13 @@
              mc:Ignorable="d" 
              xmlns:balisWpf="clr-namespace:BalisWpf"
              >
-    <DockPanel>
-        <ListBox ItemsSource="{Binding Banks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+        <ListBox ItemsSource="{Binding Banks}" ScrollViewer.VerticalScrollBarVisibility="Auto" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <balisWpf:KomBankView Height="138"/>
+                    <!-- <balisWpf:KomBankView Height="138"/> -->
+                    <balisWpf:KomBankView Height="173"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    </DockPanel>
    
 </UserControl>

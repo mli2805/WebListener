@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:balisWpf="clr-namespace:BalisWpf"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        SizeToContent="Width" Height="700">
+        SizeToContent="Width" Height="768">
     <DockPanel>
-        <balisWpf:KomBankView DataContext="{Binding KomBankViewModel}"/>
+        <balisWpf:KomBankView DockPanel.Dock="Top" DataContext="{Binding KomBankViewModel}" Height="416"/>
+        <oxy:PlotView Model="{Binding MyPlotModel}"/>
     </DockPanel>
 </Window>

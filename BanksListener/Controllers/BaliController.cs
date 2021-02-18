@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BalisStandard;
@@ -26,12 +27,17 @@ namespace BanksListener.Controllers
         [HttpGet]
         public async Task<List<KomBankRatesLine>> Get()
         {
-            _logFile.AppendLine("request received");
+            _logFile.AppendLine("Used to check in browser. Type   http://localhost:11082/bali   ");
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
 
             var result = new List<KomBankRatesLine>();
-            result.Add(await db.KomBankRates.Where(r => r.Bank == "BGPB").OrderByDescending(l => l.LastCheck).FirstOrDefaultAsync());
-            result.Add(await db.KomBankRates.Where(r => r.Bank == "BIB").OrderByDescending(l => l.LastCheck).FirstOrDefaultAsync());
+            foreach (var komBank in (KomBankE[])Enum.GetValues(typeof(KomBankE)))
+            {
+                result.Add(await db.KomBankRates
+                    .Where(r => r.Bank == komBank.ToString().ToUpper())
+                    .OrderByDescending(l => l.LastCheck)
+                    .FirstOrDefaultAsync());
+            }
             return result;
         }
 
@@ -40,9 +46,18 @@ namespace BanksListener.Controllers
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
             return db.KomBankRates
-                .Where(r => r.Bank == bankTitle.ToUpper())
+                .Where(r => r.Bank == bankTitle.ToUpper() && r.LastCheck > DateTime.Now.AddDays(-7))
                 .OrderByDescending(l => l.LastCheck)
-                .Take(13)
+                .ToList();
+        }
+
+        [HttpGet("get-some-last-days-for-bank")]
+        public async Task<List<KomBankRatesLine>> GetSomeLastDaysForBank(string bankTitle, int days)
+        {
+            await using BanksListenerContext db = new BanksListenerContext(_dbPath);
+            return db.KomBankRates
+                .Where(r => r.Bank == bankTitle.ToUpper() && r.LastCheck > DateTime.Now.AddDays(-days))
+                .OrderByDescending(l => l.LastCheck)
                 .ToList();
         }
 

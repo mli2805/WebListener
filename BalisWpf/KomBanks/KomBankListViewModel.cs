@@ -12,7 +12,7 @@ namespace BalisWpf
     {
         private IMyLog _logFile;
         public ObservableCollection<KomBankViewModel> Banks { get; set; } = new ObservableCollection<KomBankViewModel>();
-        private List<KomBankE> _firstPageList = new List<KomBankE>(){ KomBankE.Bib, KomBankE.Bnb, KomBankE.Mmb, KomBankE.Bveb, KomBankE.Bgpb};
+        private List<KomBankE> _firstPageList = new List<KomBankE>(){ KomBankE.Bib, KomBankE.Bnb, KomBankE.Alfa, KomBankE.Bveb, KomBankE.Bgpb, KomBankE.Mmb, KomBankE.Prior, KomBankE.Mtb};
 
         public async void Start(IniFile iniFile, IMyLog logFile, IWindowManager windowManager)
         {

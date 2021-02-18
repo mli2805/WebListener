@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
              xmlns:balisWpf="clr-namespace:BalisWpf"
              mc:Ignorable="d" d:DataContext="{d:DesignData KomBankViewModel}">
     <UserControl.Resources>
@@ -22,13 +23,17 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding State}" Value="Fresh">
                             <Setter Property="Background" Value="LightGreen"/>
-                        </DataTrigger> 
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding State}" Value="Expired">
                             <Setter Property="Background" Value="OrangeRed"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
+            <i:Interaction.Behaviors>
+                <balisWpf:ScrollToBottomDatagridBehavior/>
+                <balisWpf:ScrollToBottomOnAddBehavior />
+            </i:Interaction.Behaviors>
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Show" cal:Message.Attach="ShowForm"/>
@@ -49,9 +54,9 @@
 
                 <DataGridTextColumn Header="  Eur/Usd" Width="100" Binding="{Binding EurUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
                 <DataGridTextColumn Header="  EurByrUsd" Width="100" Binding="{Binding EurByrUsd}" HeaderStyle="{StaticResource CenterAlign}"/>
-                <DataGridTextColumn Header="  UsdRub нал" Width="80" Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="LightGray"/>
+                <DataGridTextColumn Header="  Usd/Rub" Width="80" Binding="{Binding RubUsd}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
                 <DataGridTextColumn Header="  UsdByrRub" Width="90" Binding="{Binding UsdByrRub}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
-                <DataGridTextColumn Header="  EurRub нал" Width="80" Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="LightGray"/>
+                <DataGridTextColumn Header="  Eur/Rub" Width="80" Binding="{Binding RubEur}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
                 <DataGridTextColumn Header="  EurByrRub" Width="90" Binding="{Binding EurByrRub}" HeaderStyle="{StaticResource CenterAlign}"/>
 
                 <DataGridTextColumn Header="Last check" Width="70" Binding="{Binding LastCheckForGrid}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
