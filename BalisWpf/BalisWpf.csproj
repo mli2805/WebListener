@@ -283,6 +283,11 @@
     </Compile>
     <Compile Include="Forecast\ForecastVm.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="KomBanks\ChangesLineVm.cs" />
+    <Compile Include="KomBanks\ChangesView.xaml.cs">
+      <DependentUpon>ChangesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KomBanks\ChangesViewModel.cs" />
     <Compile Include="KomBanks\KomBankListView.xaml.cs">
       <DependentUpon>KomBankListView.xaml</DependentUpon>
     </Compile>
@@ -332,6 +337,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Forecast\ForecastView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KomBanks\ChangesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

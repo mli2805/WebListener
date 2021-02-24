@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BalisStandard;
 using Caliburn.Micro;
@@ -17,15 +16,17 @@ namespace BalisWpf
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
+        private readonly ChangesViewModel _changesViewModel;
         public KomBankViewModel KomBankViewModel { get; set; }
         public PlotModel MyPlotModel { get; set; } = new PlotModel();
 
-        public KomBankTnCViewModel(KomBankE komBankE, IniFile iniFile, IMyLog logFile, IWindowManager windowManager)
+        public KomBankTnCViewModel(KomBankE komBankE, IniFile iniFile, IMyLog logFile, IWindowManager windowManager, ChangesViewModel changesViewModel)
         {
             _komBankE = komBankE;
             _iniFile = iniFile;
             _logFile = logFile;
             _windowManager = windowManager;
+            _changesViewModel = changesViewModel;
         }
 
         protected override void OnViewLoaded(object view)
@@ -35,7 +36,7 @@ namespace BalisWpf
 
         public async Task Initialize()
         {
-            KomBankViewModel = await new KomBankViewModel(_iniFile, _komBankE, _logFile, _windowManager).GetSomeLast();
+            KomBankViewModel = await new KomBankViewModel(_iniFile, _komBankE, _logFile, _windowManager, _changesViewModel).GetSomeLast();
             InitializeChart();
         }
 
@@ -43,15 +44,16 @@ namespace BalisWpf
         {
             MyPlotModel.Axes.Add(new DateTimeAxis()
             {
-                IntervalType = DateTimeIntervalType.Hours,
+                IntervalType = DateTimeIntervalType.Auto,
+                StringFormat = @"dd\/MM HH:mm",
                 MajorGridlineStyle = LineStyle.DashDot,
                 Position = AxisPosition.Bottom,
             });
 
             MyPlotModel.Axes.Add(new LinearAxis(){ Position = AxisPosition.Left, MajorGridlineStyle = LineStyle.Dash});
 
-            var lineSeriesA = new LineSeries() { Title = "usd sell", Color = OxyColors.Green };
-            var lineSeriesB = new LineSeries() { Title = "usd buy", Color = OxyColors.Blue };
+            var lineSeriesA = new LineSeries() { Title = "sell", Color = OxyColors.Green };
+            var lineSeriesB = new LineSeries() { Title = "buy", Color = OxyColors.Blue };
 
             foreach (var point in Convert(KomBankViewModel.Rows, "usd"))
             {

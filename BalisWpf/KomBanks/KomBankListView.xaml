@@ -10,7 +10,8 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <!-- <balisWpf:KomBankView Height="138"/> -->
-                    <balisWpf:KomBankView Height="173"/>
+                    <!-- <balisWpf:KomBankView Height="173"/> -->
+                    <balisWpf:KomBankView Height="103"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

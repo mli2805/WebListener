@@ -23,23 +23,25 @@ namespace BalisWpf
         public KomBankE KomBank;
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
+        private readonly ChangesViewModel _changesViewModel;
         public string BankTitle => KomBank.GetAbbreviation();
 
 
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
-        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, IWindowManager windowManager)
+        public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, IWindowManager windowManager, ChangesViewModel changesViewModel)
         {
             _iniFile = iniFile;
             KomBank = komBank;
             _logFile = logFile;
             _windowManager = windowManager;
+            _changesViewModel = changesViewModel;
             _baliApiUrl = iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
         }
 
         public async void ShowForm()
         {
-            var vm = new KomBankTnCViewModel(KomBank, _iniFile, _logFile, _windowManager);
+            var vm = new KomBankTnCViewModel(KomBank, _iniFile, _logFile, _windowManager, _changesViewModel);
             await vm.Initialize();
             _windowManager.ShowWindow(vm);
         }
@@ -81,11 +83,19 @@ namespace BalisWpf
                         if (Rows.Any())
                             Rows.Last().State = "";
                         Rows.Add(newLine);
-                        var notify = new Changes
-                        {
-                            MessageBlock = { Text = newLine.Bank + " " + newLine.StartedFrom }
-                        };
-                        notify.Show();
+
+                        _changesViewModel.AddNewLine(newLine);
+                        if (!_changesViewModel.IsOpen)
+                            _windowManager.ShowWindow(_changesViewModel);
+
+
+                        // var notify = new Changes
+                        // {
+                        //     MessageBlock = { Text = newLine.Bank + " " + newLine.StartedFrom }
+                        // };
+                        // notify.Show();
+
+
                     }
                     else
                     {

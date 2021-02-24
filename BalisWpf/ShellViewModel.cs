@@ -8,11 +8,13 @@ namespace BalisWpf
     public class ShellViewModel : PropertyChangedBase, IShell
     {
         private readonly IWindowManager _windowManager;
+        private readonly ChangesViewModel _changesViewModel;
         public ShellVm Model { get; set; }
 
-        public ShellViewModel(IniFile iniFile, IMyLog logFile, IWindowManager windowManager, ShellVm shellVm)
+        public ShellViewModel(IniFile iniFile, IMyLog logFile, IWindowManager windowManager, ShellVm shellVm, ChangesViewModel changesViewModel)
         {
             _windowManager = windowManager;
+            _changesViewModel = changesViewModel;
             Model = shellVm;
 
             StartNbRbPoller();
@@ -25,7 +27,7 @@ namespace BalisWpf
 
         private void StartKomBankPollers(IniFile iniFile, IMyLog logFile)
         {
-            Task.Factory.StartNew( () => Model.KomBankListViewModel.Start(iniFile, logFile, _windowManager));
+            Task.Factory.StartNew( () => Model.KomBankListViewModel.Start(iniFile, logFile, _windowManager, _changesViewModel));
         }
 
         private void StartTradingViewPollers()
