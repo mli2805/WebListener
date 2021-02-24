@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsLib", "UtilsLib\UtilsL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalisConsole", "BalisConsole\BalisConsole.csproj", "{7DD10F5B-7931-4476-BE72-9B45BD843895}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balis2021", "Balis2021\Balis2021.csproj", "{10FAC53C-DCAB-43EB-89C5-B84232E25A77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{7DD10F5B-7931-4476-BE72-9B45BD843895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DD10F5B-7931-4476-BE72-9B45BD843895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DD10F5B-7931-4476-BE72-9B45BD843895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FAC53C-DCAB-43EB-89C5-B84232E25A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FAC53C-DCAB-43EB-89C5-B84232E25A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FAC53C-DCAB-43EB-89C5-B84232E25A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FAC53C-DCAB-43EB-89C5-B84232E25A77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

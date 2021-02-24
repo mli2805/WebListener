@@ -10,7 +10,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Bank}"></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Timestamp}" Width="100"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Timestamp, StringFormat={}{HH:mm:ss}}" Width="100"></GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=UsdRate}"></GridViewColumn>
                 </GridView>
             </ListView.View>

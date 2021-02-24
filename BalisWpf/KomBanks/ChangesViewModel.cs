@@ -22,7 +22,7 @@ namespace BalisWpf
             {
                 Bank = line.Bank,
                 Timestamp = line.StartedFrom,
-                UsdRate = line.Usd,
+                UsdRate = $"{line.UsdA:#,0.####} - {line.UsdB:#,0.####}",
             });
         }
 

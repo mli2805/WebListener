@@ -1,0 +1,11 @@
+<Window x:Class="Balis2021.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:balis2021="clr-namespace:Balis2021"
+        >
+
+    <DockPanel>
+        <balis2021:AllKomBanksView/>
+    </DockPanel>
+
+</Window>
