@@ -15,9 +15,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel >
-        <Border DockPanel.Dock="Bottom" Height="4" HorizontalAlignment="Stretch" Background="Azure"/>
+        <Border DockPanel.Dock="Bottom" Height="3" HorizontalAlignment="Stretch" Background="Azure"/>
         <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged"
-                      IsReadOnly="True">
+                      IsReadOnly="True" HeadersVisibility="None">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -40,6 +40,7 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Bank" Width="45" Binding="{Binding Bank}" HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
                 <DataGridTextColumn Width="75" Binding="{Binding StartedFromForGrid}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>

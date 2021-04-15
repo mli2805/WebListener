@@ -26,7 +26,6 @@ namespace BalisWpf
         private readonly ChangesViewModel _changesViewModel;
         public string BankTitle => KomBank.GetAbbreviation();
 
-
         public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
         public KomBankViewModel(IniFile iniFile, KomBankE komBank, IMyLog logFile, IWindowManager windowManager, ChangesViewModel changesViewModel)

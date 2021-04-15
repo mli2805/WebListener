@@ -3,7 +3,7 @@
         xml:lang="ru-RU"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:balisWpf="clr-namespace:BalisWpf"
-        Height="913" 
+        Height="948" 
         SizeToContent="Width" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom">

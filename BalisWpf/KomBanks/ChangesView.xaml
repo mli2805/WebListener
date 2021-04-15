@@ -4,14 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" Topmost="True">
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Topmost="True">
+    <Window.Resources>
+        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+    </Window.Resources>   
     <Grid>
         <ListView Margin="10" ItemsSource="{Binding Rows}">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Bank}"></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Timestamp, StringFormat={}{HH:mm:ss}}" Width="100"></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=UsdRate}"></GridViewColumn>
+                <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Bank}" Width="60"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Timestamp, StringFormat='{}{0:HH:mm:ss}'}" Width="80"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=UsdRate}" Width="100"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

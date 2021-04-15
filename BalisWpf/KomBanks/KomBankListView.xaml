@@ -6,14 +6,27 @@
              mc:Ignorable="d" 
              xmlns:balisWpf="clr-namespace:BalisWpf"
              >
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Usd" Margin="130,0,0,0" Width="110" TextAlignment="Center"/>
+            <TextBlock Text="Eur" Margin="0,0,0,0" Width="110" TextAlignment="Center"/>
+            <TextBlock Text="Rub" Margin="0,0,0,0" Width="100" TextAlignment="Center"/>
+            <TextBlock Text="Eur/Usd" Margin="0,0,0,0" Width="100" TextAlignment="Center"/>
+            <TextBlock Text="Eur-Byn-Usd" Margin="0,0,0,0" Width="100" TextAlignment="Center"/>
+            <TextBlock Text="Rub/Usd" Margin="0,0,0,0" Width="80" TextAlignment="Center"/>
+           <TextBlock Text="Rub-Byn-Usd" Margin="0,0,0,0" Width="90" TextAlignment="Center"/>
+            <TextBlock Text="Rub/Eur" Margin="0,0,0,0" Width="80" TextAlignment="Center"/>
+           <TextBlock Text="Rub-Byn-Eur" Margin="0,0,0,0" Width="90" TextAlignment="Center"/>
+        </StackPanel>
         <ListBox ItemsSource="{Binding Banks}" ScrollViewer.VerticalScrollBarVisibility="Auto" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <!-- <balisWpf:KomBankView Height="138"/> -->
                     <!-- <balisWpf:KomBankView Height="173"/> -->
-                    <balisWpf:KomBankView Height="103"/>
+                    <balisWpf:KomBankView Height="79"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-   
+    </StackPanel>
+
 </UserControl>
