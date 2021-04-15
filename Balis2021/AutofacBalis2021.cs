@@ -12,6 +12,7 @@ namespace Balis2021
             builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
             builder.RegisterType<ShellViewModel>().As<IShell>();
 
+            builder.RegisterType<AllKomBanksViewModel>().SingleInstance();
 
         }
 

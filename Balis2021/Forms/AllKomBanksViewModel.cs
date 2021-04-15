@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using AutoMapper;
 using BalisStandard;
 using Caliburn.Micro;
@@ -27,13 +30,13 @@ namespace Balis2021
 
         private readonly string _baliApiUrl; 
         private readonly IMyLog _logFile;
-        private readonly IWindowManager _windowManager;
-        public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
 
-        public AllKomBanksViewModel(IniFile iniFile, IMyLog logFile, IWindowManager windowManager)
+        public ObservableCollection<KomBankRateVm> Rows { get; set; } = new ObservableCollection<KomBankRateVm>();
+        public ICollectionView SortedRows { get; set; }
+
+        public AllKomBanksViewModel(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _windowManager = windowManager;
             _baliApiUrl = iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
         }
 
@@ -41,8 +44,18 @@ namespace Balis2021
         {
             foreach (var komBank in (KomBankE[])Enum.GetValues(typeof(KomBankE)))
             {
+                if (komBank == KomBankE.Bps) continue;
                 await GetOneLast(komBank);
             }
+
+            SortedRows = CollectionViewSource.GetDefaultView(Rows);
+            SortedRows.SortDescriptions.Add(new SortDescription("UsdA", ListSortDirection.Descending));
+        }
+
+        public void ButtonChangeSort()
+        {
+            SortedRows.SortDescriptions.Clear();
+            SortedRows.SortDescriptions.Add(new SortDescription("UsdB", ListSortDirection.Ascending));
         }
 
         private async Task GetOneLast(KomBankE komBank)
@@ -52,37 +65,9 @@ namespace Balis2021
             try
             {
                 var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
-
-                if (string.IsNullOrEmpty(response))
-                {
-                    var lastLine = Rows.Last();
-                    lastLine.SetIfExpired();
-                    return;
-                }
-
-                var oneLine = JsonConvert.DeserializeObject<KomBankRatesLine>(response);
-
-                var newLine = Mapper.Map<KomBankRateVm>(oneLine);
-                var last = Rows.FirstOrDefault(r => r.Id == newLine.Id);
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    if (last == null)
-                    {
-                        newLine.State = "Fresh";
-                        if (Rows.Any())
-                            Rows.Last().State = "";
-                        Rows.Add(newLine);
-
-                        // _changesViewModel.AddNewLine(newLine);
-                        // if (!_changesViewModel.IsOpen)
-                        //     _windowManager.ShowWindow(_changesViewModel);
-
-                    }
-                    else
-                    {
-                        last.SetIfExpired();
-                        last.LastCheck = newLine.LastCheck;
-                    }
+                   OneToGui(komBank, response);
                 });
 
             }
@@ -92,5 +77,73 @@ namespace Balis2021
             }
         }
 
+        public async Task GetSomeLast(KomBankE komBank)
+        {
+            var webApiUrl = $@"http://{_baliApiUrl}/bali/get-some-last/" + komBank.ToString().ToUpper();
+
+            try
+            {
+                var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    ManyToGui(response);
+                });
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+            }
+        }
+
+        private void ManyToGui(string response)
+        {
+            
+            if (string.IsNullOrEmpty(response))
+            {
+                return;
+            }
+
+            var lastLines = JsonConvert.DeserializeObject<IEnumerable<KomBankRatesLine>>(response);
+
+            foreach (var line in lastLines.Reverse())
+            {
+                var vm = Mapper.Map<KomBankRateVm>(line);
+                Application.Current.Dispatcher.Invoke(() => { Rows.Add(vm); });
+            }
+        }
+
+
+        private void OneToGui(KomBankE komBank, string response)
+        {
+            if (string.IsNullOrEmpty(response))
+            {
+                var lastLine = Rows.LastOrDefault(r=>r.Bank == komBank.GetAbbreviation());
+                lastLine?.SetIfExpired();
+                return;
+            }
+
+            var oneLine = JsonConvert.DeserializeObject<KomBankRatesLine>(response);
+            var newLine = Mapper.Map<KomBankRateVm>(oneLine);
+            
+            var last = Rows.FirstOrDefault(r => r.Id == newLine.Id);
+            if (last == null)
+            {
+                newLine.State = "Fresh";
+                if (Rows.Any())
+                    Rows.Last().State = "";
+                Rows.Add(newLine);
+
+            }
+            else
+            {
+                last.SetIfExpired();
+                last.LastCheck = newLine.LastCheck;
+            }
+        }
+
     }
+
+    
+
 }

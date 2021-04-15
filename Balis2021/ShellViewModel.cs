@@ -3,11 +3,12 @@ using Caliburn.Micro;
 namespace Balis2021 {
     public class ShellViewModel : Screen, IShell
     {
-        private readonly IWindowManager _windowManager;
+        public AllKomBanksViewModel AllKomBanksViewModel { get; }
 
-        public ShellViewModel(IWindowManager windowManager)
+        public ShellViewModel(AllKomBanksViewModel allKomBanksViewModel)
         {
-            _windowManager = windowManager;
+            AllKomBanksViewModel = allKomBanksViewModel;
+            allKomBanksViewModel.Start();
         }
 
         protected override void OnViewLoaded(object view)

@@ -3,9 +3,88 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-             >
-    <DataGrid ItemsSource="{Binding Rows}">
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d"
+             Height="656"
+             DataContext="{Binding .}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+<StackPanel>
 
+    <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="Selector_OnSelectionChanged">
+        <DataGrid.CellStyle>
+            <Style TargetType="DataGridCell">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding State}" Value="Fresh">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </DataGrid.CellStyle>
+        <DataGrid.RowStyle>
+
+            <Style TargetType="DataGridRow">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding State}" Value="Fresh">
+                        <Setter Property="Background" Value="LightGreen"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding State}" Value="Expired">
+                        <Setter Property="Background" Value="OrangeRed"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </DataGrid.RowStyle>
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Show" cal:Message.Attach="ShowForm"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+        <DataGrid.Columns>
+
+            <DataGridTextColumn Header="  Bank" Width="50" Binding="{Binding Bank}"/>
+            <DataGridTextColumn Header="  StartedFrom" Width="96" Binding="{Binding StartedFrom, 
+                StringFormat='{}{0:dd\/MM HH:mm:ss}'}"/>
+            <DataGridTextColumn Header="  Usd" Width="50" Binding="{Binding UsdA}"
+                 HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Usd" Width="50" Binding="{Binding UsdB}" 
+                                    HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Eur" Width="50" Binding="{Binding EurA}" 
+                                    HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Eur" Width="50" Binding="{Binding EurB}" 
+                                    HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Rub" Width="50" Binding="{Binding RubA}" 
+                                    HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Rub" Width="50" Binding="{Binding RubB}" 
+                                    HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+            <DataGridTextColumn Header="  Eur/" Width="50" Binding="{Binding EurUsdA}" 
+                                HeaderStyle="{StaticResource CenterAlign}"/>
+            <DataGridTextColumn Header="  /Usd" Width="50" Binding="{Binding EurUsdB}" 
+                                HeaderStyle="{StaticResource CenterAlign}"/>
+            <DataGridTextColumn Header="  EurByrUsd" Width="50" Binding="{Binding EurByrUsdA}" 
+                                HeaderStyle="{StaticResource CenterAlign}"/>
+            <DataGridTextColumn Header="  EurByrUsd" Width="50" Binding="{Binding EurByrUsdB}" 
+                                HeaderStyle="{StaticResource CenterAlign}"/>
+
+            <DataGridTextColumn Header="  Usd/Rub" Width="50" Binding="{Binding RubUsdA}" 
+                                HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Usd/Rub" Width="50" Binding="{Binding RubUsdB}" 
+                                HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Eur/Rub" Width="50" Binding="{Binding RubEurA}" 
+                                HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+            <DataGridTextColumn Header="  Eur/Rub" Width="50" Binding="{Binding RubEurB}" 
+                                HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+
+            <DataGridTextColumn Header="Last check" Width="96" Binding="{Binding LastCheck, StringFormat='{}{0:dd\/MM HH:mm:ss}'}" 
+                                HeaderStyle="{StaticResource CenterAlign}" Foreground="DarkBlue"/>
+        </DataGrid.Columns>
     </DataGrid>
+    <Button Name="ButtonChangeSort" Height="24" Margin="10">ChangeSorting</Button>
+</StackPanel>
+
 </UserControl>

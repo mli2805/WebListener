@@ -12,6 +12,7 @@ namespace Balis2021
         public DateTime StartedFrom { get; set; }
         public string StartedFromForGrid => FormatStartedFromForGrid(StartedFrom);
         public double UsdA { get; set; }
+        public bool UsdAIsBest { get; set; }
         public double UsdB { get; set; }
         public string Usd => CurrencyPairToString(UsdA, UsdB);
         public double EurA { private get; set; }
