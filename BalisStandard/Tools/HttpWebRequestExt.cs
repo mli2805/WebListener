@@ -10,23 +10,22 @@ namespace BalisStandard
     {
         public static async Task<string> GetDataAsync(this HttpWebRequest request)
         {
-            WebResponse response;
             try
             {
-                ServicePointManager.SecurityProtocol =  
+                ServicePointManager.SecurityProtocol =
                     SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                response = await request.GetResponseAsync();
+                var response = await request.GetResponseAsync();
+                return GetWebData(response);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return "";
             }
-          
-            return GetWebData(response);
+
         }
 
-        public static  HttpWebRequest InitializeForKombanks(this HttpWebRequest request)
+        public static HttpWebRequest InitializeForKombanks(this HttpWebRequest request)
         {
             request.ContentType = @"text/html; charset=utf-8";
             request.UseDefaultCredentials = true;
