@@ -1,4 +1,4 @@
-namespace UtilsLib
+﻿namespace UtilsLib
 {
     public class NullLog : IMyLog
     {

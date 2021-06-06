@@ -1,4 +1,4 @@
-namespace BalisWpf
+﻿namespace BalisWpf
 {
     public class ShellVm
     {

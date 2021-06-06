@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,7 +46,7 @@ namespace BalisStandard
                 }
 
                 var unused = await Persist(rate);
-                await Task.Delay(ratesLineExtractor.BankTitle == "ÁÍÁ" ? 60000 : 15000);
+                await Task.Delay(ratesLineExtractor.BankTitle == "ï¿½ï¿½ï¿½" ? 60000 : 15000);
 
             }
             // ReSharper disable once FunctionNeverReturns

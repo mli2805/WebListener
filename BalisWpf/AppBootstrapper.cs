@@ -1,4 +1,4 @@
-namespace BalisWpf 
+﻿namespace BalisWpf 
 {
     using System;
     using System.Collections.Generic;

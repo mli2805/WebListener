@@ -1,4 +1,4 @@
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 
 namespace Balis2021 {
     public class ShellViewModel : Screen, IShell

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;

@@ -1,4 +1,4 @@
-namespace BalisStandard
+﻿namespace BalisStandard
 {
     public class TradingViewRates
     {

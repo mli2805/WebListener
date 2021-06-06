@@ -1,3 +1,3 @@
-namespace Balis2021 {
+﻿namespace Balis2021 {
     public interface IShell {}
 }

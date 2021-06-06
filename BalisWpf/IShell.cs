@@ -1,3 +1,3 @@
-namespace BalisWpf {
+﻿namespace BalisWpf {
     public interface IShell {}
 }
