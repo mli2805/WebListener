@@ -69,7 +69,7 @@ namespace BalisWpf
             result.Add($"Eur  {day.Eur}");
             result.Add($"Rub  {day.Rub}");
             result.Add("");
-            result.Add($"�������  {day.Basket:0.0000}");
+            result.Add($"Корзина  {day.Basket:0.0000}");
             result.Add("");
             return result;
         }
@@ -82,7 +82,7 @@ namespace BalisWpf
                 "Euro",
                 "100 Rub",
                 "",
-                "�������",
+                "Корзина",
                 "",
                 "Eur / Usd",
                 "Usd / Rub",
@@ -93,7 +93,7 @@ namespace BalisWpf
         public List<string> DayToScreen(NbRates day)
         {
             var result = new List<string>();
-            result.Add($"�� {day.Date.ToString("dd/MM", CultureInfo.GetCultureInfo("en-US"))}");
+            result.Add($"на {day.Date.ToString("dd/MM", CultureInfo.GetCultureInfo("en-US"))}");
             result.Add($"{day.Usd:0.0000}");
             result.Add($"{day.Eur:0.0000}");
             result.Add($"{day.Rub:0.0000}");

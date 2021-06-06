@@ -46,7 +46,7 @@ namespace BalisStandard
                 }
 
                 var unused = await Persist(rate);
-                await Task.Delay(ratesLineExtractor.BankTitle == "���" ? 60000 : 15000);
+                await Task.Delay(ratesLineExtractor.BankTitle == "БНБ" ? 60000 : 15000);
 
             }
             // ReSharper disable once FunctionNeverReturns

@@ -35,7 +35,7 @@ namespace BalisWpf
                 "",
                 $"Brent ${Rates.UkOil.Lp}",
                 $"     ({Rates.UkOil.Ch:+0.00;-0.00} {Rates.UkOil.Chp:+0.00;-0.00}%)",
-                $"����� {Rates.UkOil.Lp * Rates.UsdRub.Lp:0,0}",
+                $"Бочка {Rates.UkOil.Lp * Rates.UsdRub.Lp:0,0}",
             };
 
         public List<string> RightPanel => BuildRightPanel();
@@ -59,20 +59,17 @@ namespace BalisWpf
         {
             if (tv.CurrentSession == "out_of_session")
             {
-                yield return $"{tikerName} {tv.Lp}  (��� {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
-//                yield return $" ����� ������";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
             }
             else if (tv.CurrentSession == "pre_market")
             {
                 var ch = tv.PrevClosePrice - tv.OpenPrice;
                 var chp = ch / tv.OpenPrice * 100;
-                yield return $"{tikerName} {tv.PrevClosePrice}  (��� {ch:+0.00;-0.00}  {chp:+0.00;-0.00}%)";
-//                yield return $" ���������: {tv.Lp} {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%";
+                yield return $"{tikerName} {tv.PrevClosePrice}  (вче {ch:+0.00;-0.00}  {chp:+0.00;-0.00}%)";
             }
             else // tv.CurrentSession == "market"
             {
                 yield return $"{tikerName} {tv.Lp}  ({tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
-//                yield return $"{TimeStr(tv)}";
             }
         }
 
@@ -80,13 +77,11 @@ namespace BalisWpf
         {
             if (tv.CurrentSession == "out_of_session")
             {
-                yield return $"{tikerName} {tv.Lp}  (��� {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
-//                yield return $" ����� ������";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
             }
             else // tv.CurrentSession == "market"
             {
                 yield return $"{tikerName} {tv.Lp}  ({tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
-//                yield return $"{TimeStr(tv)}";
             }
         }
 
@@ -94,29 +89,17 @@ namespace BalisWpf
         {
             if (tv.CurrentSession == "out_of_session")
             {
-                yield return $"{tikerName} {tv.Lp}  (��� {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
-//                yield return $" ����� ������";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
             }
             else if (tv.CurrentSession == "pre_market" && tv.MarketStatus == "pre-market")
             {
-                yield return $"{tikerName} {tv.Lp}  (��� {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
-//                yield return $" ���������: {tv.Rtc} {tv.Rch:+0.00;-0.00}  {tv.Rchp:+0.00;-0.00}%";
+                yield return $"{tikerName} {tv.Lp}  (вче {tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
             }
             else // tv.CurrentSession == "market"
             {
                 yield return $"{tikerName} {tv.Lp}  ({tv.Ch:+0.00;-0.00}  {tv.Chp:+0.00;-0.00}%)";
-//                yield return $"{TimeStr(tv)}";
             }
         }
 
-//        private string TimeStr(TikerValues tv)
-//        {
-//            if (tv.OpenTime.Year == 1) return "";
-//            var word = tv.CurrentSession == "market" ? "������ �" : "��������� �";
-//            var ny = tv.OpenTime.AddHours(-4);
-//            var minsk = tv.OpenTime.AddHours(3);
-//            var date = tv.OpenTime.ToString("dd/MM", CultureInfo.GetCultureInfo("en-US"));
-//            return $" {word} {minsk:HH:mm} (NY {ny:HH:mm}) {date} tz:{tv.TimeZone}";
-//        }
     }
 }
