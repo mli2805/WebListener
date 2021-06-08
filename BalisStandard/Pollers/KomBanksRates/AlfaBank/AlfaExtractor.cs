@@ -20,7 +20,8 @@ namespace BalisStandard
 
             try
             {
-                var indexOfStart = mainPage.IndexOf("data-initial='", StringComparison.InvariantCulture) + 14;
+                var exchangePageStart =  mainPage.IndexOf("ExchangePage", StringComparison.InvariantCulture) + 12;
+                var indexOfStart = mainPage.IndexOf("data-initial='", exchangePageStart, StringComparison.InvariantCulture) + 14;
                 var indexOfEnd = mainPage.IndexOf("'", indexOfStart, StringComparison.InvariantCulture) - 1;
                 var length = indexOfEnd - indexOfStart + 1;
                 var json = mainPage.Substring(indexOfStart, length);
