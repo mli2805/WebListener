@@ -72,7 +72,7 @@ namespace BalisWpf
 
         private static string FormatStartedFromForGrid(DateTime timestamp)
         {
-            var startedFrom = timestamp.ToString(CultureInfo.CurrentUICulture);
+            var startedFrom = timestamp.ToString(CultureInfo.CreateSpecificCulture("ru-RU"));
             var pos = startedFrom.IndexOf(":", StringComparison.Ordinal);
             if (pos == -1) return startedFrom;
             return startedFrom.Substring(0, pos - 2) + "\n  " + startedFrom.Substring(pos - 2);
