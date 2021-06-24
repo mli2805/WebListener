@@ -145,7 +145,7 @@ namespace BalisStandard
         {
             var key = string.Format("<a href=\"/exchange/currencymarket/{0}\">{1}</a>", currency.ToLower(), currency);
             var pos = table.IndexOf(key, StringComparison.Ordinal);
-            pos = table.IndexOf("<p class=\"text-center h2\">", pos + 5, StringComparison.Ordinal);
+            pos = table.IndexOf("<p class=\"text-center h1 mt-0\">", pos + 5, StringComparison.Ordinal);
             var posFrom = pos + 29;
             var posTo = table.IndexOf("<span", posFrom, StringComparison.Ordinal);
             if (posTo - posFrom - 2 < 0)
