@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace BalisStandard
 {
@@ -30,55 +31,57 @@ namespace BalisStandard
             }
         }
 
-        private static KomBankRatesLine Parse(string table)
+        private static KomBankRatesLine Parse(string page)
         {
+            var jsonStr = page.Replace("&quot;", "\"");
+
+            var pos = jsonStr.IndexOf("<v-conversion :data-source=\"");
+            pos = pos + 28;
+            var posEnd = jsonStr.IndexOf("</v-conversion>") - 1;
+
+            var section = jsonStr.Substring(pos, posEnd - pos - 1);
+
+            var ratesPos = section.IndexOf("\"ibank\":{");
+            ratesPos += 8;
+            var ratesPosEnd = section.IndexOf(",\"offices\":{");
+            var jsonRates = section.Substring(ratesPos, ratesPosEnd - ratesPos);
+            Root1 exchangeRates = JsonConvert.DeserializeObject<Root1>(jsonRates);
+
+            var convertionPos = section.IndexOf("\"rates\":{");
+            var jsonConvertions = "{" + section.Substring(convertionPos, section.Length - convertionPos - 1);
+            Root2 convertionRates = JsonConvert.DeserializeObject<Root2>(jsonConvertions);
+
             var rates = new KomBankRatesLine()
             {
                 Bank = KomBankE.Bveb.ToString().ToUpper(),
-                StartedFrom = GetStartedFrom(table),
+                StartedFrom = GetStartedFrom(exchangeRates.timetext),
                 LastCheck = DateTime.Now
             };
 
-            double usdBuy;
-            double usdSell;
-            if (GetOneCurrency(table, "1 usd", out usdBuy, out usdSell))
-            {
-                rates.UsdA = usdBuy;
-                rates.UsdB = usdSell;
-            }
+            rates.UsdA = exchangeRates.rates[0].buy_rate.value;
+            rates.UsdB = exchangeRates.rates[0].sale_rate.value;
 
-            if (rates.UsdA < 1)
-            {
-                File.WriteAllText(@"c:/belveb.txt", table);
-                return null;
-            }
+            rates.EurA = exchangeRates.rates[1].buy_rate.value;
+            rates.EurB = exchangeRates.rates[1].sale_rate.value;
 
-            double euroBuy;
-            double euroSell;
-            if (GetOneCurrency(table, "1 eur", out euroBuy, out euroSell))
-            {
-                rates.EurA = euroBuy;
-                rates.EurB = euroSell;
-            }
-
-            double usdEuro;
-            double euroUsd;
-            if (GetOneCurrency(table, "EUR/USD", out usdEuro, out euroUsd))
-            {
-                rates.EurUsdA = usdEuro;
-                rates.EurUsdB = euroUsd;
-            }
+            rates.RubA = convertionRates.rates.RUB.purchase.BYN * 100;
+            rates.RubB = convertionRates.rates.RUB.sell.BYN * 100;
+            rates.EurUsdA = convertionRates.rates.EUR.purchase.USD;
+            rates.EurUsdB = convertionRates.rates.EUR.sell.USD;
+            rates.RubUsdA = convertionRates.rates.USD.purchase.RUB;
+            rates.RubUsdB = convertionRates.rates.USD.sell.RUB;
+            rates.RubEurA = convertionRates.rates.EUR.purchase.RUB;
+            rates.RubEurB = convertionRates.rates.EUR.sell.RUB;
 
             return rates;
         }
 
-        private static DateTime GetStartedFrom(string mainpage)
+        private static DateTime GetStartedFrom(string timestring)
         {
             try
             {
-                var pos = mainpage.IndexOf("currency-title", StringComparison.Ordinal);
-                var timestampStr = mainpage.Substring(pos + 64, 18);
-                const string format = "dd.MM.yyyy с h:mm";
+                var timestampStr = timestring.Substring(10);
+                const string format = "dd.MM.yyyy в H:mm";
                 var result = DateTime.ParseExact(timestampStr, format, CultureInfo.InvariantCulture);
                 return result;
             }
@@ -89,27 +92,5 @@ namespace BalisStandard
             }
         }
 
-        private static bool GetOneCurrency(string mainpage, string currency, out double buy, out double sale)
-        {
-            buy = -1;
-            sale = -1;
-
-            try
-            {
-                var pos = mainpage.IndexOf("currency-node\" data-type=\"" + currency, StringComparison.Ordinal);
-                var pos1 = mainpage.IndexOf("<span>", pos, StringComparison.Ordinal);
-                var pos2 = mainpage.IndexOf("</span>", pos, StringComparison.Ordinal);
-                var rateStr = mainpage.Substring(pos1 + 6, pos2 - pos1 - 6);
-                var strs = rateStr.Split('/');
-
-                if (!double.TryParse(strs[0], NumberStyles.Any, new CultureInfo("en-US"), out buy)) return false;
-                return double.TryParse(strs[1], NumberStyles.Any, new CultureInfo("en-US"), out sale);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
-            }
-        }
     }
 }
