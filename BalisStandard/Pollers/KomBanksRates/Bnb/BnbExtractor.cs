@@ -40,19 +40,19 @@ namespace BalisStandard
             var bnbRoot = JsonConvert.DeserializeObject<Dictionary<int, Object>>(json);
             if (bnbRoot == null)
                 return null;
-            var imBankingRates = JsonConvert.DeserializeObject<Dictionary<string, ImBankingCurrency>>(bnbRoot[8].ToString());
+            var imBankingRates = JsonConvert.DeserializeObject<Dictionary<int, ImBankingCurrency>>(bnbRoot[8].ToString());
             var convertionRates = JsonConvert.DeserializeObject<Dictionary<int, BnbCurrency>>(bnbRoot[7].ToString());
 
             var result = new KomBankRatesLine
             {
                 Bank = BankTitle,
                 LastCheck = DateTime.Now,
-                UsdA = imBankingRates["USD"].UF_BUY,
-                UsdB = imBankingRates["USD"].UF_SALE,
-                EurA = imBankingRates["EUR"].UF_BUY,
-                EurB = imBankingRates["EUR"].UF_SALE,
-                RubA = imBankingRates["RUB"].UF_BUY,
-                RubB = imBankingRates["RUB"].UF_SALE,
+                UsdA = imBankingRates[32].UF_BUY,
+                UsdB = imBankingRates[32].UF_SALE, 
+                EurA = imBankingRates[33].UF_BUY,
+                EurB = imBankingRates[33].UF_SALE,
+                RubA = imBankingRates[34].UF_BUY,
+                RubB = imBankingRates[34].UF_SALE,
 
                 EurUsdA = convertionRates[310].UF_BUY,
                 EurUsdB = convertionRates[310].UF_SALE,
