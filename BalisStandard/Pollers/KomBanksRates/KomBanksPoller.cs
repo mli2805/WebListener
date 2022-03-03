@@ -15,6 +15,9 @@ namespace BalisStandard
         public KomBanksPoller(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
+            // var loc = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            // var dbDir = loc.GetParentFolder().GetParentFolder();
+            // iniFile.Write(IniSection.Sqlite, IniKey.DbPath, Path.Combine(dbDir, "bali.db"));
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
         }
 
@@ -66,11 +69,11 @@ namespace BalisStandard
                         rate.StartedFrom = DateTime.Now; // Bveb often returns 00:10 or 00:15 as start time
                     _logFile.AppendLine($"Thread id {tid}: {rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
 
-                    const double TOLERANCE = 0.00001;
-                    if (rate.Bank == "BNB" && Math.Abs(rate.UsdA - 2.619) < TOLERANCE
-                                    && Math.Abs(rate.UsdB - 2.625) < TOLERANCE
-                                    && Math.Abs(rate.EurA - 3.168) < TOLERANCE
-                                    && Math.Abs(rate.EurB - 3.175) < TOLERANCE) return 0;
+                    const double tolerance = 0.00001;
+                    if (rate.Bank == "BNB" && Math.Abs(rate.UsdA - 2.619) < tolerance
+                                    && Math.Abs(rate.UsdB - 2.625) < tolerance
+                                    && Math.Abs(rate.EurA - 3.168) < tolerance
+                                    && Math.Abs(rate.EurB - 3.175) < tolerance) return 0;
 
                     await db.KomBankRates.AddAsync(rate);
                 }

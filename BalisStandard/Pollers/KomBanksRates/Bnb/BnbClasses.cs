@@ -1,4 +1,5 @@
-﻿namespace BalisStandard
+﻿// ReSharper disable InconsistentNaming
+namespace BalisStandard
 {
    
     public class ImBankingCurrency    {

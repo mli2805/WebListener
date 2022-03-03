@@ -10,35 +10,35 @@ namespace BalisStandard
     public class TradingViewExtractor
     {
         private readonly TradingViewTiker _tiker;
-        private ClientWebSocket ClientWebSocket;
-        private CancellationTokenSource cts;
+        private ClientWebSocket _clientWebSocket;
+        private CancellationTokenSource _cts;
 
-        private const string tradingViewAddress = "wss://data.tradingview.com/socket.io/websocket";
-        private const string sessionRequest = "~m~50~m~{\"p\":[\"my_session\",\"\"],\"m\":\"quote_create_session\"}";
+        private const string TradingViewAddress = "wss://data.tradingview.com/socket.io/websocket";
+        private const string SessionRequest = "~m~50~m~{\"p\":[\"my_session\",\"\"],\"m\":\"quote_create_session\"}";
 
-        private readonly Uri tradingViewUri;
-        private readonly ArraySegment<byte> buffer;
+        private readonly Uri _tradingViewUri;
+        private readonly ArraySegment<byte> _buffer;
 
         public TradingViewExtractor(TradingViewTiker tiker)
         {
             _tiker = tiker;
 
-            tradingViewUri = new Uri(tradingViewAddress);
-            var encoded = Encoding.UTF8.GetBytes(sessionRequest);
-            buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
+            _tradingViewUri = new Uri(TradingViewAddress);
+            var encoded = Encoding.UTF8.GetBytes(SessionRequest);
+            _buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
 
-            ClientWebSocket = new ClientWebSocket();
-            ClientWebSocket.Options.UseDefaultCredentials = true;
-            ClientWebSocket.Options.SetRequestHeader("Origin", "https://www.tradingview.com");
-            cts = new CancellationTokenSource();
+            _clientWebSocket = new ClientWebSocket();
+            _clientWebSocket.Options.UseDefaultCredentials = true;
+            _clientWebSocket.Options.SetRequestHeader("Origin", "https://www.tradingview.com");
+            _cts = new CancellationTokenSource();
         }
 
         public async Task ConnectWebSocketAndRequestSession()
         {
             try
             {
-                await ClientWebSocket.ConnectAsync(tradingViewUri, cts.Token);
-                await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, cts.Token);
+                await _clientWebSocket.ConnectAsync(_tradingViewUri, _cts.Token);
+                await _clientWebSocket.SendAsync(_buffer, WebSocketMessageType.Text, true, _cts.Token);
 
             }
             catch (Exception e)
@@ -52,8 +52,8 @@ namespace BalisStandard
         {
             try
             {
-                await ClientWebSocket.SendAsync(_tiker.ToBufferizedRequest(),
-                    WebSocketMessageType.Text, true, cts.Token);
+                await _clientWebSocket.SendAsync(_tiker.ToBufferizedRequest(),
+                    WebSocketMessageType.Text, true, _cts.Token);
             }
             catch (Exception e)
             {
@@ -70,7 +70,7 @@ namespace BalisStandard
             {
                 var receiveBuffer = new byte[30000];
                 var arraySegment = new ArraySegment<byte>(receiveBuffer);
-                WebSocketReceiveResult result = await ClientWebSocket.ReceiveAsync(arraySegment, cts.Token);
+                WebSocketReceiveResult result = await _clientWebSocket.ReceiveAsync(arraySegment, _cts.Token);
 
                 if (arraySegment.Array != null && (result.Count != 0 || result.CloseStatus == WebSocketCloseStatus.Empty))
                 {
@@ -79,7 +79,7 @@ namespace BalisStandard
                     OnCrossRateFetched(jsonList);
                 }
 
-                return ClientWebSocket.State != WebSocketState.CloseReceived;
+                return _clientWebSocket.State != WebSocketState.CloseReceived;
             }
             catch (Exception e)
             {

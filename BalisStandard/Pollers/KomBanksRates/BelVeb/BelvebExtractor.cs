@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -35,19 +34,19 @@ namespace BalisStandard
         {
             var jsonStr = page.Replace("&quot;", "\"");
 
-            var pos = jsonStr.IndexOf("<v-conversion :data-source=\"");
+            var pos = jsonStr.IndexOf("<v-conversion :data-source=\"", StringComparison.Ordinal);
             pos = pos + 28;
-            var posEnd = jsonStr.IndexOf("</v-conversion>") - 1;
+            var posEnd = jsonStr.IndexOf("</v-conversion>", StringComparison.Ordinal) - 1;
 
             var section = jsonStr.Substring(pos, posEnd - pos - 1);
 
-            var ratesPos = section.IndexOf("\"ibank\":{");
+            var ratesPos = section.IndexOf("\"ibank\":{", StringComparison.Ordinal);
             ratesPos += 8;
-            var ratesPosEnd = section.IndexOf(",\"offices\":{");
+            var ratesPosEnd = section.IndexOf(",\"offices\":{", StringComparison.Ordinal);
             var jsonRates = section.Substring(ratesPos, ratesPosEnd - ratesPos);
             Root1 exchangeRates = JsonConvert.DeserializeObject<Root1>(jsonRates);
 
-            var convertionPos = section.IndexOf("\"rates\":{");
+            var convertionPos = section.IndexOf("\"rates\":{", StringComparison.Ordinal);
             var jsonConvertions = "{" + section.Substring(convertionPos, section.Length - convertionPos - 1);
             Root2 convertionRates = JsonConvert.DeserializeObject<Root2>(jsonConvertions);
 

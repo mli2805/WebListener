@@ -80,12 +80,18 @@ namespace BalisWpf
 
         private int ApplyPreMarket(JObject jObject)
         {
-            if (jObject.ContainsKey("rtc"))
+            JToken rtcToken = jObject["rtc"];
+            if (!rtcToken.IsNullOrEmpty())
                 _tikerValues.Rtc = (double)jObject["rtc"];
-            if (jObject.ContainsKey("rch"))
+
+            JToken rchToken = jObject["rch"];
+            if (!rchToken.IsNullOrEmpty())
                 _tikerValues.Rch = (double)jObject["rch"];
-            if (jObject.ContainsKey("rchp"))
+
+            JToken rchpToken = jObject["rchp"];
+            if (!rchpToken.IsNullOrEmpty())
                 _tikerValues.Rchp = (double)jObject["rchp"];
+
             return 1;
         }
 
@@ -129,6 +135,18 @@ namespace BalisWpf
             if (jObject.ContainsKey("chp"))
                 _tikerValues.Chp = (double)jObject["chp"];
             return 1;
+        }
+    }
+
+    public static class JsonExtensions
+    {
+        public static bool IsNullOrEmpty(this JToken token)
+        {
+            return (token == null) ||
+                   (token.Type == JTokenType.Array && !token.HasValues) ||
+                   (token.Type == JTokenType.Object && !token.HasValues) ||
+                   (token.Type == JTokenType.String && token.ToString() == String.Empty) ||
+                   (token.Type == JTokenType.Null);
         }
     }
 }

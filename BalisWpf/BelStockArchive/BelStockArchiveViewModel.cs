@@ -19,10 +19,10 @@ namespace BalisWpf
         private readonly MonthlyChartViewModel _monthlyChartViewModel;
         private int _mode;
 
-        private List<BelStockArchiveOneCurrencyDay> data;
-        private List<BelStockArchiveLine> plainDailyData;
-        private List<BelStockArchiveLine> monthData;
-        private List<BelStockArchiveLine> dayOfMonthData;
+        private List<BelStockArchiveOneCurrencyDay> _data;
+        private List<BelStockArchiveLine> _plainDailyData;
+        private List<BelStockArchiveLine> _monthData;
+        private List<BelStockArchiveLine> _dayOfMonthData;
         public ObservableCollection<BelStockArchiveLine> Rows { get; set; } = new ObservableCollection<BelStockArchiveLine>();
 
         public BelStockArchiveViewModel(IniFile iniFile, IWindowManager windowManager, MonthlyChartViewModel monthlyChartViewModel)
@@ -36,7 +36,7 @@ namespace BalisWpf
         {
             var baliApiUrl = _iniFile.Read(IniSection.General, IniKey.BaliApiUrl, "localhost:11082");
             int portionSize = _iniFile.Read(IniSection.General, IniKey.BelstockPortionSize, 100);
-            data = new List<BelStockArchiveOneCurrencyDay>();
+            _data = new List<BelStockArchiveOneCurrencyDay>();
             try
             {
                 int portionNumber = 0;
@@ -45,7 +45,7 @@ namespace BalisWpf
                     var webApiUrl = $@"http://{baliApiUrl}/bali/get-belstock-archive/{portionNumber}";
                     var response = await ((HttpWebRequest)WebRequest.Create(webApiUrl)).GetDataAsync();
                     var portion = JsonConvert.DeserializeObject<List<BelStockArchiveOneCurrencyDay>>(response);
-                    data.AddRange(portion);
+                    _data.AddRange(portion);
                     if (portion.Count < portionSize) break;
                     portionNumber++;
                 }
@@ -62,19 +62,19 @@ namespace BalisWpf
 //            data = db.BelStockArchive.ToList();
 
             await Fetch();
-            plainDailyData = data
+            _plainDailyData = _data
                 .GroupBy(d => d.Date)
                 .Select(ToBelStockArchiveDate)
                 .ToList();
 
             InitializeMainTable();
 
-            monthData = plainDailyData
+            _monthData = _plainDailyData
                 .GroupBy(d => $"{d.Date:MMM yyyy}")
                 .Select(ToBelStockArchiveMonth)
                 .ToList();
 
-            dayOfMonthData = plainDailyData
+            _dayOfMonthData = _plainDailyData
                 .GroupBy(d => $"{d.Date:dd}-е")
                 .Select(ToBelStockArchiveDayOfMonth)
                 .OrderBy(l => l.Timestamp)
@@ -84,19 +84,19 @@ namespace BalisWpf
         private void InitializeMainTable()
         {
             Rows.Clear();
-            plainDailyData.Do(Rows.Add);
+            _plainDailyData.Do(Rows.Add);
         }
 
         private void InitializeMonthTable()
         {
             Rows.Clear();
-            monthData.Do(Rows.Add);
+            _monthData.Do(Rows.Add);
         }
 
         private void InitializeDayOfMonthTable()
         {
             Rows.Clear();
-            dayOfMonthData.Do(Rows.Add);
+            _dayOfMonthData.Do(Rows.Add);
         }
 
         private static BelStockArchiveLine ToBelStockArchiveMonth(IGrouping<string, BelStockArchiveLine> days)

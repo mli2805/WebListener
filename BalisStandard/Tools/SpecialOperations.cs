@@ -3,7 +3,7 @@ using System.Text;
 
 namespace BalisStandard
 {
-    public class SpecialOperations
+    public static class SpecialOperations
     {
         public static double ParseDoubleFromWebTrash(string rateString)
         {
@@ -28,6 +28,14 @@ namespace BalisStandard
                     rateClearString.Append(CultureInfo.InvariantCulture.NumberFormat.CurrencyDecimalSeparator);
             }
             return rateClearString;
+        }
+
+        public static string GetParentFolder(this string path)
+        {
+            var index = path.LastIndexOf('\\');
+            if (index == -1) return null;
+
+            return path.Substring(0, index);
         }
     }
 }

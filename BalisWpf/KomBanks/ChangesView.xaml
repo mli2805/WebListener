@@ -6,14 +6,14 @@
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Topmost="True">
     <Window.Resources>
-        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+        <Style x:Key="MyHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Visibility" Value="Collapsed" />
         </Style>
     </Window.Resources>   
     <Grid>
         <ListView Margin="10" ItemsSource="{Binding Rows}">
             <ListView.View>
-                <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                <GridView ColumnHeaderContainerStyle="{StaticResource MyHeaderStyle}">
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Bank}" Width="60"></GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Timestamp, StringFormat='{}{0:HH:mm:ss}'}" Width="80"></GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=UsdRate}" Width="100"></GridViewColumn>
