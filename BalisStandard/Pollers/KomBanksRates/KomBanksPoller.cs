@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,49 +8,68 @@ using UtilsLib;
 
 namespace BalisStandard
 {
+    public class OnePoller
+    {
+        public IRatesLineExtractor KomBankExtractor { get; set; }
+        public int PollingPeriod { get; set; }
+
+        public OnePoller(IRatesLineExtractor komBankExtractor, int pollingPeriod)
+        {
+            KomBankExtractor = komBankExtractor;
+            PollingPeriod = pollingPeriod;
+        }
+    }
     public class KomBanksPoller
     {
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
 
+        private readonly List<OnePoller> _pollers = new List<OnePoller>();
+
         public KomBanksPoller(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            // var loc = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            // var dbDir = loc.GetParentFolder().GetParentFolder();
             // iniFile.Write(IniSection.Sqlite, IniKey.DbPath, Path.Combine(dbDir, "bali.db"));
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
+
+            _pollers.Add(new OnePoller(new AlfaExtractor(), iniFile.Read(IniSection.Extractors, IniKey.AlfaPeriod, 15)));
+            _pollers.Add(new OnePoller(new BelgazMobi(), iniFile.Read(IniSection.Extractors, IniKey.BelgazPeriod, 15)));
+            _pollers.Add(new OnePoller(new BelvebExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BelvebPeriod, 15)));
+            _pollers.Add(new OnePoller(new BibExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BibPeriod, 15)));
+            _pollers.Add(new OnePoller(new BnbExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BnbPeriod, 15)));
+            _pollers.Add(new OnePoller(new BpsExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BpsPeriod, 15)));
+            _pollers.Add(new OnePoller(new DabrabytExtractor(), iniFile.Read(IniSection.Extractors, IniKey.DabrabytPeriod, 15)));
+            _pollers.Add(new OnePoller(new MtbExtractor(), iniFile.Read(IniSection.Extractors, IniKey.MtbPeriod, 15)));
+            _pollers.Add(new OnePoller(new PriorExtractor(), iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 15)));
         }
 
         public async void StartThreads()
         {
-            await Task.Factory.StartNew(() => Poll(new BelgazMobi()));
-            await Task.Factory.StartNew(() => Poll(new BibExtractor()));
-            await Task.Factory.StartNew(() => Poll(new PriorExtractor()));
-            await Task.Factory.StartNew(() => Poll(new DabrabytExtractor()));
-            await Task.Factory.StartNew(() => Poll(new BelvebExtractor()));
-            //            await Task.Factory.StartNew(() => Poll(new BpsExtractor()));
-            await Task.Factory.StartNew(() => Poll(new AlfaExtractor()));
-            await Task.Factory.StartNew(() => Poll(new MtbExtractor()));
-            await Task.Factory.StartNew(() => Poll(new BnbExtractor()));
+            foreach (var onePoller in _pollers.Where(onePoller => onePoller.PollingPeriod != 0))
+            {
+                await Task.Factory.StartNew(() => Poll(onePoller));
+            }
         }
 
-        private async void Poll(IRatesLineExtractor ratesLineExtractor)
+        private async void Poll(OnePoller poller)
         {
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _logFile.AppendLine($"{ratesLineExtractor.BankTitle} extractor started in thread {tid}");
+            _logFile.AppendLine($"{poller.KomBankExtractor.BankTitle} extractor started in thread {tid}");
             while (true)
             {
                 KomBankRatesLine rate;
                 while (true)
                 {
-                    rate = await ratesLineExtractor.GetRatesLineAsync();
-                    if (rate != null) break;
-                    await Task.Delay(2000);
+                    rate = await poller.KomBankExtractor.GetRatesLineAsync();
+                    if (rate != null)
+                        break;
+
+                    _logFile.AppendLine($"Poller of {poller.KomBankExtractor.BankTitle} - failed to extract rates. Additional pause {poller.PollingPeriod} sec");
+                    await Task.Delay(poller.PollingPeriod * 1000);
                 }
 
                 var unused = await Persist(rate);
-                await Task.Delay(ratesLineExtractor.BankTitle == "БНБ" ? 60000 : 15000);
+                await Task.Delay(poller.PollingPeriod * 1000);
 
             }
             // ReSharper disable once FunctionNeverReturns

@@ -30,7 +30,7 @@ namespace BalisStandard
             }
             catch (Exception e)
             {
-                Console.WriteLine($@"{e.Message} in Prior parser");
+                Console.WriteLine($@"{e.Message} in Alfa parser");
                 return null;
             }
         }
