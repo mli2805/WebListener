@@ -23,7 +23,7 @@
                 <DataTemplate>
                     <!-- <balisWpf:KomBankView Height="138"/> -->
                     <!-- <balisWpf:KomBankView Height="173"/> -->
-                    <balisWpf:KomBankView Height="79"/>
+                    <balisWpf:KomBankView Height="70"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

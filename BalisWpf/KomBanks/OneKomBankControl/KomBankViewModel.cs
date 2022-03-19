@@ -21,6 +21,7 @@ namespace BalisWpf
         private readonly string _baliApiUrl;
         private readonly IniFile _iniFile;
         public KomBankE KomBank;
+        private int _periodBetweenRequests = 180;
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
         private readonly ChangesViewModel _changesViewModel;
@@ -66,7 +67,7 @@ namespace BalisWpf
                 if (string.IsNullOrEmpty(response))
                 {
                     var lastLine = Rows.Last();
-                    lastLine.SetIfExpired();
+                    lastLine.SetIfExpired(_periodBetweenRequests);
                     return;
                 }
 
@@ -98,7 +99,7 @@ namespace BalisWpf
                     }
                     else
                     {
-                        last.SetIfExpired();
+                        last.SetIfExpired(_periodBetweenRequests);
                         last.LastCheck = newLine.LastCheck;
                     }
                 });

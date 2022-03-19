@@ -13,7 +13,7 @@ namespace BalisConsole
 
         private static async void Test()
         {
-            var extractor = new BibExtractor();
+            var extractor = new VtbExtractor();
             var rate = await extractor.GetRatesLineAsync();
             Console.WriteLine(rate);
         }

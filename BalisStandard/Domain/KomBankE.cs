@@ -2,7 +2,7 @@
 {
     public enum KomBankE
     {
-        Bgpb, Bib, Mmb, Bps, Prior, Bveb, Alfa, Mtb, Bnb
+        Bgpb, Bib, Mmb, Bps, Prior, Bveb, Alfa, Mtb, Bnb, Vtb
     }
 
     public static class KomBankExt
@@ -20,6 +20,7 @@
                 case KomBankE.Alfa: return "Альфа";
                 case KomBankE.Mtb: return "МТБ";
                 case KomBankE.Bnb: return "БНБ";
+                case KomBankE.Vtb: return "ВТБ";
             }
 
             return "";

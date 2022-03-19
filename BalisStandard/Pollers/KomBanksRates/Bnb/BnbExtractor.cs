@@ -30,12 +30,12 @@ namespace BalisStandard
             }
             catch (Exception e)
             {
-                Console.WriteLine($@"{e.Message} in Prior parser");
+                Console.WriteLine($@"{e.Message} in {BankTitle} parser");
                 return null;
             }
         }
 
-        private KomBankRatesLine Parse(string json)
+        private KomBankRatesLine Parse(string json) 
         {
             var bnbRoot = JsonConvert.DeserializeObject<Dictionary<int, Object>>(json);
             if (bnbRoot == null)
