@@ -29,8 +29,8 @@ namespace BalisWpf
             {
                 "",
                 $"Eur / Usd {Rates.EurUsd.Lp:0.0000}  {Rates.EurUsd.Ch:+0.000;-0.000}",
-                $"Usd / Rub {Rates.UsdRub.Lp:0.000}  {Rates.UsdRub.Ch:+0.00;-0.00}",
-                "",
+                $"* Usd / Rub {Rates.UsdRub.Lp:0.000}  {Rates.UsdRub.Ch:+0.00;-0.00}",
+                "  (from investing.com)",
                 $"Eur / Rub {Rates.EurRub.Lp:0.000}  {Rates.EurRub.Ch:+0.00;-0.00}",
                 "",
                 $"Brent ${Rates.UkOil.Lp}",

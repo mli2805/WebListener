@@ -1,23 +1,32 @@
 ﻿using System;
+using System.Threading.Tasks;
 using BalisStandard;
 
 namespace BalisConsole
 {
     class Program
     {
-        static void Main()
+        static async Task Main()
         {
-            Test();
+            await Test();
             Console.ReadKey();
         }
 
-        private static async void Test()
+        private static async Task Test()
         {
-            var extractor = new VtbExtractor();
-            var rate = await extractor.GetRatesLineAsync();
-            Console.WriteLine(rate);
-        }
+            var extractor = new InvestingExtractor();
 
+            while (true)
+            {
+                Console.WriteLine($"request at {DateTime.Now}");
+                var rate = await extractor.GetRate();
+                Console.WriteLine(rate);
+
+                await Task.Delay(15000);
+            }
+
+            // ReSharper disable once FunctionNeverReturns
+        }
 
     }
 

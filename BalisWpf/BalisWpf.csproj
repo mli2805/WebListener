@@ -315,6 +315,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TradingView\InvestingPoller.cs" />
     <Compile Include="TradingView\TradingViewPoller.cs" />
     <Compile Include="TradingView\TradingViewView.xaml.cs">
       <DependentUpon>TradingViewView.xaml</DependentUpon>

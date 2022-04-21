@@ -21,6 +21,7 @@ namespace BalisWpf
             Task.Delay(3000).Wait();
             StartBelStockPoller();
             StartTradingViewPollers();
+            Task.Factory.StartNew(() => new InvestingPoller().Start(Model));
 
             StartKomBankPollers(iniFile, logFile);
         }
@@ -34,7 +35,7 @@ namespace BalisWpf
         {
             Task.Factory.StartNew(() => new TradingViewPoller().
                 Start(TradingViewTiker.EurUsd, Model.TradingViewVm.Rates.EurUsd, Model, 10));
-            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UsdRub, Model.TradingViewVm.Rates.UsdRub, Model, 500));
+            // Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UsdRub, Model.TradingViewVm.Rates.UsdRub, Model, 500));
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.EurRub, Model.TradingViewVm.Rates.EurRub, Model, 1000));
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UkOil, Model.TradingViewVm.Rates.UkOil, Model, 1500));
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.Gold, Model.TradingViewVm.Rates.Gold, Model, 2000));

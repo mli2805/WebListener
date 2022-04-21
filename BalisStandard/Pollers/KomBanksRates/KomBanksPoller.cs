@@ -84,7 +84,7 @@ namespace BalisStandard
                 var last = await db.KomBankRates.Where(l => l.Bank == rate.Bank).OrderBy(c => c.LastCheck).LastOrDefaultAsync();
                 if (last == null || last.IsDifferent(rate))
                 {
-                    if (rate.Bank == "BIB" || rate.Bank == "BNB")
+                    if (rate.Bank == "BIB" || rate.Bank == "BNB" || rate.Bank == "VTB")
                         rate.StartedFrom = DateTime.Now; // Bib page does not contain date from
                     if (rate.Bank == "BVEB" && rate.StartedFrom.Hour == 0 && DateTime.Now.Hour != 0)
                         rate.StartedFrom = DateTime.Now; // Bveb often returns 00:10 or 00:15 as start time
