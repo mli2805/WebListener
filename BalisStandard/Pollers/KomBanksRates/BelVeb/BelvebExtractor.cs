@@ -46,13 +46,28 @@ namespace BalisStandard
                 LastCheck = DateTime.Now
             };
 
-            var firstTime = exchangeRates.time.FirstOrDefault();
-            if (firstTime == null) return null;
+            string firstTime;
+            DateTime startedFrom;
+            if (exchangeRates.time == null) // new date
+            {
+                var firstRate = exchangeRates.currency.First();
+                firstTime = firstRate.time;
+                if (!DateTime.TryParse(firstTime, out startedFrom)) return null;
+                startedFrom = startedFrom.AddDays(-1);
+            }
+            else
+            {
+                var firstTimeC = exchangeRates.time.FirstOrDefault();
+                if (firstTimeC == null) return null;
+                firstTime = firstTimeC.value;
+                if (!DateTime.TryParse(firstTime, out startedFrom)) return null;
 
-            if (!DateTime.TryParse(firstTime.value, out DateTime time)) return null;
-            rates.StartedFrom = time;
+            }
 
-            var thisTimeRates = exchangeRates.currency.Where(c => c.time == firstTime.value).ToList();
+
+            rates.StartedFrom = startedFrom;
+
+            var thisTimeRates = exchangeRates.currency.Where(c => c.time == firstTime).ToList();
             var usd = thisTimeRates.FirstOrDefault(r => r.currency_cod == "USD");
             if (usd == null) return null;
             var euro = thisTimeRates.FirstOrDefault(r => r.currency_cod == "EUR");
