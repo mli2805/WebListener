@@ -51,6 +51,7 @@ namespace BanksListener.Controllers
                 .ToList();
         }
 
+        // http://192.168.96.19:11082/bali/get-some-last-days-for-bank?bankTitle=BIB&days=3
         [HttpGet("get-some-last-days-for-bank")]
         public async Task<List<KomBankRatesLine>> GetSomeLastDaysForBank(string bankTitle, int days)
         {
