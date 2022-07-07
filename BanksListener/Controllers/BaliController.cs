@@ -46,8 +46,8 @@ namespace BanksListener.Controllers
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
             return db.KomBankRates
-                .Where(r => r.Bank == bankTitle.ToUpper() && r.LastCheck > DateTime.Now.AddDays(-7))
-                .OrderByDescending(l => l.LastCheck)
+                .Where(r => r.Bank == bankTitle.ToUpper() && r.StartedFrom > DateTime.Today.AddDays(-7))
+                .OrderByDescending(l => l.StartedFrom)
                 .ToList();
         }
 
@@ -57,13 +57,13 @@ namespace BanksListener.Controllers
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
             return db.KomBankRates
-                .Where(r => r.Bank == bankTitle.ToUpper() && r.LastCheck > DateTime.Now.AddDays(-days))
-                .OrderByDescending(l => l.LastCheck)
+                .Where(r => r.Bank == bankTitle.ToUpper() && r.StartedFrom > DateTime.Today.AddDays(-days))
+                .OrderByDescending(l => l.StartedFrom)
                 .ToList();
         }
 
         [HttpGet("get-one-last/{bankTitle}")]
-        public async Task<KomBankRatesLine> GetLastForEvery(string bankTitle)
+        public async Task<KomBankRatesLine> GetLast(string bankTitle)
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
 
