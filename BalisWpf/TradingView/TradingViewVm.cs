@@ -24,28 +24,34 @@ namespace BalisWpf
         }
 
         public string Title => $"Tradingview.com {_lastCheck:dd.MM HH:mm:ss}";
+
         public List<string> LeftPanel =>
             new List<string>()
             {
                 "",
-                $"Eur / Usd {Rates.EurUsd.Lp:0.0000}  {Rates.EurUsd.Ch:+0.000;-0.000}",
-                $"* Usd / Rub {Rates.UsdRub.Lp:0.000}  {Rates.UsdRub.Ch:+0.00;-0.00}",
+                $"Eur / Usd {Rates.EurUsd.Lp:0.0000}  {Rates.EurUsd.Ch:+0.0000;-0.000}",
+                //$"* Usd / Rub {Rates.UsdRub.Lp:0.000}  {Rates.UsdRub.Ch:+0.00;-0.00}",
+                $"* Usd / Rub {Rates.UsdRub.Lp:0.000}",
                 "  (from investing.com)",
-                $"Eur / Rub {Rates.EurRub.Lp:0.000}  {Rates.EurRub.Ch:+0.00;-0.00}",
+                $"Usd / Cny {Rates.UsdCny.Lp:0.0000}  {Rates.UsdCny.Ch:+0.00;-0.00}",
                 "",
-                $"Brent ${Rates.UkOil.Lp}",
-                $"     ({Rates.UkOil.Ch:+0.00;-0.00} {Rates.UkOil.Chp:+0.00;-0.00}%)",
-                $"Бочка {Rates.UkOil.Lp * Rates.UsdRub.Lp:0,0}",
+                $"Eur / Rub {Rates.EurRub.Lp:0.000}  {Rates.EurRub.Ch:+0.00;-0.00}",
+                $"Cny / Rub {Rates.CnyRub.Lp:0.000}  {Rates.CnyRub.Ch:+0.00;-0.00}",
+                "",
+               
             };
 
         public List<string> RightPanel => BuildRightPanel();
+
         private List<string> BuildRightPanel()
         {
             var result = new List<string>
             {
                 "",
-                $"Gold ${Rates.Gold.Lp: 0,0.0}/ozt  ({Rates.Gold.Ch:+0.00;-0.00}  {Rates.Gold.Chp:+0.0;-0.0}%)",
-                $" ${Rates.Gold.Lp / 31.1034768: 0.0}/g",
+                $"Brent ${Rates.UkOil.Lp} ({Rates.UkOil.Ch:+0.00;-0.00} {Rates.UkOil.Chp:+0.00;-0.00}%)",
+                $"Бочка {Rates.UkOil.Lp * Rates.UsdRub.Lp:0,0}",
+                "",
+                $"Gold ${Rates.Gold.Lp: 0,0.0}/ozt  ({Rates.Gold.Ch:+0.00;-0.00}  {Rates.Gold.Chp:+0.0;-0.0}%)  {Rates.Gold.Lp / 31.1034768: 0.0}/g",
                 ""
             };
             result.AddRange(FSp(Rates.SpSpx, "SP:S&P_500"));

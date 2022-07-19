@@ -27,6 +27,8 @@ namespace BalisStandard
             result.Eur = euroRate.Cur_OfficialRate;
             var rubRate = nbList.First(c => c.Cur_Abbreviation == "RUB");
             result.Rub = rubRate.Cur_OfficialRate;
+            var cnyRate = nbList.First(c => c.Cur_Abbreviation == "CNY");
+            result.Cny = cnyRate.Cur_OfficialRate;
             return result;
         }
 

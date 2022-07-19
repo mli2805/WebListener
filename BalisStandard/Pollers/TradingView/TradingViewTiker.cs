@@ -2,6 +2,6 @@
 {
     public enum TradingViewTiker
     {
-        EurUsd, UsdRub, EurRub, UkOil, Gold, Voo, Vix, Bnd, Spx
+        EurUsd, UsdRub, EurRub, UkOil, Gold, Voo, Vix, Bnd, Spx, UsdCny, CnyRub
     }
 }

@@ -14,6 +14,8 @@ namespace BalisStandard
         private const string BndRequest = "{\"p\":[\"my_session\",\"NASDAQ:BND\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string VixRequest = "{\"p\":[\"my_session\",\"CBOE:VIX\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
         private const string SpxRequest = "{\"p\":[\"my_session\",\"SP:SPX\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string UsdCnyRequest = "{\"p\":[\"my_session\",\"FX_IDC:USDCNY\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
+        private const string CnyRubRequest = "{\"p\":[\"my_session\",\"FX_IDC:CNYRUB\",{\"flags\":[\"force_permission\"]}],\"m\":\"quote_add_symbols\"}";
 
         private static string TikerToRequest(this TradingViewTiker tiker)
         {
@@ -28,6 +30,8 @@ namespace BalisStandard
                 case TradingViewTiker.Vix: return VixRequest;
                 case TradingViewTiker.Spx: return SpxRequest;
                 case TradingViewTiker.Bnd: return BndRequest;
+                case TradingViewTiker.UsdCny: return UsdCnyRequest;
+                case TradingViewTiker.CnyRub: return CnyRubRequest;
                 default: return UsdRubRequest;
             }
         }

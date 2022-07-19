@@ -68,6 +68,7 @@ namespace BalisWpf
             result.Add($"Usd  {day.Usd}");
             result.Add($"Eur  {day.Eur}");
             result.Add($"Rub  {day.Rub}");
+            result.Add($"Cny  {day.Cny}");
             result.Add("");
             result.Add($"Корзина  {day.Basket:0.0000}");
             result.Add("");
@@ -81,12 +82,13 @@ namespace BalisWpf
                 "Usd",
                 "Euro",
                 "100 Rub",
+                "10 Cny",
                 "",
                 "Корзина",
                 "",
                 "Eur / Usd",
                 "Usd / Rub",
-                "Eur / Rub",
+                "Usd / Cny",
             };
 
 
@@ -97,12 +99,13 @@ namespace BalisWpf
             result.Add($"{day.Usd:0.0000}");
             result.Add($"{day.Eur:0.0000}");
             result.Add($"{day.Rub:0.0000}");
+            result.Add($"{day.Cny:0.0000}");
             result.Add("");
             result.Add($"{day.Basket:0.0000}");
             result.Add("");
             result.Add($"{day.EurUsd:0.0000}");
-            result.Add($"{day.UsdRub:0.00}");
-            result.Add($"{day.EurRub:0.00}");
+            result.Add($"{day.UsdRub:0.000}");
+            result.Add($"{day.UsdCny:0.0000}");
             return result;
         }
 

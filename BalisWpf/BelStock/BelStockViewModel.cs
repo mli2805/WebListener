@@ -38,12 +38,13 @@ namespace BalisWpf
                OneStockCurrencyTemplate(_belStock.Usd, PreviousTradeDayNbRates.Usd, TodayNbRates.Usd),
                OneStockCurrencyTemplate(_belStock.Eur, PreviousTradeDayNbRates.Eur, TodayNbRates.Eur),
                OneStockCurrencyTemplate(_belStock.Rub, PreviousTradeDayNbRates.Rub, TodayNbRates.Rub),
+               OneStockCurrencyTemplate(_belStock.Cny, PreviousTradeDayNbRates.Cny, TodayNbRates.Cny),
                "",
                BuildNewBasketString(),
                "",
                EurUsdString,
                UsdRubString,
-               EurRubString,
+               UsdCnyString,
            };
 
         private string OneStockCurrencyTemplate(BelStockCurrency currency, double previousNbRate, double todayNbRate)
@@ -81,15 +82,21 @@ namespace BalisWpf
             }
         }
 
-        public string EurUsdString => _belStock.Eur.Average.Equals(-1) || _belStock.Usd.Average.Equals(-1) ? "" : $"{_belStock.Eur.Average / _belStock.Usd.Average:#,0.0000}";
-        public string UsdRubString => _belStock.Usd.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) ? "" : $"{_belStock.Usd.Average * 100 / _belStock.Rub.Average:#,0.00}";
-        public string EurRubString => _belStock.Eur.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) ? "" : $"{_belStock.Eur.Average * 100 / _belStock.Rub.Average:#,0.00}";
+        public string EurUsdString => _belStock.Eur.Average.Equals(-1) || _belStock.Usd.Average.Equals(-1) 
+            ? "" : $"{_belStock.Eur.Average / _belStock.Usd.Average:#,0.0000}";
+        public string UsdRubString => _belStock.Usd.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) 
+            ? "" : $"{_belStock.Usd.Average * 100 / _belStock.Rub.Average:#,0.000}";
+        public string EurRubString => _belStock.Eur.Average.Equals(-1) || _belStock.Rub.Average.Equals(-1) 
+            ? "" : $"{_belStock.Eur.Average * 100 / _belStock.Rub.Average:#,0.00}";
+        public string UsdCnyString => _belStock.Usd.Average.Equals(-1) || _belStock.Cny.Average.Equals(-1) 
+            ? "" : $"{_belStock.Usd.Average * 10 / _belStock.Cny.Average:#,0.0000}";
         private double CalculateNewBasket()
         {
             var usd = _belStock.Usd.Average.Equals(-1) ? TodayNbRates.Usd : _belStock.Usd.Average;
             var eur = _belStock.Eur.Average.Equals(-1) ? TodayNbRates.Eur : _belStock.Eur.Average;
             var rub = _belStock.Rub.Average.Equals(-1) ? TodayNbRates.Rub : _belStock.Rub.Average;
-            return NbBasket.Calculate(usd, eur, rub / 100);
+            var cny = _belStock.Cny.Average.Equals(-1) ? TodayNbRates.Cny : _belStock.Cny.Average;
+            return NbBasket.Calculate(usd, eur, rub / 100, cny / 10);
         }
         private string BuildNewBasketString()
         {

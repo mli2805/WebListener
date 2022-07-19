@@ -14,11 +14,14 @@ namespace BalisStandard
 
         public BelStockCurrency Rub { get; set; }
 
+        public BelStockCurrency Cny { get; set; }
+
         public BelStock()
         {
             Usd = new BelStockCurrency();
             Eur = new BelStockCurrency();
             Rub = new BelStockCurrency();
+            Cny = new BelStockCurrency();
         }
 
         public NbRates GetTomorrow()

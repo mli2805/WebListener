@@ -10,6 +10,7 @@ namespace BalisStandard
         private const string UrlUsd = "http://banki24.by/exchange/currencymarket/USD";
         private const string UrlEur = "http://banki24.by/exchange/currencymarket/EUR";
         private const string UrlRub = "http://banki24.by/exchange/currencymarket/RUB";
+        private const string UrlCny = "http://banki24.by/exchange/currencymarket/CNY";
 
         public async Task<BelStock> GetStockAsync()
         {
@@ -47,6 +48,15 @@ namespace BalisStandard
                     belStock.Rub.DealsCount = ParseDealsCount(rubPage);
                 }
 
+                if (belStock.Cny.Average > -1)
+                {
+                    var cnyPage = await ((HttpWebRequest)WebRequest.Create(UrlCny))
+                        .InitializeForKombanks()
+                        .GetDataAsync();
+                    belStock.Cny.LastDeal = ParseLastDealRate(cnyPage);
+                    belStock.Cny.DealsCount = ParseDealsCount(cnyPage);
+                }
+
                 return belStock;
             }
             catch (Exception e)
@@ -77,7 +87,8 @@ namespace BalisStandard
 
         private BelStock Parse(string webData)
         {
-            var table = FetchTable(webData);
+            //var table = FetchTable(webData);
+            var table = webData;
             if (table == "") return null;
             int pos;
             var result = new BelStock
@@ -91,6 +102,7 @@ namespace BalisStandard
                 result.Usd.Average = -1;
                 result.Eur.Average = -1;
                 result.Rub.Average = -1;
+                result.Cny.Average = -1;
                 return result;
             }
             double rate;
@@ -98,12 +110,19 @@ namespace BalisStandard
             GetForCurrency(table, "USD", out rate, out volume);
             result.Usd.Average = rate;
             result.Usd.Volume = volume;
+
             GetForCurrency(table, "EUR", out rate, out volume);
             result.Eur.Average = rate;
             if (volume.Length > 7) result.Eur.Volume = volume.Substring(7);
+
             GetForCurrency(table, "RUB", out rate, out volume);
             result.Rub.Average = rate;
             if (volume.Length > 7) result.Rub.Volume = volume.Substring(7);
+
+            GetForCurrency(table, "CNY", out rate, out volume);
+            result.Cny.Average = rate;
+            if (volume.Length > 7) result.Cny.Volume = volume.Substring(7);
+
             return result;
         }
 
@@ -162,13 +181,6 @@ namespace BalisStandard
             posTo = table.IndexOf("</span", posFrom, StringComparison.Ordinal);
             volume = table.Substring(posFrom + 1, posTo - posFrom - 1);
         }
-        private string FetchTable(string webData)
-        {
-            var pos = webData.IndexOf("<h1>Торги на белорусской валютно-фондовой бирже</h1>", StringComparison.Ordinal);
-            if (pos == -1) return "";
-            var endTablePos = webData.IndexOf("<h3>Архив валютных торгов</h3>", StringComparison.Ordinal);
-            return webData.Substring(pos, endTablePos - pos);
-        }
-
+        
     }
 }

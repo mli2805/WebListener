@@ -10,14 +10,23 @@ namespace BalisStandard
         private const double RubWage = 0.4;
         */
 
-        // c 01/11/2016
+        /* c 01/11/2016
         private const double UsdWage = 0.3;
         private const double EurWage = 0.2;
         private const double RubWage = 0.5;
+        */
 
-        public static double Calculate(double usd, double eur, double rub)
+        // c 15/07/2022
+        private const double UsdWage = 0.3;
+        private const double EurWage = 0.1;
+        private const double RubWage = 0.5;
+        private const double CnyWage = 0.1;
+
+
+
+        public static double Calculate(double usd, double eur, double rub, double cny)
         {
-            return Math.Pow(usd, UsdWage) * Math.Pow(eur, EurWage) * Math.Pow(rub, RubWage);
+            return Math.Pow(usd, UsdWage) * Math.Pow(eur, EurWage) * Math.Pow(rub, RubWage) * Math.Pow(cny, CnyWage);
         }
 
         /// <summary>
@@ -38,9 +47,10 @@ namespace BalisStandard
         /// <param name="currentBasket"></param>
         /// <param name="forexRates"></param>
         /// <returns></returns>
-        public static double ForecastUsingForex(double currentBasket, TradingViewRates forexRates)
+        public static double ForecastUsdUsingForex(double currentBasket, TradingViewRates forexRates)
         {
-            return currentBasket / (Math.Pow(forexRates.EurUsd.Lp, EurWage) * Math.Pow((1.0 / forexRates.UsdRub.Lp), RubWage)) ;
+            return currentBasket / 
+                   (Math.Pow(forexRates.EurUsd.Lp, EurWage) * Math.Pow(1.0 / forexRates.UsdRub.Lp, RubWage) * Math.Pow(1.0 / forexRates.UsdCny.Lp, CnyWage));
         }
     }
 }

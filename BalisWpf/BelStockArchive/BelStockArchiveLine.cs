@@ -16,7 +16,7 @@ namespace BalisWpf
 
         public double TotalTurnover => UsdTurnover + EuroTurnover + RubTurnover;
 
-        public double Basket => NbBasket.Calculate(UsdRate, EuroRate, RubRate / 100);
+        public double Basket => NbBasket.Calculate(UsdRate, EuroRate, RubRate / 100, 1);
 
     }
 }

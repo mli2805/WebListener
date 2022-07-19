@@ -11,5 +11,7 @@
         public TikerValues AmexVoo { get; set; } = new TikerValues();
         public TikerValues CboeVix { get; set; } = new TikerValues();
         public TikerValues AmexBnd { get; set; } = new TikerValues();
+        public TikerValues UsdCny { get; set; } = new TikerValues();
+        public TikerValues CnyRub { get; set; } = new TikerValues();
     }
 }

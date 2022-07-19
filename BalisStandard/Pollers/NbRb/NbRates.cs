@@ -8,15 +8,18 @@ namespace BalisStandard
         public double Usd { get; set; }
         public double Eur { get; set; }
         public double Rub { get; set; }
-        public double Basket => NbBasket.Calculate(Usd, Eur, Rub / 100);
+        public double Cny { get; set; }
+
+        public double Basket => NbBasket.Calculate(Usd, Eur, Rub / 100, Cny / 10);
         public double EurUsd => Eur / Usd;
         public double UsdRub => Usd * 100 / Rub;
         public double EurRub => Eur * 100 / Rub;
+        public double UsdCny => Usd * 10 / Cny;
 
         public bool Equals(NbRates other)
         {
             if (other == null) return false;
-            return Usd.Equals(other.Usd) && Eur.Equals(other.Eur) && Rub.Equals(other.Rub);
+            return Usd.Equals(other.Usd) && Eur.Equals(other.Eur) && Rub.Equals(other.Rub) && Cny.Equals(other.Cny);
         }
 
     }
