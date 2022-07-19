@@ -29,11 +29,11 @@ namespace BalisWpf
             new List<string>()
             {
                 "",
-                $"Eur / Usd {Rates.EurUsd.Lp:0.0000}  {Rates.EurUsd.Ch:+0.0000;-0.000}",
+                $"Eur / Usd {Rates.EurUsd.Lp:0.0000}  {Rates.EurUsd.Ch:+0.0000;-0.0000}",
                 //$"* Usd / Rub {Rates.UsdRub.Lp:0.000}  {Rates.UsdRub.Ch:+0.00;-0.00}",
                 $"* Usd / Rub {Rates.UsdRub.Lp:0.000}",
                 "  (from investing.com)",
-                $"Usd / Cny {Rates.UsdCny.Lp:0.0000}  {Rates.UsdCny.Ch:+0.00;-0.00}",
+                $"Usd / Cny {Rates.UsdCny.Lp:0.0000}  {Rates.UsdCny.Ch:+0.0000;-0.0000}",
                 "",
                 $"Eur / Rub {Rates.EurRub.Lp:0.000}  {Rates.EurRub.Ch:+0.00;-0.00}",
                 $"Cny / Rub {Rates.CnyRub.Lp:0.000}  {Rates.CnyRub.Ch:+0.00;-0.00}",

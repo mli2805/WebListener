@@ -32,6 +32,7 @@ namespace BalisStandard
                 Usd = Usd.Average,
                 Eur = Eur.Average,
                 Rub = Rub.Average,
+                Cny = Cny.Average,
             };
         }
     }
