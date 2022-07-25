@@ -72,12 +72,12 @@ namespace BanksListener.Controllers
                 .FirstOrDefault(r => r.Bank == bankTitle.ToUpper());
         }
 
-        [HttpGet("get-belstock-archive/{portion}")]
-        public async Task<List<BelStockArchiveOneCurrencyDay>> GetBelstockArchive(int portion)
+        [HttpGet("get-banki24-archive/{portion}")]
+        public async Task<List<BelStockArchiveOneCurrency>> GetBanki24Archive(int portion)
         {
             int portionSize = _iniFile.Read(IniSection.General, IniKey.BelstockPortionSize, 100);
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
-            return db.BelStockArchive.OrderBy(l => l.Date)
+            return db.Banki24Archive.OrderBy(l => l.Date)
                 .Skip(portion * portionSize)
                 .Take(portionSize)
                 .ToList();

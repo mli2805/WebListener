@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -10,8 +8,6 @@ namespace BanksListener
     {
         public static void Main(string[] args)
         {
-            File.WriteAllText($@"c:\tmp\{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.txt", DateTime.Now.ToString("F"));
-
             CreateHostBuilder(args)
                 .Build()
                 .Run();

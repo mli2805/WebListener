@@ -6,7 +6,7 @@ namespace BalisStandard
     {
         private readonly string _dbPath;
         public DbSet<KomBankRatesLine> KomBankRates { get; set; }
-        public DbSet<BelStockArchiveOneCurrencyDay> BelStockArchive { get; set; }
+        public DbSet<BelStockArchiveOneCurrency> Banki24Archive { get; set; }
 
         public BanksListenerContext(string dbPath)
         {

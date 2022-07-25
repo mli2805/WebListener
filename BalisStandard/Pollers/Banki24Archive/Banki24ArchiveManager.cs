@@ -11,13 +11,6 @@ namespace BalisStandard
         private readonly IMyLog _logFile;
         private readonly string _dbPath;
 
-//        public Banki24ArchiveManager(ILifetimeScope container)
-//        {
-//            _logFile = container.Resolve<IMyLog>();
-//            var iniFile = container.Resolve<IniFile>();
-//            _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
-//        }
-
         public Banki24ArchiveManager(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
@@ -63,16 +56,17 @@ namespace BalisStandard
             return date;
         }
 
-        private async Task PersistRangeOfLines(List<BelStockArchiveOneCurrencyDay> newLines)
+        private async Task PersistRangeOfLines(List<BelStockArchiveOneCurrency> newLines)
         {
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
-            db.BelStockArchive.AddRange(newLines);
-            await db.SaveChangesAsync();
+            db.Banki24Archive.AddRange(newLines);
+            var result = await db.SaveChangesAsync();
+            Console.WriteLine("PersistRangeOfLines " + result);
         }
 
-        private async Task<List<BelStockArchiveOneCurrencyDay>> GetArchiveFromDate(DateTime date)
+        private async Task<List<BelStockArchiveOneCurrency>> GetArchiveFromDate(DateTime date)
         {
-            var newLines = new List<BelStockArchiveOneCurrencyDay>();
+            var newLines = new List<BelStockArchiveOneCurrency>();
             var usdLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Usd);
             if (usdLine != null)
                 newLines.Add(usdLine);
@@ -82,6 +76,9 @@ namespace BalisStandard
             var rubLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Rub);
             if (rubLine != null)
                 newLines.Add(rubLine);
+            var cnyLine = await new Banki24ArchiveExtractor().GetOneCurrencyDayAsync(date, Currency.Cny);
+            if (cnyLine != null)
+                newLines.Add(cnyLine);
             return newLines;
         }
 
@@ -89,11 +86,11 @@ namespace BalisStandard
         {
             using (BanksListenerContext db = new BanksListenerContext(_dbPath))
             {
-                var lastDateLine = db.BelStockArchive.OrderBy(d => d.Date).LastOrDefault();
+                var lastDateLine = db.Banki24Archive.OrderBy(d => d.Date).LastOrDefault();
                 if (lastDateLine == null)
                     return new DateTime(2015, 6, 1);
 
-                db.BelStockArchive.RemoveRange(db.BelStockArchive.Where(l => l.Date.Date == lastDateLine.Date.Date));
+                db.Banki24Archive.RemoveRange(db.Banki24Archive.Where(l => l.Date.Date == lastDateLine.Date.Date));
                 await db.SaveChangesAsync();
                 return lastDateLine.Date.Date;
             }

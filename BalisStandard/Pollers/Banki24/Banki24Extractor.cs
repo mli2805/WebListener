@@ -72,7 +72,7 @@ namespace BalisStandard
             var posFrom = webData.IndexOf("<td>", pos + 2, StringComparison.Ordinal);
             var posTo = webData.IndexOf("</td>", posFrom + 2, StringComparison.Ordinal);
             var rateString = webData.Substring(posFrom + 5, posTo - posFrom - 1);
-            var rate = SpecialOperations.ParseDoubleFromWebTrash(rateString);
+            var rate = rateString.ParseDoubleFromWebTrash();
             return rate;
         }
         private double ParseDealsCount(string webData)
@@ -81,7 +81,7 @@ namespace BalisStandard
             var posFrom = webData.IndexOf("<td>", pos + 2, StringComparison.Ordinal);
             var posTo = webData.IndexOf("</td>", posFrom + 2, StringComparison.Ordinal);
             var rateString = webData.Substring(posFrom + 5, posTo - posFrom - 1);
-            var rate = SpecialOperations.ParseDoubleFromWebTrash(rateString);
+            var rate = rateString.ParseDoubleFromWebTrash();
             return rate;
         }
 
@@ -174,7 +174,7 @@ namespace BalisStandard
                 return;
             }
             var rateString = table.Substring(posFrom, posTo - posFrom - 2);
-            rate = SpecialOperations.ParseDoubleFromWebTrash(rateString);
+            rate = rateString.ParseDoubleFromWebTrash();
 
             pos = table.IndexOf(">Объём, млн. USD</span>", posTo, StringComparison.Ordinal);
             posFrom = table.IndexOf(">", pos + 27, StringComparison.Ordinal);

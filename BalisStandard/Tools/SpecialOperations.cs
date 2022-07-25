@@ -5,7 +5,7 @@ namespace BalisStandard
 {
     public static class SpecialOperations
     {
-        public static double ParseDoubleFromWebTrash(string rateString)
+        public static double ParseDoubleFromWebTrash(this string rateString)
         {
             var rateClearString = new StringBuilder();
             foreach (var symbol in rateString)
