@@ -41,7 +41,8 @@ namespace BalisStandard
             if (bnbRoot == null)
                 return null;
             var imBankingRates = JsonConvert.DeserializeObject<Dictionary<int, ImBankingCurrency>>(bnbRoot[8].ToString());
-            var convertionRates = JsonConvert.DeserializeObject<Dictionary<int, BnbCurrency>>(bnbRoot[7].ToString());
+            // БНБ перестал делать конверсию
+            // var convertionRates = JsonConvert.DeserializeObject<Dictionary<int, BnbCurrency>>(bnbRoot[7].ToString());
 
             var result = new KomBankRatesLine
             {
@@ -54,12 +55,12 @@ namespace BalisStandard
                 RubA = imBankingRates[34].UF_BUY,
                 RubB = imBankingRates[34].UF_SALE,
 
-                EurUsdA = convertionRates[310].UF_BUY,
-                EurUsdB = convertionRates[310].UF_SALE,
-                RubUsdA = convertionRates[308].UF_BUY,
-                RubUsdB = convertionRates[308].UF_SALE,
-                RubEurA = convertionRates[309].UF_BUY,
-                RubEurB = convertionRates[309].UF_SALE,
+                // EurUsdA = convertionRates[310].UF_BUY,
+                // EurUsdB = convertionRates[310].UF_SALE,
+                // RubUsdA = convertionRates[308].UF_BUY,
+                // RubUsdB = convertionRates[308].UF_SALE,
+                // RubEurA = convertionRates[309].UF_BUY,
+                // RubEurB = convertionRates[309].UF_SALE,
             };
             return result;
         }

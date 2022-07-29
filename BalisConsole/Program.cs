@@ -8,25 +8,25 @@ namespace BalisConsole
     {
         static async Task Main()
         {
-            await ArchiveTest();
+            await Test();
             Console.ReadKey();
         }
 
-        //private static async Task Test()
-        //{
-        //    var extractor = new BelvebExtractor();
+        private static async Task Test()
+        {
+            var extractor = new BnbExtractor();
 
-        //    while (true)
-        //    {
-        //        Console.WriteLine($"request at {DateTime.Now}");
-        //        var rate = await extractor.GetRatesLineAsync();
-        //        Console.WriteLine(rate);
+            while (true)
+            {
+                Console.WriteLine($"request at {DateTime.Now}");
+                var rate = await extractor.GetRatesLineAsync();
+                Console.WriteLine(rate);
 
-        //        await Task.Delay(15000);
-        //    }
+                await Task.Delay(15000);
+            }
 
-        //    // ReSharper disable once FunctionNeverReturns
-        //}
+            // ReSharper disable once FunctionNeverReturns
+        }
 
         private static async Task ArchiveTest()
         {
