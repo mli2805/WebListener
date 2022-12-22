@@ -16,15 +16,16 @@ namespace BalisStandard
         {
             try
             {
-                var belStock = Parse(await ((HttpWebRequest)WebRequest.Create(Url))
-                    .InitializeForKombanks()
-                    .GetDataAsync());
+                var response = await ((HttpWebRequest)WebRequest.Create(Url))
+                    // .InitializeForKombanks()
+                    .GetDataAsync();
+                var belStock = Parse(response);
                 if (belStock == null)
                     return null;
                 if (belStock.Usd.Average > -1)
                 {
                     var usdPage = await ((HttpWebRequest)WebRequest.Create(UrlUsd))
-                        .InitializeForKombanks()
+                        // .InitializeForKombanks()
                         .GetDataAsync();
                     belStock.Usd.LastDeal = ParseLastDealRate(usdPage);
                     belStock.Usd.DealsCount = ParseDealsCount(usdPage);
@@ -33,7 +34,7 @@ namespace BalisStandard
                 if (belStock.Eur.Average > -1)
                 {
                     var eurPage = await ((HttpWebRequest)WebRequest.Create(UrlEur))
-                        .InitializeForKombanks()
+                        // .InitializeForKombanks()
                         .GetDataAsync();
                     belStock.Eur.LastDeal = ParseLastDealRate(eurPage);
                     belStock.Eur.DealsCount = ParseDealsCount(eurPage);
@@ -42,7 +43,7 @@ namespace BalisStandard
                 if (belStock.Rub.Average > -1)
                 {
                     var rubPage = await ((HttpWebRequest)WebRequest.Create(UrlRub))
-                        .InitializeForKombanks()
+                        // .InitializeForKombanks()
                         .GetDataAsync();
                     belStock.Rub.LastDeal = ParseLastDealRate(rubPage);
                     belStock.Rub.DealsCount = ParseDealsCount(rubPage);
@@ -51,7 +52,7 @@ namespace BalisStandard
                 if (belStock.Cny.Average > -1)
                 {
                     var cnyPage = await ((HttpWebRequest)WebRequest.Create(UrlCny))
-                        .InitializeForKombanks()
+                        // .InitializeForKombanks()
                         .GetDataAsync();
                     belStock.Cny.LastDeal = ParseLastDealRate(cnyPage);
                     belStock.Cny.DealsCount = ParseDealsCount(cnyPage);

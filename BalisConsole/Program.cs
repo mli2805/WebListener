@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using BalisStandard;
 
@@ -12,20 +13,15 @@ namespace BalisConsole
             Console.ReadKey();
         }
 
+        private const string Url = "http://banki24.by/exchange/currencymarket";
+        private const string UrlUsd = "http://banki24.by/exchange/currencymarket/USD";
         private static async Task Test()
         {
-            var extractor = new BnbExtractor();
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url);
+            var initializedRequest = httpWebRequest;
+            var response = await initializedRequest.GetDataAsync();
+            Console.WriteLine(response);
 
-            while (true)
-            {
-                Console.WriteLine($"request at {DateTime.Now}");
-                var rate = await extractor.GetRatesLineAsync();
-                Console.WriteLine(rate);
-
-                await Task.Delay(15000);
-            }
-
-            // ReSharper disable once FunctionNeverReturns
         }
 
         private static async Task ArchiveTest()

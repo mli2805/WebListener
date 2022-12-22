@@ -14,12 +14,22 @@ namespace BalisWpf
             var extractor = new InvestingExtractor();
             while (true)
             {
-                Console.WriteLine($@"request usd/rub from investing.com at {DateTime.Now}");
-                var rate = await extractor.GetRate();
-                _vm.TradingViewVm.Rates.UsdRub.Lp = rate;
-                _vm.TradingViewVm.LastCheck = DateTime.Now;
+                var rate = await extractor.GetRate("usd-rub");
+                _vm.TradingViewVm.Rates.InvUsdRub.Lp = rate;
                 _vm.ForecastVm.CalculateNewRates(_vm.TradingViewVm.Rates);
-                Console.WriteLine(rate);
+                Console.WriteLine($@"request usd/rub from investing.com at {DateTime.Now} rate {rate}");
+
+                await Task.Delay(1000);
+
+                rate = await extractor.GetRate("eur-rub");
+                _vm.TradingViewVm.Rates.InvEurRub.Lp = rate;
+                Console.WriteLine($@"request euro/rub from investing.com at {DateTime.Now} rate {rate}");
+
+                await Task.Delay(1000);
+
+                rate = await extractor.GetRate("cny-rub");
+                _vm.TradingViewVm.Rates.InvCnyRub.Lp = rate;
+                Console.WriteLine($@"request cny/rub from investing.com at {DateTime.Now} rate {rate}");
 
                 await Task.Delay(45000);
             }

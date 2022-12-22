@@ -7,15 +7,21 @@ namespace BalisStandard
 {
     public class InvestingExtractor
     {
-        private const string Url = "https://ru.investing.com/currencies/usd-rub";
+        private const string BaseUrl = "https://ru.investing.com/currencies/";
 
-        public async Task<double> GetRate()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currencyPair"> usd-rub, eur-rub, cny-rub </param>
+        /// <returns></returns>
+        public async Task<double> GetRate(string currencyPair)
         {
             try
             {
-                var page = await ((HttpWebRequest)WebRequest.Create(Url)).GetDataAsync();
+                var uri = BaseUrl + currencyPair;
+                var page = await ((HttpWebRequest)WebRequest.Create(uri)).GetDataAsync();
                 var index = page.IndexOf("data-test=\"instrument-price-last\">", StringComparison.Ordinal);
-                var sub = page.Substring(index + 34, 7);
+                var sub = page.Substring(index + 34, 6);
                 if (double.TryParse(sub, NumberStyles.Any, null, out double rate))
                     return rate;
             }

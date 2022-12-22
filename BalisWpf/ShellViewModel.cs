@@ -34,12 +34,7 @@ namespace BalisWpf
         private void StartTradingViewPollers()
         {
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.EurUsd, Model.TradingViewVm.Rates.EurUsd, Model, 10));
-
-            // не совпадает с Investing.com на который ориентируется наша биржа
-            // Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UsdRub, Model.TradingViewVm.Rates.UsdRub, Model, 500));
-
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UsdCny, Model.TradingViewVm.Rates.UsdCny, Model, 1000));
-
 
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UkOil, Model.TradingViewVm.Rates.UkOil, Model, 1500));
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.Gold, Model.TradingViewVm.Rates.Gold, Model, 2000));
@@ -50,6 +45,7 @@ namespace BalisWpf
 
 
             // для прогноза эти курсы не нужны, справочно
+            Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.UsdRub, Model.TradingViewVm.Rates.UsdRub, Model, 500));
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.EurRub, Model.TradingViewVm.Rates.EurRub, Model, 4500));
             Task.Factory.StartNew(() => new TradingViewPoller().Start(TradingViewTiker.CnyRub, Model.TradingViewVm.Rates.CnyRub, Model, 5000));
         }

@@ -16,10 +16,17 @@ namespace BalisStandard
         private const double RubWage = 0.5;
         */
 
-        // c 15/07/2022
+        /* c 15/07/2022
         private const double UsdWage = 0.3;
         private const double EurWage = 0.1;
         private const double RubWage = 0.5;
+        private const double CnyWage = 0.1;
+        */
+
+        // c 12/12/2022
+        private const double UsdWage = 0.3;
+        private const double EurWage = 0;
+        private const double RubWage = 0.6;
         private const double CnyWage = 0.1;
 
 
@@ -50,7 +57,9 @@ namespace BalisStandard
         public static double ForecastUsdUsingForex(double currentBasket, TradingViewRates forexRates)
         {
             return currentBasket / 
-                   (Math.Pow(forexRates.EurUsd.Lp, EurWage) * Math.Pow(1.0 / forexRates.UsdRub.Lp, RubWage) * Math.Pow(1.0 / forexRates.UsdCny.Lp, CnyWage));
+                   (Math.Pow(forexRates.EurUsd.Lp, EurWage) 
+                    * Math.Pow(1.0 / forexRates.InvUsdRub.Lp, RubWage) 
+                    * Math.Pow(1.0 / forexRates.UsdCny.Lp, CnyWage));
         }
     }
 }
