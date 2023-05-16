@@ -49,7 +49,7 @@ namespace BalisStandard
                     _logFile.AppendLine($"Banki24 archive for {date.Date:dd/MM/yyyy} extracted");
                 }
                 else
-                    _logFile.AppendLine($"Banki24 archive has no news for {date.Date:d}.");
+                    _logFile.AppendLine($"Banki24 archive has no news for {date.Date:dd/MM/yyyy}.");
                 date = date.AddDays(1);
             }
 
