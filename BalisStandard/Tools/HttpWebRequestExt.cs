@@ -48,6 +48,13 @@ namespace BalisStandard
             return request;
         }
 
+        public static HttpWebRequest InitializeToGetArchive(this HttpWebRequest request)
+        {
+            request.Accept = "*/*";
+            
+            return request;
+        }
+
         private static string GetWebData(WebResponse response)
         {
             var stream = response.GetResponseStream();

@@ -14,7 +14,6 @@ namespace BalisConsole
         }
 
         private const string Url = "http://banki24.by/exchange/currencymarket";
-        private const string UrlUsd = "http://banki24.by/exchange/currencymarket/USD";
         private static async Task Test()
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url);
@@ -24,12 +23,12 @@ namespace BalisConsole
 
         }
 
-        private static async Task ArchiveTest()
-        {
-            var extractor = new Banki24ArchiveExtractor();
-            var cny = await extractor.GetOneCurrencyDayAsync(new DateTime(2022, 7, 25), Currency.Cny);
-            Console.WriteLine(cny);
-        }
+        // private static async Task ArchiveTest()
+        // {
+        //     var extractor = new Banki24ArchiveExtractor();
+        //     var cny = await extractor.GetOneCurrencyDayAsync(new DateTime(2022, 7, 25), Currency.Cny);
+        //     Console.WriteLine(cny);
+        // }
 
     }
 

@@ -46,7 +46,7 @@ namespace BalisStandard
                 if (newLines.Any())
                 {
                     await PersistRangeOfLines(newLines);
-                    _logFile.AppendLine($"Banki24 archive for {date.Date:d} extracted");
+                    _logFile.AppendLine($"Banki24 archive for {date.Date:dd/MM/yyyy} extracted");
                 }
                 else
                     _logFile.AppendLine($"Banki24 archive has no news for {date.Date:d}.");

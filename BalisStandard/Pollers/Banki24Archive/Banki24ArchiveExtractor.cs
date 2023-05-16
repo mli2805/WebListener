@@ -16,9 +16,13 @@ namespace BalisStandard
         {
             var url = "http://banki24.by/exchange/currencymarket/" + currency.ToString().ToUpper() + "/" + date.ToString("yyyy-MM-dd");
 
-            var page = await ((HttpWebRequest)WebRequest.Create(url))
-                .InitializeForKombanks()
-                .GetDataAsync();
+            var webRequest = (HttpWebRequest)WebRequest.Create(url);
+            webRequest.Method = "GET";
+            webRequest = webRequest.InitializeToGetArchive();
+
+            var page = await webRequest.GetDataAsync();
+
+           
             if (string.IsNullOrEmpty(page)) return null;
 
             return ParseOneCurrencyTable(page, currency, date);
