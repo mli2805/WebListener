@@ -263,7 +263,6 @@
       <DependentUpon>BelStockArchiveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BelStockArchive\BelStockArchiveViewModel.cs" />
-    <Compile Include="BelStockArchive\EnumerableExt.cs" />
     <Compile Include="BelStockArchive\MonthlyChartView.xaml.cs">
       <DependentUpon>MonthlyChartView.xaml</DependentUpon>
     </Compile>

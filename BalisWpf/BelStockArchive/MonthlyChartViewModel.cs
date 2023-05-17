@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using UtilsLib;
 
 namespace BalisWpf
 {
@@ -14,28 +15,40 @@ namespace BalisWpf
 
         public PlotModel MyPlotModel { get; set; } = new PlotModel();
         public PlotModel MyPlotModel2 { get; set; } = new PlotModel();
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = "Курс бин к корзине валют в целом и сумарный оборот на бирже по дням месяца";
+        }
+
         public void Initialize(ObservableCollection<BelStockArchiveLine> rows)
         {
             Rates = rows;
-            // var start = new DateTime(2020, 9, 1);
+            var start = DateTime.Today.AddMonths(-5).GetStartOfMonth();
+            var lines = rows.Where(l => l.Date.Date >= start.Date).ToList();
+            var min = lines.Min(l => l.Basket) * 0.999;
+            var max = lines.Max(l => l.Basket) * 1.001;
+            var maxt = lines.Max(l => l.TotalTurnover) * 1.001;
 
-            OneMonth(2020, 9, MyPlotModel, OxyColor.FromArgb(255, 0, 0, 255));
-            OneMonth(2020, 10, MyPlotModel, OxyColor.FromArgb(255, 0, 255, 0));
-            OneMonth(2020, 11, MyPlotModel, OxyColor.FromArgb(255, 255, 0, 0));
-            OneMonth(2020, 12, MyPlotModel2, OxyColor.FromArgb(255, 0, 0, 255));
-            OneMonth(2021, 1, MyPlotModel2, OxyColor.FromArgb(255, 0, 255, 0));
-            OneMonth(2021, 2, MyPlotModel2, OxyColor.FromArgb(255, 255, 0, 0));
+            OneMonth(start.AddMonths(0), MyPlotModel, OxyColor.FromArgb(255, 0, 0, 255));
+            OneMonth(start.AddMonths(1), MyPlotModel, OxyColor.FromArgb(255, 0, 255, 0));
+            OneMonth(start.AddMonths(2), MyPlotModel, OxyColor.FromArgb(255, 255, 0, 0));
+            OneMonth(start.AddMonths(3), MyPlotModel2, OxyColor.FromArgb(255, 0, 0, 255));
+            OneMonth(start.AddMonths(4), MyPlotModel2, OxyColor.FromArgb(255, 0, 255, 0));
+            OneMonth(start.AddMonths(5), MyPlotModel2, OxyColor.FromArgb(255, 255, 0, 0));
 
-            MyPlotModel.Axes.Add(new LinearAxis() { Key = "basketAxis", Position = AxisPosition.Left });
-            MyPlotModel.Axes.Add(new LinearAxis() { Key = "turnoverAxis", Position = AxisPosition.Right });
+            MyPlotModel.Axes.Add(new LinearAxis() { Key = "basketAxis", Position = AxisPosition.Left, Minimum = min, Maximum = max });
+            MyPlotModel.Axes.Add(new LinearAxis() { Key = "turnoverAxis", Position = AxisPosition.Right, Maximum = maxt });
 
-            MyPlotModel2.Axes.Add(new LinearAxis() { Key = "basketAxis", Position = AxisPosition.Left });
-            MyPlotModel2.Axes.Add(new LinearAxis() { Key = "turnoverAxis", Position = AxisPosition.Right });
+            MyPlotModel2.Axes.Add(new LinearAxis() { Key = "basketAxis", Position = AxisPosition.Left, Minimum = min, Maximum = max });
+            MyPlotModel2.Axes.Add(new LinearAxis() { Key = "turnoverAxis", Position = AxisPosition.Right, Maximum = maxt });
         }
 
 
-        private void OneMonth(int year, int month, PlotModel plotModel, OxyColor color)
+        private void OneMonth(DateTime date, PlotModel plotModel, OxyColor color)
         {
+            var year = date.Year;
+            var month = date.Month;
             var lineSeriesBasket = new LineSeries() { Title = $"{month} {year}", Color = color, YAxisKey = "basketAxis" };
             var columnSeriesTurnover = new ColumnSeries() { FillColor = OxyColor.FromAColor(64, color), YAxisKey = "turnoverAxis" };
 

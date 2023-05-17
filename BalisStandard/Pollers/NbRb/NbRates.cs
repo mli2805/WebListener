@@ -10,7 +10,8 @@ namespace BalisStandard
         public double Rub { get; set; }
         public double Cny { get; set; }
 
-        public double Basket => NbBasket.Calculate(Usd, Eur, Rub / 100, Cny / 10);
+        // public double Basket => ForecasterFromBasket.Calculate(Usd, Eur, Rub / 100, Cny / 10);
+        public double Basket => BelBaskets.Calculate(Usd, Eur, Rub, Cny);
         public double EurUsd => Eur / Usd;
         public double UsdRub => Usd * 100 / Rub;
         public double EurRub => Eur * 100 / Rub;

@@ -16,7 +16,6 @@ namespace BalisWpf
             builder.RegisterType<BelStockViewModel>();
             builder.RegisterType<BelStockArchiveViewModel>();
             builder.RegisterType<ChangesViewModel>().SingleInstance();
-            builder.RegisterType<MonthlyChartViewModel>();
         }
     }
 }

@@ -43,12 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="IniFile\IniFile.cs" />
     <Compile Include="IniFile\IniKey.cs" />
     <Compile Include="IniFile\IniSection.cs" />
     <Compile Include="LogFile\IMyLog.cs" />
     <Compile Include="LogFile\LogFile.cs" />
     <Compile Include="LogFile\NullLog.cs" />
+    <Compile Include="Period.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

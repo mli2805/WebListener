@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using BalisStandard;
 
@@ -55,7 +56,7 @@ namespace BalisWpf
         public void CalculateNewRates(TradingViewRates forex)
         {
             if (_currentNbRates == null) return;
-            Usd = NbBasket.ForecastUsdUsingForex(_basket, forex);
+            Usd = ForecasterFromBasket.ForecastUsdUsingForex(_basket, forex, BelBaskets.Weights.Last());
             Eur = Usd * forex.EurUsd.Lp;
             Rub = Usd / forex.InvUsdRub.Lp * 100; // в корзине курс за 1 рур , а храним за 100
             Cny = Usd / forex.UsdCny.Lp * 10; // в корзине курс за 1 юань , а храним за 10
@@ -72,7 +73,7 @@ namespace BalisWpf
             Usd = (Rub / 100) * forex.UsdRub.Lp;
             Eur = (Rub / 100) * forex.EurUsd.Lp * forex.UsdRub.Lp;
             Cny = (Rub / 10) * forex.UsdCny.Lp * forex.UsdRub.Lp;
-            _basket = NbBasket.Calculate(Usd, Eur, Rub / 100, Cny / 10);
+            _basket = BelBaskets.Calculate(Usd, Eur, Rub, Cny);
 
             UsdDelta = Usd - _currentNbRates.Usd;
             EurDelta = Eur - _currentNbRates.Eur;

@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:balisWpf="clr-namespace:BalisWpf"
         mc:Ignorable="d"
-        Title="BelStockArchiveView" SizeToContent="Width" Height="800" WindowStartupLocation="CenterScreen">
+        SizeToContent="Width" Height="800" WindowStartupLocation="CenterScreen">
     <StackPanel>
         <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" Height="710">
             <i:Interaction.Behaviors>
@@ -15,22 +15,25 @@
             </i:Interaction.Behaviors>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Timestamp" Width="75" Binding="{Binding Timestamp}"/>
-                <DataGridTextColumn Header="Usd rate" Width="75" Binding="{Binding UsdRate, StringFormat={}{0:0.0000}}"/>
-                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding UsdTurnover, StringFormat={}{0:0.0}}"/>
-                <DataGridTextColumn Header="Euro rate" Width="75" Binding="{Binding EuroRate, StringFormat={}{0:0.0000}}"/>
-                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding EuroTurnover, StringFormat={}{0:0.0}}"/>
-                <DataGridTextColumn Header="Rub rate" Width="75" Binding="{Binding RubRate, StringFormat={}{0:0.0000}}"/>
-                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding RubTurnover, StringFormat={}{0:0.0}}"/>
-                <DataGridTextColumn Header="Cny rate" Width="75" Binding="{Binding CnyRate, StringFormat={}{0:0.0000}}"/>
-                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding CnyTurnover, StringFormat={}{0:0.0}}"/>
-                <DataGridTextColumn Header="Total" Width="75" Binding="{Binding TotalTurnover, StringFormat={}{0:0.0}}"/>
-                <DataGridTextColumn Header="Basket" Width="75" Binding="{Binding Basket, StringFormat={}{0:0.0000}}"/>
+                <DataGridTextColumn Header="Usd rate" Width="75" Binding="{Binding UsdRate, StringFormat={}{0:0.0000; ; }}"/>
+                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding UsdTurnover, StringFormat={}{0:0.0; ; }}"/>
+                <DataGridTextColumn Header="Euro rate" Width="75" Binding="{Binding EuroRate, StringFormat={}{0:0.0000; ; }}"/>
+                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding EuroTurnoverStr}"/>
+                <DataGridTextColumn Header="Rub rate" Width="75" Binding="{Binding RubRate, StringFormat={}{0:0.0000; ; }}"/>
+                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding RubTurnover, StringFormat={}{0:0.0; ; }}"/>
+                <DataGridTextColumn Header="Cny rate" Width="75" Binding="{Binding CnyRate, StringFormat={}{0:0.0000; ; }}"/>
+                <DataGridTextColumn Header="turnover" Width="75" Binding="{Binding CnyTurnover, StringFormat={}{0:0.0; ; }}"/>
+                <DataGridTextColumn Header="Total" Width="75" Binding="{Binding TotalTurnover, StringFormat={}{0:0.0; ; }}"/>
+                <DataGridTextColumn Header="Basket" Width="75" Binding="{Binding Basket, StringFormat={}{0:0.0000; ; }}"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal">
-            <Button Name="Toggle" Margin="10" Width="120" Height="24">Toggle</Button>
-            <Button Name="SaveAs" Margin="10" Width="120" Height="24">Save as</Button>
-            <Button Name="MonthlyChart" Margin="10" Width="120" Height="24">Monthly chart</Button>
+            <Button Name="Toggle" Margin="10" Width="320" Height="24">
+                Обороты дневные, месячные и по числам
+            </Button>
+            <Button Name="MonthlyChart" Margin="10" Width="320" Height="24">
+                Курс к корзине и суммарные обороты по дням месяца
+            </Button>
         </StackPanel>
     </StackPanel>
 

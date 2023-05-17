@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -16,7 +15,6 @@ namespace BalisWpf
     {
         private readonly IniFile _iniFile;
         private readonly IWindowManager _windowManager;
-        private readonly MonthlyChartViewModel _monthlyChartViewModel;
         private int _mode;
 
         private List<BelStockArchiveOneCurrency> _data;
@@ -25,11 +23,15 @@ namespace BalisWpf
         private List<BelStockArchiveLine> _dayOfMonthData;
         public ObservableCollection<BelStockArchiveLine> Rows { get; set; } = new ObservableCollection<BelStockArchiveLine>();
 
-        public BelStockArchiveViewModel(IniFile iniFile, IWindowManager windowManager, MonthlyChartViewModel monthlyChartViewModel)
+        public BelStockArchiveViewModel(IniFile iniFile, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _windowManager = windowManager;
-            _monthlyChartViewModel = monthlyChartViewModel;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = "Ежедневные обороты на бирже";
         }
 
         private async Task Fetch()
@@ -59,41 +61,41 @@ namespace BalisWpf
         public async Task Initialize()
         {
             await Fetch();
-            _plainDailyData = _data
-                .GroupBy(d => d.Date)
-                .Select(ToBelStockArchiveDate)
-                .ToList();
-
             InitializeMainTable();
-
-            _monthData = _plainDailyData
-                .GroupBy(d => $"{d.Date:MMM yyyy}")
-                .Select(ToBelStockArchiveMonth)
-                .ToList();
-
-            _dayOfMonthData = _plainDailyData
-                .GroupBy(d => $"{d.Date:dd}-е")
-                .Select(ToBelStockArchiveDayOfMonth)
-                .OrderBy(l => l.Timestamp)
-                .ToList();
         }
 
         private void InitializeMainTable()
         {
+            DisplayName = "Дневные обороты на бирже";
+            _plainDailyData ??= _data
+                .GroupBy(d => d.Date)
+                .Select(ToBelStockArchiveDate)
+                .ToList();
             Rows.Clear();
-            _plainDailyData.Do(Rows.Add);
+            _plainDailyData.ForEach(Rows.Add);
         }
 
         private void InitializeMonthTable()
         {
+            DisplayName = "Суммарные обороты за месяц, курс валют средние за месяц";
+            _monthData ??= _plainDailyData
+                .GroupBy(d => $"{d.Date:MMM yyyy}")
+                .Select(ToBelStockArchiveMonth)
+                .ToList();
             Rows.Clear();
-            _monthData.Do(Rows.Add);
+            _monthData.ForEach(Rows.Add);
         }
 
         private void InitializeDayOfMonthTable()
         {
+            DisplayName = "Средние обороты по дням месяца на бирже";
+            _dayOfMonthData ??= _plainDailyData
+                .GroupBy(d => $"{d.Date:dd}-е")
+                .Select(ToBelStockArchiveDayOfMonth)
+                .OrderBy(l => l.Timestamp)
+                .ToList(); 
             Rows.Clear();
-            _dayOfMonthData.Do(Rows.Add);
+            _dayOfMonthData.ForEach(Rows.Add);
         }
 
         private static BelStockArchiveLine ToBelStockArchiveMonth(IGrouping<string, BelStockArchiveLine> days)
@@ -113,8 +115,11 @@ namespace BalisWpf
             belStockMonth.RubRate = rubTurnoverInByn / belStockMonth.RubTurnover;
 
             belStockMonth.CnyTurnover = days.Sum(d => d.CnyTurnover);
-            var cnyTurnoverInByn = days.Sum(d => d.CnyRate * d.CnyTurnover);
-            belStockMonth.CnyRate = cnyTurnoverInByn / belStockMonth.CnyTurnover;
+            if (belStockMonth.CnyTurnover > 0)
+            {
+                var cnyTurnoverInByn = days.Sum(d => d.CnyRate * d.CnyTurnover);
+                belStockMonth.CnyRate = cnyTurnoverInByn / belStockMonth.CnyTurnover;
+            }
 
             return belStockMonth;
         }
@@ -134,14 +139,12 @@ namespace BalisWpf
             var belStockDay = new BelStockArchiveLine() { Date = day.Key, Timestamp = $"{day.Key:dd.MM.yyyy}" };
 
             var usd = day.FirstOrDefault(l => l.Currency == Currency.Usd);
-            if (usd == null) return belStockDay;
-            belStockDay.UsdTurnover = usd.TurnoverInCurrency;
-            belStockDay.UsdRate = usd.Average;
+            belStockDay.UsdTurnover = usd?.TurnoverInCurrency ?? 0;
+            belStockDay.UsdRate = usd?.Average ?? 0;
 
             var euro = day.FirstOrDefault(l => l.Currency == Currency.Eur);
-            if (euro == null) return belStockDay;
-            belStockDay.EuroTurnover = euro.TurnoverInUsd;
-            belStockDay.EuroRate = euro.Average;
+            belStockDay.EuroTurnover = euro?.TurnoverInUsd ?? 0;
+            belStockDay.EuroRate = euro?.Average ?? 0;
 
             var rub = day.FirstOrDefault(l => l.Currency == Currency.Rub);
             belStockDay.RubTurnover = rub?.TurnoverInUsd ?? 0;
@@ -173,31 +176,13 @@ namespace BalisWpf
             if (_mode == 3) _mode = 0;
         }
 
-        public void SaveAs()
-        {
-            var gsh = new GoogleSheetsHelper(@"..\ini\MyTutorialGsheet-d6d0997cf1ec.json",
-                "1U72wGk-LojflkxPAWH-rDv2FGc8iIvPiNRGTy7CTB3I/");
-            var row1 = new GoogleSheetRow();
-            var row2 = new GoogleSheetRow();
-
-            var cell1 = new GoogleSheetCell() { CellValue = "Header 1", IsBold = true, BackgroundColor = Color.DarkGoldenrod };
-            var cell2 = new GoogleSheetCell() { CellValue = "Header 2", BackgroundColor = Color.Cyan };
-
-            var cell3 = new GoogleSheetCell() { CellValue = "Value 1" };
-            var cell4 = new GoogleSheetCell() { CellValue = "Value 2" };
-
-            row1.Cells.AddRange(new List<GoogleSheetCell>() { cell1, cell2 });
-            row2.Cells.AddRange(new List<GoogleSheetCell>() { cell3, cell4 });
-
-            var rows = new List<GoogleSheetRow>() { row1, row2 };
-
-            gsh.AddCells(new GoogleSheetParameters() { SheetName = "Sheet1", RangeColumnStart = 1, RangeRowStart = 1 }, rows);
-        }
+      
 
         public void MonthlyChart()
         {
-            _monthlyChartViewModel.Initialize(Rows);
-            _windowManager.ShowWindow(_monthlyChartViewModel);
+            var vm = new MonthlyChartViewModel();
+            vm.Initialize(Rows);
+            _windowManager.ShowWindow(vm);
         }
     }
 }

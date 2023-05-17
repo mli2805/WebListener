@@ -96,7 +96,7 @@ namespace BalisWpf
             var eur = _belStock.Eur.Average.Equals(-1) ? TodayNbRates.Eur : _belStock.Eur.Average;
             var rub = _belStock.Rub.Average.Equals(-1) ? TodayNbRates.Rub : _belStock.Rub.Average;
             var cny = _belStock.Cny.Average.Equals(-1) ? TodayNbRates.Cny : _belStock.Cny.Average;
-            return NbBasket.Calculate(usd, eur, rub / 100, cny / 10);
+            return BelBaskets.Calculate(usd, eur, rub, cny);
         }
         private string BuildNewBasketString()
         {
