@@ -13,7 +13,7 @@ namespace BalisStandard
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
             var mainPage = await ((HttpWebRequest)WebRequest.Create(Url))
-                .InitializeForKombanks()
+                // .InitializeForKombanks()
                 .GetDataAsync();
             if (string.IsNullOrEmpty(mainPage))
                 return null;

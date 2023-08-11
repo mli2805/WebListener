@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using BalisStandard;
 
@@ -9,19 +8,21 @@ namespace BalisConsole
     {
         static async Task Main()
         {
-            await Test();
+            var extractor = new BnbExtractor();
+            var res = await extractor.GetRatesLineAsync();
+            Console.WriteLine(res);
             Console.ReadKey();
         }
 
-        private const string Url = "http://banki24.by/exchange/currencymarket";
-        private static async Task Test()
-        {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url);
-            var initializedRequest = httpWebRequest;
-            var response = await initializedRequest.GetDataAsync();
-            Console.WriteLine(response);
-
-        }
+        // private const string Url = "http://banki24.by/exchange/currencymarket";
+        // private static async Task Test()
+        // {
+        //     var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url);
+        //     var initializedRequest = httpWebRequest;
+        //     var response = await initializedRequest.GetDataAsync();
+        //     Console.WriteLine(response);
+        //
+        // }
 
         // private static async Task ArchiveTest()
         // {
