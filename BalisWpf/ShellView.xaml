@@ -10,7 +10,7 @@
             <balisWpf:NbRbView Margin="5" DataContext="{Binding Model.NbRbViewModel}" DockPanel.Dock="Left"/>
             <balisWpf:BelStockView Margin="5" DataContext="{Binding Model.BelStockViewModel}" DockPanel.Dock="Left"/>
             <balisWpf:ForecastView Margin="5" DataContext="{Binding Model.ForecastVm}" DockPanel.Dock="Left"/>
-            <balisWpf:TradingViewView Margin="5" DataContext="{Binding Model.TradingViewVm}" DockPanel.Dock="Left"/>
+            <balisWpf:InvestingComView Margin="5" DataContext="{Binding Model.InvestingComViewModel}" DockPanel.Dock="Left"/>
             <StackPanel/>
         </DockPanel>
         <balisWpf:KomBankListView DockPanel.Dock="Top" DataContext="{Binding Model.KomBankListViewModel}"/>

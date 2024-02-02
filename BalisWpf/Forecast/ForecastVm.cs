@@ -38,9 +38,6 @@ namespace BalisWpf
                 CnyString,
                 "",
                 BasketString,
-                "",
-                "*используются для прогноза",
-
             };
 
         public string Caption => "Прогноз";
@@ -53,13 +50,14 @@ namespace BalisWpf
             _basket = _currentNbRates.Basket;
         }
 
-        public void CalculateNewRates(TradingViewRates forex)
+        public void CalculateNewRates(RatesForForecast forex)
         {
             if (_currentNbRates == null) return;
-            Usd = ForecasterFromBasket.ForecastUsdUsingForex(_basket, forex, BelBaskets.Weights.Last());
-            Eur = Usd * forex.EurUsd.Lp;
-            Rub = Usd / forex.InvUsdRub.Lp * 100; // в корзине курс за 1 рур , а храним за 100
-            Cny = Usd / forex.UsdCny.Lp * 10; // в корзине курс за 1 юань , а храним за 10
+            var forecast = ForecasterFromBasket.ForecastRatesUsingInvestingCom(_basket, forex, BelBaskets.Weights.Last());
+            Usd = forecast.Usd;
+            Eur = forecast.Eur;
+            Rub = forecast.Rub;
+            Cny = forecast.Cny;
             UsdDelta = Usd - _currentNbRates.Usd;
             EurDelta = Eur - _currentNbRates.Eur;
             RubDelta = Rub - _currentNbRates.Rub;
@@ -80,17 +78,17 @@ namespace BalisWpf
             RubDelta = Rub - _currentNbRates.Rub;
         }
 
-        public void ForecastRatesFromAnotherBasket(double anotherBasket, TradingViewRates currentForex)
-        {
-            _basket = anotherBasket;
-            CalculateNewRates(currentForex);
-        }
-
-        public void ForecastRatesFromAnotherRub(TradingViewRates currentForex, double anotherRub)
-        {
-            Rub = anotherRub;
-            CalculateNewRatesFromRub(currentForex);
-        }
+        // public void ForecastRatesFromAnotherBasket(double anotherBasket, TradingViewRates currentForex)
+        // {
+        //     _basket = anotherBasket;
+        //     CalculateNewRates(currentForex);
+        // }
+        //
+        // public void ForecastRatesFromAnotherRub(TradingViewRates currentForex, double anotherRub)
+        // {
+        //     Rub = anotherRub;
+        //     CalculateNewRatesFromRub(currentForex);
+        // }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
