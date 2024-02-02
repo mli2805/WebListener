@@ -1,62 +1,46 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using BalisStandard;
 
 namespace BalisWpf
 {
-    public class InvestingResults
-    {
-        public DateTime LastCheck { get; set; }
-        public double UsdRub { get; set; }
-        public double EurRub { get; set; }
-        public double EurUsd { get; set; }
-        public double CnyRub { get; set; }
-    }
-
     public class InvestingPoller
     {
         private ShellVm _shellVm;
 
+        private async Task<double> OneGet(InvestingExtractor extractor, string url)
+        {
+            var rate = await extractor.GetRate(url);
+            _shellVm.InvestingComViewModel.LastCheck = DateTime.Now;
+            Console.WriteLine($@"request {url} from investing.com at {DateTime.Now} rate {rate}");
+            await Task.Delay(1000);
+            return rate;
+        }
+
         public async void Start(ShellVm vm)
         {
+            int cycle = 0;
             _shellVm = vm;
             var extractor = new InvestingExtractor();
             while (true)
             {
-                var rate = await extractor.GetRate("usd-rub");
-                _shellVm.InvestingComViewModel.LastCheck = DateTime.Now;
-                _shellVm.InvestingComViewModel.UsdRub = rate;
-
-                Console.WriteLine($@"request usd/rub from investing.com at {DateTime.Now} rate {rate}");
-
-                await Task.Delay(1000);
-
-                rate = await extractor.GetRate("eur-rub");
-                _shellVm.InvestingComViewModel.LastCheck = DateTime.Now;
-                _shellVm.InvestingComViewModel.EurRub = rate;
-                Console.WriteLine($@"request euro/rub from investing.com at {DateTime.Now} rate {rate}");
-
-                await Task.Delay(1000);
-
-                rate = await extractor.GetRate("eur-usd");
-                _shellVm.InvestingComViewModel.LastCheck = DateTime.Now;
-                _shellVm.InvestingComViewModel.EurUsd = rate;
-                Console.WriteLine($@"request euro/usd from investing.com at {DateTime.Now} rate {rate}");
-
-                await Task.Delay(1000);
-
-                 rate = await extractor.GetRate("usd-cny");
-                _shellVm.InvestingComViewModel.LastCheck = DateTime.Now;
-                _shellVm.InvestingComViewModel.UsdCny = rate;
-                Console.WriteLine($@"request usd/cny from investing.com at {DateTime.Now} rate {rate}");
-
-                await Task.Delay(1000);
-
-                rate = await extractor.GetRate("cny-rub");
-                _shellVm.InvestingComViewModel.LastCheck = DateTime.Now;
-                _shellVm.InvestingComViewModel.CnyRub = rate;
+                cycle++;
+                _shellVm.InvestingComViewModel.UsdRub = await OneGet(extractor, "currencies/usd-rub");
+                _shellVm.InvestingComViewModel.EurUsd = await OneGet(extractor, "currencies/eur-usd");
+                _shellVm.InvestingComViewModel.UsdCny = await OneGet(extractor, "currencies/usd-cny");
                 _shellVm.ForecastVm.CalculateNewRates(_shellVm.InvestingComViewModel.Forex);
-                Console.WriteLine($@"request cny/rub from investing.com at {DateTime.Now} rate {rate}");
+
+                if (cycle % 2 == 1)
+                {
+                    _shellVm.InvestingComViewModel.EurRub = await OneGet(extractor, "currencies/eur-rub");
+                    _shellVm.InvestingComViewModel.CnyRub = await OneGet(extractor, "currencies/cny-rub");
+                // }
+                // else
+                // {
+                    _shellVm.InvestingComViewModel.Gold = await OneGet(extractor, "commodities/gold");
+                    _shellVm.InvestingComViewModel.Brent = await OneGet(extractor, "commodities/brent-oil");
+                }
 
                 await Task.Delay(45000);
             }

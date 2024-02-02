@@ -7,7 +7,6 @@
             >
    <DockPanel>
        <TextBlock Text="{Binding Title}" TextAlignment="Center" DockPanel.Dock="Top"/>
-       <ListBox ItemsSource="{Binding LeftPanel}" BorderThickness="0" Width="164"/>
        <ListBox ItemsSource="{Binding RightPanel}" BorderThickness="0"/>
    </DockPanel>
 </UserControl>
