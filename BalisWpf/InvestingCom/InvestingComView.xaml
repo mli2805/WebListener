@@ -12,11 +12,7 @@
                 <TextBlock Text="*Usd / Rub" Width="70"/>
                 <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding UsdRub, StringFormat='0.0000'}"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Euro / Rub" Width="70"/>
-                <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding EurRub, StringFormat='0.0000'}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+           <StackPanel Orientation="Horizontal">
                 <TextBlock Text="*Euro / Usd" Width="70"/>
                 <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding EurUsd, StringFormat='0.0000'}"/>
             </StackPanel>
@@ -24,10 +20,16 @@
                 <TextBlock Text="*Usd / Cny" Width="70"/>
                 <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding UsdCny, StringFormat='0.0000'}"/>
             </StackPanel>
+            <TextBlock/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Euro / Rub" Width="70"/>
+                <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding EurRub, StringFormat='0.0000'}"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Cny / Rub" Width="70"/>
                 <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding CnyRub, StringFormat='0.0000'}"/>
             </StackPanel>
+            <TextBlock/>
             <TextBlock Text="*нужны для прогноза"/>
 
         </StackPanel>
@@ -41,9 +43,10 @@
                 <TextBlock Text="Бочка, rub" Width="70"/>
                 <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding BrentRubStr}"/>
             </StackPanel>
+            <TextBlock/>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Gold" Width="40"/>
-                <TextBlock Width="80" TextAlignment="Right" Margin="0,2" Text="{Binding GoldStr}"/>
+                <TextBlock Text="Gold" Width="30"/>
+                <TextBlock Width="90" TextAlignment="Right" Margin="0,2" Text="{Binding GoldStr}"/>
             </StackPanel>
                 <TextBlock Width="120" TextAlignment="Right" Margin="0,2" Text="{Binding GoldStr2}"/>
         </StackPanel>
