@@ -111,8 +111,8 @@ namespace BalisWpf
             }
         }
 
-        public string GoldStr => $"${Gold:0,0.00}/ozt";
-        public string GoldStr2 => $"${Gold / 31.1034768:0.00}/g";
+        public string GoldStr => $"${Gold:0,0.00} / ozt.";
+        public string GoldStr2 => $"${Gold / 31.1034768:0.00} / g.";
 
         public string LastCheckStr => $"Investing.com {LastCheck:h:mm:ss}";
 
