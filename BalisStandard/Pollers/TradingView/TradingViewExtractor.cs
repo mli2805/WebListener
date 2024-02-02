@@ -75,6 +75,7 @@ namespace BalisStandard
                 if (arraySegment.Array != null && (result.Count != 0 || result.CloseStatus == WebSocketCloseStatus.Empty))
                 {
                     string message = Encoding.ASCII.GetString(arraySegment.Array, arraySegment.Offset, result.Count);
+                    // Console.WriteLine(message);
                     _remainsOfMessage = ParseSocketData(_remainsOfMessage + message, out List<string> jsonList);
                     OnCrossRateFetched(jsonList);
                 }
@@ -96,7 +97,7 @@ namespace BalisStandard
         }
 
         /// <summary>
-        /// splits row data on portions preceded be ~m~ 
+        /// splits row data on portions preceded by ~m~ 
         /// </summary>
         /// <param name="message"></param>
         /// <param name="jsonList"></param>

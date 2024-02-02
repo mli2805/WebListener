@@ -71,11 +71,7 @@ namespace BalisWpf
                 flag += ApplyPreMarket(res);
             }
 
-            if (flag > 0)
-            {
-                _vm.TradingViewVm.LastCheck = DateTime.Now;
-                // _vm.ForecastVm.CalculateNewRates(_vm.TradingViewVm.Rates);
-            }
+            _vm.TradingViewVm.LastCheck = DateTime.Now;
         }
 
         private int ApplyPreMarket(JObject jObject)

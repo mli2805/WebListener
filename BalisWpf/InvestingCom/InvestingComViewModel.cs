@@ -12,8 +12,10 @@ namespace BalisWpf
         private double _eurUsd;
         private double _usdCny;
         private double _cnyRub;
+        private double _brent;
+        private double _gold;
 
-        public DateTime LastCheck 
+        public DateTime LastCheck
         {
             get => _lastCheck;
             set
@@ -25,7 +27,7 @@ namespace BalisWpf
             }
         }
 
-        public double UsdRub    
+        public double UsdRub
         {
             get => _usdRub;
             set
@@ -36,7 +38,7 @@ namespace BalisWpf
             }
         }
 
-        public double EurRub    
+        public double EurRub
         {
             get => _eurRub;
             set
@@ -47,7 +49,7 @@ namespace BalisWpf
             }
         }
 
-        public double EurUsd    
+        public double EurUsd
         {
             get => _eurUsd;
             set
@@ -58,7 +60,7 @@ namespace BalisWpf
             }
         }
 
-        public double UsdCny    
+        public double UsdCny
         {
             get => _usdCny;
             set
@@ -69,7 +71,7 @@ namespace BalisWpf
             }
         }
 
-        public double CnyRub    
+        public double CnyRub
         {
             get => _cnyRub;
             set
@@ -80,8 +82,40 @@ namespace BalisWpf
             }
         }
 
+        public double Brent
+        {
+            get => _brent;
+            set
+            {
+                if (value.Equals(_brent)) return;
+                _brent = value;
+                NotifyOfPropertyChange(() => Brent);
+                NotifyOfPropertyChange(() => BrentStr);
+                NotifyOfPropertyChange(() => BrentRubStr);
+            }
+        }
+
+        public string BrentStr => $"{Brent}";
+        public string BrentRubStr => $"{Brent * UsdRub:F0}";
+
+        public double Gold
+        {
+            get => _gold;
+            set
+            {
+                if (value.Equals(_gold)) return;
+                _gold = value;
+                NotifyOfPropertyChange(() => Gold);
+                NotifyOfPropertyChange(() => GoldStr);
+                NotifyOfPropertyChange(() => GoldStr2);
+            }
+        }
+
+        public string GoldStr => $"${Gold:0,0.00}/ozt";
+        public string GoldStr2 => $"${Gold / 31.1034768:0.00}/g";
+
         public string LastCheckStr => $"Investing.com {LastCheck:h:mm:ss}";
-      
+
 
         public RatesForForecast Forex => new RatesForForecast() { UsdRub = UsdRub, EurUsd = EurUsd, UsdCny = UsdCny };
 
