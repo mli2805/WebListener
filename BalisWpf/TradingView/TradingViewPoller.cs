@@ -74,7 +74,7 @@ namespace BalisWpf
             if (flag > 0)
             {
                 _vm.TradingViewVm.LastCheck = DateTime.Now;
-                _vm.ForecastVm.CalculateNewRates(_vm.TradingViewVm.Rates);
+                // _vm.ForecastVm.CalculateNewRates(_vm.TradingViewVm.Rates);
             }
         }
 

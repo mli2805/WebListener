@@ -281,6 +281,10 @@
       <DependentUpon>ForecastView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forecast\ForecastVm.cs" />
+    <Compile Include="InvestingCom\InvestingComView.xaml.cs">
+      <DependentUpon>InvestingComView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvestingCom\InvestingComViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="KomBanks\ChangesLineVm.cs" />
     <Compile Include="KomBanks\ChangesView.xaml.cs">
@@ -314,7 +318,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TradingView\InvestingPoller.cs" />
+    <Compile Include="InvestingCom\InvestingPoller.cs" />
     <Compile Include="TradingView\TradingViewPoller.cs" />
     <Compile Include="TradingView\TradingViewView.xaml.cs">
       <DependentUpon>TradingViewView.xaml</DependentUpon>
@@ -337,6 +341,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Forecast\ForecastView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvestingCom\InvestingComView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

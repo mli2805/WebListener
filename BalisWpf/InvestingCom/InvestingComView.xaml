@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="BalisWpf.InvestingComView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignData InvestingComViewModel}">
+    <StackPanel Margin="5,0">
+        <TextBlock Margin="0,0,0, 21" Text="{Binding LastCheckStr}"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="*Usd / Rub" Width="70"/>
+            <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding UsdRub, StringFormat='0.000'}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Euro / Rub" Width="70"/>
+            <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding EurRub, StringFormat='0.000'}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="*Euro / Usd" Width="70"/>
+            <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding EurUsd, StringFormat='0.0000'}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="*Usd / Cny" Width="70"/>
+            <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding UsdCny, StringFormat='0.000'}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Cny / Rub" Width="70"/>
+            <TextBlock Width="50" TextAlignment="Right" Margin="0,2" Text="{Binding CnyRub, StringFormat='0.000'}"/>
+        </StackPanel>
+        <TextBlock Text="*нужны для прогноза"/>
+    </StackPanel>
+</UserControl>
