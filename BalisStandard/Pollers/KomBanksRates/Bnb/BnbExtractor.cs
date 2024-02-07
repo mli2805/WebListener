@@ -9,19 +9,37 @@ namespace BalisStandard
     public class BnbExtractor : IRatesLineExtractor
     {
         public string BankTitle => KomBankE.Bnb.ToString().ToUpper();
-        private const string MainPage = "https://bnb.by/kursy-valyut/imbank/";
+
+
+        // на странице всех курсов иногда не обновляют инфу, на главной странице быстрее
+        // но на главной странице нет кросс-курсов, поэтому читаем обе страницы и слепливаем
+        // 
+        private const string MainPage = "https://bnb.by";
+        private const string CurrencyPage = "https://bnb.by/kursy-valyut/imbank/";
 
         public async Task<KomBankRatesLine> GetRatesLineAsync()
         {
-            var mainPage = await ((HttpWebRequest)WebRequest.Create(MainPage))
-                .InitializeForKombanks()
-                .GetDataAsync();
-            if (string.IsNullOrEmpty(mainPage))
-                return null;
-
             try
             {
-                return Parse(mainPage);
+                var mainPage = await ((HttpWebRequest)WebRequest.Create(MainPage))
+                    .InitializeForKombanks()
+                    .GetDataAsync();
+                if (string.IsNullOrEmpty(mainPage))
+                    return null;
+
+                var ratesOnMainPage = ParseMainPage(mainPage);
+
+                var currencyPage = await ((HttpWebRequest)WebRequest.Create(CurrencyPage))
+                    .InitializeForKombanks()
+                    .GetDataAsync();
+                if (!string.IsNullOrEmpty(currencyPage))
+                {
+                    var ratesOnCurrencyPage = ParseCurrencyPage(currencyPage);
+                    ratesOnMainPage.AddRange(ratesOnCurrencyPage);
+                }
+
+                var result = FromRatesList(ratesOnMainPage);
+                return result;
             }
             catch (Exception e)
             {
@@ -30,17 +48,61 @@ namespace BalisStandard
             }
         }
 
-        private KomBankRatesLine Parse(string mainPage)
+        private List<BnbCurrencyRate> ParseMainPage(string mainPage)
         {
-            var indexOfStart = mainPage.IndexOf("currency js-curtable", StringComparison.InvariantCulture) + 11;
-            indexOfStart = mainPage.IndexOf("tbody", indexOfStart, StringComparison.InvariantCulture) + 5;
-            var indexOfEnd = mainPage.IndexOf("/tbody", indexOfStart, StringComparison.InvariantCulture);
+            var pos = 0;
+            var rates = new List<BnbCurrencyRate>();
+
+            while (true)
+            {
+                var posTr = mainPage.IndexOf("rates-table__currency", pos, StringComparison.InvariantCulture);
+                if (posTr == -1) break;
+                var posEndTr = mainPage.IndexOf("</tr>", posTr, StringComparison.InvariantCulture);
+                if (posEndTr == -1) break;
+                var tr = mainPage.Substring(posTr, posEndTr - posTr);
+
+                rates.Add(ParseTrFromMainPage(tr));
+
+                pos = posEndTr;
+            }
+
+            return rates;
+        }
+
+        private BnbCurrencyRate ParseTrFromMainPage(string tr)
+        {
+            var posEndCurrency = tr.IndexOf("</td>", 0, StringComparison.InvariantCulture);
+            var currencyPart = tr.Substring(0, posEndCurrency);
+            var posSpace = currencyPart.LastIndexOf(" ", StringComparison.InvariantCulture) + 1;
+            var currency = currencyPart.Substring(posSpace, posEndCurrency - posSpace);
+
+            var posValue1 = tr.IndexOf("currency_value", StringComparison.InvariantCulture) + 16;
+            var posEndSpan = tr.IndexOf("</span>", posValue1, StringComparison.InvariantCulture);
+            var buyStr = tr.Substring(posValue1, posEndSpan - posValue1);
+            if (!double.TryParse(buyStr, out double buy)) buy = 0;
+
+            var posValue2 = tr.IndexOf("currency_value", posValue1, StringComparison.InvariantCulture) + 16;
+            posEndSpan = tr.IndexOf("</span>", posValue2, StringComparison.InvariantCulture);
+            var sellStr = tr.Substring(posValue2, posEndSpan - posValue2);
+            if (!double.TryParse(sellStr, out double sell)) sell = 0;
+
+            return new BnbCurrencyRate() { Currency = currency, Buy = buy, Sell = sell };
+        }
+
+        private List<BnbCurrencyRate> ParseCurrencyPage(string currencyPage)
+        {
+            var indexOfStart = currencyPage.IndexOf("currency js-curtable", StringComparison.InvariantCulture) + 11;
+            indexOfStart = currencyPage.IndexOf("tbody", indexOfStart, StringComparison.InvariantCulture) + 5;
+            var indexOfEnd = currencyPage.IndexOf("/tbody", indexOfStart, StringComparison.InvariantCulture);
             var length = indexOfEnd - indexOfStart + 1;
-            var table = mainPage.Substring(indexOfStart, length);
+            var table = currencyPage.Substring(indexOfStart, length);
 
             var lines = GetTableLines(table);
-            var rates = lines.Select(ParseLine).ToList();
+            return lines.Select(ParseLine).ToList();
+        }
 
+        private KomBankRatesLine FromRatesList(List<BnbCurrencyRate> rates)
+        {
             var result = new KomBankRatesLine
             {
                 Bank = KomBankE.Bnb.ToString().ToUpper(),
