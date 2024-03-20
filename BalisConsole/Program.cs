@@ -8,7 +8,7 @@ namespace BalisConsole
     {
         static async Task Main()
         {
-            var extractor = new BnbExtractor();
+            var extractor = new BelvebExtractor();
             var res = await extractor.GetRatesLineAsync();
             Console.WriteLine(res);
             Console.ReadKey();

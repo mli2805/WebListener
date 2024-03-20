@@ -104,32 +104,32 @@ namespace BalisWpf
 
         private int ApplyCurrentSession(JObject jObject)
         {
-            if (jObject.ContainsKey("current_session"))
-                _tikerValues.CurrentSession = jObject["current_session"].ToString();
-            if (jObject.ContainsKey("prev_close_price"))
-                _tikerValues.PrevClosePrice = (double)jObject["prev_close_price"];
-            if (jObject.ContainsKey("open_price"))
-                _tikerValues.OpenPrice = (double)jObject["open_price"];
-            if (jObject.ContainsKey("open_time"))
+            if (jObject.TryGetValue("current_session", out var value))
+                _tikerValues.CurrentSession = value.ToString();
+            if (jObject.TryGetValue("prev_close_price", out var value1))
+                _tikerValues.PrevClosePrice = (double)value1;
+            if (jObject.TryGetValue("open_price", out var value2))
+                _tikerValues.OpenPrice = (double)value2;
+            if (jObject.TryGetValue("open_time", out var value3))
             {
-                var ms = (int)jObject["open_time"];
+                var ms = (int)value3;
                 TimeSpan time = TimeSpan.FromSeconds(ms);
                 DateTime startdate = new DateTime(1970, 1, 1) + time;
                 _tikerValues.OpenTime = startdate;
             }
-            if (jObject.ContainsKey("timezone"))
-                _tikerValues.TimeZone = jObject["timezone"].ToString();
+            if (jObject.TryGetValue("timezone", out var value4))
+                _tikerValues.TimeZone = value4.ToString();
             return 1;
         }
 
         private int ApplyTikerCurrentValues(JObject jObject)
         {
-            if (jObject.ContainsKey("lp"))
-                _tikerValues.Lp = (double)jObject["lp"];
-            if (jObject.ContainsKey("ch"))
-                _tikerValues.Ch = (double)jObject["ch"];
-            if (jObject.ContainsKey("chp"))
-                _tikerValues.Chp = (double)jObject["chp"];
+            if (jObject.TryGetValue("lp", out var value))
+                _tikerValues.Lp = (double)value;
+            if (jObject.TryGetValue("ch", out var value1))
+                _tikerValues.Ch = (double)value1;
+            if (jObject.TryGetValue("chp", out var value2))
+                _tikerValues.Chp = (double)value2;
             return 1;
         }
     }

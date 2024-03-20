@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace BalisStandard
 {
+    // depricated from 15.03.2024
     public class BelvebExtractor : IRatesLineExtractor
     {
         public string BankTitle => KomBankE.Bveb.ToString().ToUpper();
