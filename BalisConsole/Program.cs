@@ -8,9 +8,10 @@ namespace BalisConsole
     {
         static async Task Main()
         {
-            var extractor = new BelvebExtractor();
-            var res = await extractor.GetRatesLineAsync();
-            Console.WriteLine(res);
+            var extractor = new InvestingExtractor();
+            // var res = await extractor.GetRatesLineAsync();
+            var rate = await extractor.GetRate( "commodities/brent-oil");
+            Console.WriteLine(rate);
             Console.ReadKey();
         }
 

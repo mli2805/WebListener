@@ -25,5 +25,7 @@
         DabrabytPeriod,
         PriorPeriod,
         VtbPeriod,
+
+        PortionDays,
     }
 }

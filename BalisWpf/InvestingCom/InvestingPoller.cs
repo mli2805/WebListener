@@ -8,7 +8,7 @@ namespace BalisWpf
     {
         private ShellVm _shellVm;
 
-        private async Task<double> OneGet(InvestingExtractor extractor, string url)
+        public async Task<double> OneGet(InvestingExtractor extractor, string url)
         {
             var rate = await extractor.GetRate(url);
             _shellVm.InvestingComViewModel.LastCheck = DateTime.Now;

@@ -44,9 +44,11 @@ namespace BanksListener.Controllers
         [HttpGet("get-some-last/{bankTitle}")]
         public async Task<List<KomBankRatesLine>> GetSomeLast(string bankTitle)
         {
+            var portionDays = _iniFile.Read(IniSection.Extractors, IniKey.PortionDays, 28);
+
             await using BanksListenerContext db = new BanksListenerContext(_dbPath);
             return db.KomBankRates
-                .Where(r => r.Bank == bankTitle.ToUpper() && r.StartedFrom > DateTime.Today.AddDays(-7))
+                .Where(r => r.Bank == bankTitle.ToUpper() && r.StartedFrom > DateTime.Today.AddDays(-portionDays))
                 .OrderByDescending(l => l.StartedFrom)
                 .ToList();
         }
