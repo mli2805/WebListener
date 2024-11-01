@@ -29,14 +29,23 @@ namespace BalisStandard
 
                 var ratesOnMainPage = ParseMainPage(mainPage);
 
-                var currencyPage = await ((HttpWebRequest)WebRequest.Create(CurrencyPage))
-                    .InitializeForKombanks()
-                    .GetDataAsync();
-                if (!string.IsNullOrEmpty(currencyPage))
-                {
-                    var ratesOnCurrencyPage = ParseCurrencyPage(currencyPage);
-                    ratesOnMainPage.AddRange(ratesOnCurrencyPage);
-                }
+                // 01.11.2024 доступны курсы на главной странице, а для приложения пока написано временно недоступны
+                //try
+                //{
+                //    var currencyPage = await ((HttpWebRequest)WebRequest.Create(CurrencyPage))
+                //        .InitializeForKombanks()
+                //        .GetDataAsync();
+                //    if (!string.IsNullOrEmpty(currencyPage))
+                //    {
+                //        var ratesOnCurrencyPage = ParseCurrencyPage(currencyPage);
+                //        ratesOnMainPage.AddRange(ratesOnCurrencyPage);
+                //    }
+                //}
+                //catch (Exception e)
+                //{
+                //    Console.WriteLine($@"{e.Message} in {BankTitle} parser (page IMBanking)");
+
+                //}
 
                 var result = FromRatesList(ratesOnMainPage);
                 return result;
@@ -123,7 +132,8 @@ namespace BalisStandard
                 result.EurB = euro.Sell;
             }
 
-            var rub = rates.FirstOrDefault(r => r.Currency == "100 RUB");
+            // имеются в виду курсы за 100RUB
+            var rub = rates.FirstOrDefault(r => r.Currency == "RUB");
             if (rub != null)
             {
                 result.RubA = rub.Buy;
