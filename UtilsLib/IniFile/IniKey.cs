@@ -25,6 +25,7 @@
         DabrabytPeriod,
         PriorPeriod,
         VtbPeriod,
+        MsPlaywrightPath,
 
         PortionDays,
     }

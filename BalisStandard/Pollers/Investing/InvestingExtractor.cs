@@ -8,6 +8,7 @@ namespace BalisStandard
     public class InvestingExtractor
     {
         private const string BaseUrl = "https://ru.investing.com/";
+        // private const string BaseUrl = "https://www.investing.com/";
 
         /// <summary>
         /// 

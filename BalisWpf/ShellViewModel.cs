@@ -19,7 +19,7 @@ namespace BalisWpf
 
             StartNbRbPoller();
             Task.Delay(3000).Wait();
-            StartBelStockPoller();
+            //StartBelStockPoller();
             StartTradingViewPollers();
             Task.Factory.StartNew(() => new InvestingPoller().Start(Model));
 

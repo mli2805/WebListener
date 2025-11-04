@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BalisStandard;
+using LoadPlaywright;
 using Microsoft.EntityFrameworkCore;
 using UtilsLib;
 
-namespace BalisStandard
+namespace BanksListener
 {
     public class OnePoller
     {
@@ -28,20 +30,40 @@ namespace BalisStandard
 
         public KomBanksPoller(IniFile iniFile, IMyLog logFile)
         {
+            // это на моем компе установил
+            // @"c:\Users\Professional\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe";
+            // это я руками скопировал папку с моей машины на .19 но там нет пользователя Professional
+            var defaultValue = @"c:\Users\builder\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe";
+
+            var msPlaywrightPath = iniFile.Read(IniSection.Extractors, IniKey.MsPlaywrightPath, defaultValue);
+
             _logFile = logFile;
-            // iniFile.Write(IniSection.Sqlite, IniKey.DbPath, Path.Combine(dbDir, "bali.db"));
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
 
-            _pollers.Add(new OnePoller(new AlfaExtractor(), iniFile.Read(IniSection.Extractors, IniKey.AlfaPeriod, 15)));
-            _pollers.Add(new OnePoller(new BelgazMobi(), iniFile.Read(IniSection.Extractors, IniKey.BelgazPeriod, 15)));
+            _pollers.Add(new OnePoller(new AlfaPlaywrightExtractor()
+                .SetMsPlaywrightPath(msPlaywrightPath).SetLogger(_logFile),
+                iniFile.Read(IniSection.Extractors, IniKey.AlfaPeriod, 600)));
+
+            _pollers.Add(new OnePoller(new BelgazMobi(),
+                iniFile.Read(IniSection.Extractors, IniKey.BelgazPeriod, 15)));
+
             // _pollers.Add(new OnePoller(new BelvebExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BelvebPeriod, 15)));
-            _pollers.Add(new OnePoller(new BibExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BibPeriod, 15)));
-            _pollers.Add(new OnePoller(new BnbExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BnbPeriod, 60)));
-            _pollers.Add(new OnePoller(new BpsExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BpsPeriod, 0)));
-            _pollers.Add(new OnePoller(new DabrabytExtractor(), iniFile.Read(IniSection.Extractors, IniKey.DabrabytPeriod, 15)));
-            _pollers.Add(new OnePoller(new MtbExtractor(), iniFile.Read(IniSection.Extractors, IniKey.MtbPeriod, 15)));
-            _pollers.Add(new OnePoller(new PriorExtractor(), iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 15)));
-            _pollers.Add(new OnePoller(new VtbExtractor(), iniFile.Read(IniSection.Extractors, IniKey.VtbPeriod, 60)));
+
+            _pollers.Add(new OnePoller(new BibExtractor(),
+                iniFile.Read(IniSection.Extractors, IniKey.BibPeriod, 15)));
+            _pollers.Add(new OnePoller(new BnbExtractor(),
+                iniFile.Read(IniSection.Extractors, IniKey.BnbPeriod, 60)));
+            _pollers.Add(new OnePoller(new BpsExtractor(),
+                iniFile.Read(IniSection.Extractors, IniKey.BpsPeriod, 0)));
+            _pollers.Add(new OnePoller(new DabrabytExtractor(), 
+                iniFile.Read(IniSection.Extractors, IniKey.DabrabytPeriod, 15)));
+
+            // надо переделывать, не вытягивают
+            //_pollers.Add(new OnePoller(new MtbExtractor(), iniFile.Read(IniSection.Extractors, IniKey.MtbPeriod, 15)));
+            //_pollers.Add(new OnePoller(new PriorExtractor(), iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 15)));
+
+            _pollers.Add(new OnePoller(new VtbExtractor(),
+                iniFile.Read(IniSection.Extractors, IniKey.VtbPeriod, 60)));
         }
 
         public async void StartThreads()

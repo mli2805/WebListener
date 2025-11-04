@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BalisStandard\BalisStandard.csproj" />
+    <ProjectReference Include="..\LoadPlaywright\LoadPlaywright.csproj" />
     <ProjectReference Include="..\UtilsLib\UtilsLib.csproj" />
   </ItemGroup>
 

@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BalisStandard.AlfaBank;
 using Newtonsoft.Json;
 
 namespace BalisStandard
 {
-    public class AlfaExtractor : IRatesLineExtractor
+    public class AlfaExtractor1 : IRatesLineExtractor
     {
         public string BankTitle => KomBankE.Alfa.ToString().ToUpper();
         private const string Url = @"https://www.alfabank.by/exchange/digital/";
@@ -20,11 +23,13 @@ namespace BalisStandard
 
             try
             {
-                var exchangePageStart =  mainPage.IndexOf("ExchangePage", StringComparison.InvariantCulture) + 12;
-                var indexOfStart = mainPage.IndexOf("data-initial='", exchangePageStart, StringComparison.InvariantCulture) + 14;
-                var indexOfEnd = mainPage.IndexOf("'", indexOfStart, StringComparison.InvariantCulture) - 1;
-                var length = indexOfEnd - indexOfStart + 1;
-                var json = mainPage.Substring(indexOfStart, length);
+                var exchangePageStart =  mainPage
+                    .IndexOf("\"exchange\":{\"initialItems\":", StringComparison.InvariantCulture) + 12;
+               
+                var indexOfEnd = mainPage
+                    .IndexOf("}'>", exchangePageStart, StringComparison.InvariantCulture) - 1;
+                var length = indexOfEnd - exchangePageStart + 1;
+                var json = "{" + mainPage.Substring(exchangePageStart, length);
 
                 return Parse(json);
             }
@@ -37,35 +42,55 @@ namespace BalisStandard
 
         private KomBankRatesLine Parse(string json)
         {
-            var alfaRoot = JsonConvert.DeserializeObject<AlfaRoot>(json);
+            // var alfaRoot = JsonConvert.DeserializeObject<AlfaRoot>(json);
+            Root alfaRoot = JsonConvert.DeserializeObject<Root>(json);
+
             if (alfaRoot == null)
                 return null;
+
+            var list = alfaRoot.initialItems[0].currenciesData[0].value.cash;
 
             var result = new KomBankRatesLine()
             {
                 Bank = BankTitle,
                 LastCheck = DateTime.Now,
-                StartedFrom = alfaRoot.initialItems[0].currenciesData[0].date,
-                UsdA = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[0].purchase.value,
-                UsdB = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[0].sell.value,
+                StartedFrom = DateTime.Parse(alfaRoot.initialItems[0].currenciesData[0].date),
 
-                EurA = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[1].purchase.value,
-                EurB = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[1].sell.value,
 
-                RubA = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[2].purchase.value,
-                RubB = alfaRoot.initialItems[0].currenciesData[0].value.exchangeRate[2].sell.value,
-
-                EurUsdA = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[0].purchase.value,
-                EurUsdB = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[0].sell.value,
-
-                RubEurA = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[1].purchase.value,
-                RubEurB = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[1].sell.value,
-
-                RubUsdA = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[2].purchase.value,
-                RubUsdB = alfaRoot.initialItems[0].currenciesData[0].value.conversionRate[2].sell.value,
+                UsdA = Get(list, "USD", "purchase"),
+                UsdB = Get(list, "USD", "sell"),
+                
+                EurA = Get(list, "EUR", "purchase"),
+                EurB = Get(list, "EUR", "sell"),
+                
+                RubA = Get(list, "RUB", "purchase"),
+                RubB = Get(list, "RUB", "sell"),
+                
+                EurUsdA = Get(list, "EUR/USD", "purchase"),
+                EurUsdB = Get(list, "EUR/USD", "sell"),
+                
+                RubEurA = Get(list, "EUR/RUB", "purchase"),
+                RubEurB = Get(list, "EUR/RUB", "sell"),
+                
+                RubUsdA = Get(list, "USD/RUB", "purchase"),
+                RubUsdB = Get(list, "USD/RUB", "sell"),
             };
 
             return result;
         }
+
+        private double Get(List<Cash> list, string currency, string dest)
+        {
+            var cur = list.FirstOrDefault(c => c.icon == currency);
+            if (cur == null)
+            {
+                cur= list.First(c => c.title == currency);
+            }
+
+            var valueStr = dest == "purchase" ? cur.purchase.value : cur.sell.value;
+            return double.Parse(valueStr);
+        }
     }
+
+  
 }
