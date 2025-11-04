@@ -21,19 +21,19 @@ namespace BalisStandard
         public double EurUsdA { get; set; }
         public double EurUsdB { get; set; }
 
-        public double RubUsdA { get; set; }
+        public double RubUsdA { get; set; } // для USD/RUB
         public double RubUsdB { get; set; }
 
-        public double RubEurA { get; set; }
+        public double RubEurA { get; set; } // для EUR/RUB
         public double RubEurB { get; set; }
 
         public double UsdCnyA { get; set; }
         public double UsdCnyB { get; set; }
 
-        public double EurCnyA { get; set; } // новый курс EUR/CNY
+        public double EurCnyA { get; set; } 
         public double EurCnyB { get; set; }
 
-        public double CnyRubA { get; set; } // новый курс CNY/RUB
+        public double CnyRubA { get; set; } 
         public double CnyRubB { get; set; }
 
         public bool IsDifferent(KomBankRatesLine anotherLine)

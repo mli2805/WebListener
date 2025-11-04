@@ -43,27 +43,30 @@ namespace BanksListener
             _pollers.Add(new OnePoller(new AlfaPlaywrightExtractor()
                 .SetMsPlaywrightPath(msPlaywrightPath).SetLogger(_logFile),
                 iniFile.Read(IniSection.Extractors, IniKey.AlfaPeriod, 600)));
+            _pollers.Add(new OnePoller(new PriorPlaywrightExtractor()
+                    .SetMsPlaywrightPath(msPlaywrightPath).SetLogger(_logFile),
+                iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 540)));
 
             _pollers.Add(new OnePoller(new BelgazMobi(),
-                iniFile.Read(IniSection.Extractors, IniKey.BelgazPeriod, 15)));
+                iniFile.Read(IniSection.Extractors, IniKey.BelgazPeriod, 300)));
 
             // _pollers.Add(new OnePoller(new BelvebExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BelvebPeriod, 15)));
 
             _pollers.Add(new OnePoller(new BibExtractor(),
-                iniFile.Read(IniSection.Extractors, IniKey.BibPeriod, 15)));
+                iniFile.Read(IniSection.Extractors, IniKey.BibPeriod, 150)));
             _pollers.Add(new OnePoller(new BnbExtractor(),
-                iniFile.Read(IniSection.Extractors, IniKey.BnbPeriod, 60)));
+                iniFile.Read(IniSection.Extractors, IniKey.BnbPeriod, 150)));
             _pollers.Add(new OnePoller(new BpsExtractor(),
-                iniFile.Read(IniSection.Extractors, IniKey.BpsPeriod, 0)));
-            _pollers.Add(new OnePoller(new DabrabytExtractor(), 
-                iniFile.Read(IniSection.Extractors, IniKey.DabrabytPeriod, 15)));
+                iniFile.Read(IniSection.Extractors, IniKey.BpsPeriod, 150)));
 
             // надо переделывать, не вытягивают
-            //_pollers.Add(new OnePoller(new MtbExtractor(), iniFile.Read(IniSection.Extractors, IniKey.MtbPeriod, 15)));
-            //_pollers.Add(new OnePoller(new PriorExtractor(), iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 15)));
-
+            //_pollers.Add(new OnePoller(new DabrabytExtractor(), 
+            //    iniFile.Read(IniSection.Extractors, IniKey.DabrabytPeriod, 15)));
+            _pollers.Add(new OnePoller(new MtbExtractor(),
+                iniFile.Read(IniSection.Extractors, IniKey.MtbPeriod, 15)));
+           
             _pollers.Add(new OnePoller(new VtbExtractor(),
-                iniFile.Read(IniSection.Extractors, IniKey.VtbPeriod, 60)));
+                iniFile.Read(IniSection.Extractors, IniKey.VtbPeriod, 150)));
         }
 
         public async void StartThreads()

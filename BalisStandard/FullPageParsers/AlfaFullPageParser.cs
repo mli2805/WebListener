@@ -14,7 +14,7 @@ public static class AlfaFullPageParser
 
         var result = new KomBankRatesLine
         {
-            Bank = "ALFA",
+            Bank = KomBankE.Alfa.ToString().ToUpper(),
             LastCheck = DateTime.Now,
             StartedFrom = ExtractRatesStartTime(html) ?? DateTime.Now // fallback
         };

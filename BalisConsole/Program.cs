@@ -25,13 +25,16 @@ namespace BalisConsole
             // var res = await extractor.GetRatesLineAsync();
             //var rate = await new AlfaExtractor().GetRatesLineAsync();
 
-            var msPlaywrightPath = iniFile
-                .Read(IniSection.Extractors, IniKey.MsPlaywrightPath,
-                    @"c:\Users\Professional\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe");
-            var rate = await new AlfaPlaywrightExtractor()
-                .SetMsPlaywrightPath(msPlaywrightPath)
-                .SetLogger(logFile)
-                .GetRatesLineAsync();
+            //var msPlaywrightPath = iniFile
+            //    .Read(IniSection.Extractors, IniKey.MsPlaywrightPath,
+            //        @"c:\Users\Professional\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe");
+            //var rate = await new PriorPlaywrightExtractor()
+            //    .SetMsPlaywrightPath(msPlaywrightPath)
+            //    .SetLogger(logFile)
+            //    .GetRatesLineAsync();
+
+            var page = File.ReadAllText("prior.html");
+            var rate = PriorFullPageParser.ParseKomBankRatesFromHtml(page);
 
             //var content = File.ReadAllText("page.html");
             //var rate = AlfaFullPageParser.ParseKomBankRatesFromHtml(content);
