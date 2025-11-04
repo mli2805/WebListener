@@ -4,9 +4,9 @@ using HtmlAgilityPack;
 
 namespace BalisStandard;
 
-public static class PriorFullPageParser
+public class PriorFullPageParser : IFullPageParser
 {
-    public static KomBankRatesLine? ParseKomBankRatesFromHtml(string html)
+    public KomBankRatesLine? ParseKomBankRatesFromHtml(string html)
     {
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
