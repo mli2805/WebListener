@@ -12,27 +12,27 @@ namespace LoadPlaywright
         public string BankTitle => _bank.ToString().ToUpper();
 
         private KomBankE _bank;
-        private IMyLog? _logFile;
+        private IMyLog _logFile;
         private string? _msPlaywrightPath;
         private string? _url;
+        private bool _savePageToFile;
         private IFullPageParser? _fullPageParser;
 
         public PlaywrightExtractor InitializeExtractor(
-            KomBankE bank, IMyLog logFile, string playwrightPath, string url, IFullPageParser fullPageParser)
+            KomBankE bank, IMyLog logFile, string playwrightPath, string url, bool savePageToFile, IFullPageParser fullPageParser)
         {
             _bank = bank;
             _logFile = logFile;
             _msPlaywrightPath = playwrightPath;
             _url = url;
+            _savePageToFile = savePageToFile;
             _fullPageParser = fullPageParser;
             return this;
         }
 
         public async Task<KomBankRatesLine?> GetRatesLineAsync()
         {
-            _logFile!.AppendLine($"{BankTitle}:: GetRatesLineAsync");
             using var playwright = await Playwright.CreateAsync();
-            _logFile.AppendLine("Playwright.CreateAsync");
             var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 ExecutablePath = _msPlaywrightPath,
@@ -55,10 +55,13 @@ namespace LoadPlaywright
 
                 // Получить HTML
                 var content = await page.ContentAsync();
-                await File.WriteAllTextAsync($"{_bank.ToString()}.html", content);
-                _logFile.AppendLine("content received");
+                _logFile!.AppendLine($"{_bank.ToString()}:: page received successfully");
 
-                Console.WriteLine($"HTML сохранён в {_bank.ToString()}.html");
+                if (_savePageToFile)
+                {
+                    await File.WriteAllTextAsync($"{_bank.ToString()}.html", content);
+                    Console.WriteLine($"HTML сохранён в {_bank.ToString()}.html");
+                }
 
                 var rates = _fullPageParser!.ParseKomBankRatesFromHtml(content);
 

@@ -27,8 +27,8 @@ public class PriorFullPageParser : IFullPageParser
             if (cells == null || cells.Count < 3) continue;
 
             var currency = NormalizeCurrency(cells[0]);
-            var buy = ParseRate(cells[3]);
-            var sell = ParseRate(cells[4]);
+            var buy = ParseRate(cells[4]);
+            var sell = ParseRate(cells[3]);
 
             switch (currency)
             {

@@ -20,7 +20,7 @@ namespace BalisConsole
             var msPlaywrightPath = iniFile
                 .Read(IniSection.Extractors, IniKey.MsPlaywrightPath,
                     @"c:\Users\Professional\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe");
-
+            var savePageToFile = true;
 
             //var rate = await NbRbRatesExtractor.GetNbDayAsync(DateTime.Today);
 
@@ -35,13 +35,13 @@ namespace BalisConsole
             //    .SetLogger(logFile)
             //    .GetRatesLineAsync();
 
-            var rate = await new PlaywrightExtractor()
-                .InitializeExtractor(KomBankE.Alfa, logFile, msPlaywrightPath,
-                    "https://www.alfabank.by/exchange/digital", new AlfaFullPageParser())
-                .GetRatesLineAsync();
+            //var rate = await new PlaywrightExtractor()
+            //    .InitializeExtractor(KomBankE.Bveb, logFile, msPlaywrightPath,
+            //        "https://www.belveb.by/rates/upcard/", savePageToFile, new BelVebFullPageParser())
+            //    .GetRatesLineAsync();
 
-            //var page = File.ReadAllText("prior.html");
-            //var rate = new PriorFullPageParser().ParseKomBankRatesFromHtml(page);
+            var page = await File.ReadAllTextAsync("prior.html");
+            var rate = new PriorFullPageParser().ParseKomBankRatesFromHtml(page);
 
             //var content = File.ReadAllText("page.html");
             //var rate = AlfaFullPageParser.ParseKomBankRatesFromHtml(content);

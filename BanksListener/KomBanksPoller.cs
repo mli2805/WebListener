@@ -36,19 +36,26 @@ namespace BanksListener
             var defaultValue = @"c:\Users\builder\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe";
 
             var msPlaywrightPath = iniFile.Read(IniSection.Extractors, IniKey.MsPlaywrightPath, defaultValue);
+            var savePageToFile = false;
 
             _logFile = logFile;
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
 
             _pollers.Add(new OnePoller(new PlaywrightExtractor()
                     .InitializeExtractor(KomBankE.Alfa, _logFile, msPlaywrightPath,
-                        "https://www.alfabank.by/exchange/digital", new AlfaFullPageParser()),
+                        "https://www.alfabank.by/exchange/digital", savePageToFile, new AlfaFullPageParser()),
               iniFile.Read(IniSection.Extractors, IniKey.AlfaPeriod, 600)));
 
             _pollers.Add(new OnePoller(new PlaywrightExtractor()
                     .InitializeExtractor(KomBankE.Prior, _logFile, msPlaywrightPath,
-                        "https://www.priorbank.by/offers/services/currency-exchange", new PriorFullPageParser()),
+                        "https://www.priorbank.by/offers/services/currency-exchange", savePageToFile, new PriorFullPageParser()),
                 iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 540)));
+            
+            _pollers.Add(new OnePoller(new PlaywrightExtractor()
+                    .InitializeExtractor(KomBankE.Bveb, _logFile, msPlaywrightPath,
+                        "https://www.belveb.by/rates/upcard/", savePageToFile, new BelVebFullPageParser()),
+                iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 1500)));
+
 
             _pollers.Add(new OnePoller(new BibExtractor(),
                 iniFile.Read(IniSection.Extractors, IniKey.BibPeriod, 150)));
@@ -69,8 +76,6 @@ namespace BanksListener
             _pollers.Add(new OnePoller(new VtbExtractor(),
                 iniFile.Read(IniSection.Extractors, IniKey.VtbPeriod, 150)));
 
-            // надо переделывать, не вытягивают
-            // _pollers.Add(new OnePoller(new BelvebExtractor(), iniFile.Read(IniSection.Extractors, IniKey.BelvebPeriod, 15)));
 
             //_pollers.Add(new OnePoller(new DabrabytExtractor(), 
             //    iniFile.Read(IniSection.Extractors, IniKey.DabrabytPeriod, 15)));
@@ -123,7 +128,7 @@ namespace BanksListener
                         rate.StartedFrom = DateTime.Now; // Bib page does not contain date from
                     if (rate.Bank == "BVEB" && rate.StartedFrom.Hour == 0 && DateTime.Now.Hour != 0)
                         rate.StartedFrom = DateTime.Now; // Bveb often returns 00:10 or 00:15 as start time
-                    _logFile.AppendLine($"Thread id {tid}: {rate.Bank} new rate, usd {rate.UsdA} - {rate.UsdB},  euro {rate.EurA} - {rate.EurB},  rub {rate.RubA} - {rate.RubB}");
+                    _logFile.AppendLine($"Thread id {tid}: {rate}");
 
                     const double tolerance = 0.00001;
                     if (rate.Bank == "BNB" && Math.Abs(rate.UsdA - 2.619) < tolerance
