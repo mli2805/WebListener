@@ -12,7 +12,7 @@ namespace LoadPlaywright
         public string BankTitle => _bank.ToString().ToUpper();
 
         private KomBankE _bank;
-        private IMyLog _logFile;
+        private IMyLog? _logFile;
         private string? _msPlaywrightPath;
         private string? _url;
         private bool _savePageToFile;
