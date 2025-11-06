@@ -1,11 +1,11 @@
 ﻿namespace BalisWpf
 {
     /// <summary>
-    /// Interaction logic for TradingViewView.xaml
+    /// Interaction logic for ForexView.xaml
     /// </summary>
-    public partial class TradingViewView
+    public partial class ForexView
     {
-        public TradingViewView()
+        public ForexView()
         {
             InitializeComponent();
         }

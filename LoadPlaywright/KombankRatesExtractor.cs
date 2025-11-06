@@ -7,7 +7,7 @@ using UtilsLib;
 
 namespace LoadPlaywright
 {
-    public class PlaywrightExtractor : IRatesLineExtractor
+    public class KombankRatesExtractor : IRatesLineExtractor
     {
         public string BankTitle => _bank.ToString().ToUpper();
 
@@ -18,7 +18,7 @@ namespace LoadPlaywright
         private bool _savePageToFile;
         private IFullPageParser? _fullPageParser;
 
-        public PlaywrightExtractor InitializeExtractor(
+        public KombankRatesExtractor InitializeExtractor(
             KomBankE bank, IMyLog logFile, string playwrightPath, string url, bool savePageToFile, IFullPageParser fullPageParser)
         {
             _bank = bank;
@@ -59,7 +59,7 @@ namespace LoadPlaywright
 
                 if (_savePageToFile)
                 {
-                    await File.WriteAllTextAsync($"{_bank.ToString()}.html", content);
+                    File.WriteAllText($"{_bank.ToString()}.html", content);
                     Console.WriteLine($"HTML сохранён в {_bank.ToString()}.html");
                 }
 
@@ -69,7 +69,7 @@ namespace LoadPlaywright
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"{BankTitle}: " + e.Message);
+                _logFile!.AppendLine($"{BankTitle}: " + e.Message);
             }
 
             return null;

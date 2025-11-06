@@ -66,30 +66,6 @@ namespace BalisWpf
             OnPropertyChanged(nameof(ForecastList));
         }
 
-        private void CalculateNewRatesFromRub(TradingViewRates forex)
-        {
-            Usd = (Rub / 100) * forex.UsdRub.Lp;
-            Eur = (Rub / 100) * forex.EurUsd.Lp * forex.UsdRub.Lp;
-            Cny = (Rub / 10) * forex.UsdCny.Lp * forex.UsdRub.Lp;
-            _basket = BelBaskets.Calculate(Usd, Eur, Rub, Cny);
-
-            UsdDelta = Usd - _currentNbRates.Usd;
-            EurDelta = Eur - _currentNbRates.Eur;
-            RubDelta = Rub - _currentNbRates.Rub;
-        }
-
-        // public void ForecastRatesFromAnotherBasket(double anotherBasket, TradingViewRates currentForex)
-        // {
-        //     _basket = anotherBasket;
-        //     CalculateNewRates(currentForex);
-        // }
-        //
-        // public void ForecastRatesFromAnotherRub(TradingViewRates currentForex, double anotherRub)
-        // {
-        //     Rub = anotherRub;
-        //     CalculateNewRatesFromRub(currentForex);
-        // }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

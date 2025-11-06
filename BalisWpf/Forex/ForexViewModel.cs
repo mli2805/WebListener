@@ -1,10 +1,10 @@
-﻿using System;
-using BalisStandard;
+﻿using BalisStandard;
 using Caliburn.Micro;
+using System;
 
 namespace BalisWpf
 {
-    public class InvestingComViewModel : PropertyChangedBase
+    public class ForexViewModel : PropertyChangedBase
     {
         private DateTime _lastCheck;
         private double _usdRub;
@@ -114,10 +114,34 @@ namespace BalisWpf
         public string GoldStr => $"${Gold:0,0.00} / ozt.";
         public string GoldStr2 => $"${Gold / 31.1034768:0.00} / g.";
 
-        public string LastCheckStr => $"Investing.com {LastCheck:h:mm:ss}";
+        public string LastCheckStr => $"ProFinance.com {LastCheck:H:mm:ss}";
 
+        public void Update(ForexRates rates)
+        {
+            if (rates.EurUsd.HasValue)
+                EurUsd = rates.EurUsd.Value;
+            
+            if (rates.UsdRub.HasValue)
+                UsdRub = rates.UsdRub.Value;
 
-        public RatesForForecast Forex => new RatesForForecast() { UsdRub = UsdRub, EurUsd = EurUsd, UsdCny = UsdCny };
+            if (rates.UsdCny.HasValue)
+                UsdCny = rates.UsdCny.Value;
 
+            if (rates.BrentOil.HasValue)
+                Brent = rates.BrentOil.Value;
+
+            if (rates.Gold.HasValue)
+                Gold = rates.Gold.Value;
+
+            if (rates.EurRub.HasValue)
+                EurRub = rates.EurRub.Value;
+
+            if (rates.CnyRub.HasValue)
+                CnyRub = rates.CnyRub.Value;
+
+            LastCheck = DateTime.Now;
+        }
+
+        public RatesForForecast RatesForForecast => new RatesForForecast() { UsdRub = UsdRub, EurUsd = EurUsd, UsdCny = UsdCny };
     }
 }

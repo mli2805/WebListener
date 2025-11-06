@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using BalisStandard;
+using LoadPlaywright;
 using UtilsLib;
 
 namespace BalisConsole
@@ -34,20 +35,37 @@ namespace BalisConsole
             //    .SetLogger(logFile)
             //    .GetRatesLineAsync();
 
-            //var rate = await new PlaywrightExtractor()
+            //var rate = await new KombankRatesExtractor()
             //    .InitializeExtractor(KomBankE.Bveb, logFile, msPlaywrightPath,
             //        "https://www.belveb.by/rates/upcard/", savePageToFile, new BelVebFullPageParser())
             //    .GetRatesLineAsync();
 
-            var page = await File.ReadAllTextAsync("prior.html");
-            var rate = new PriorFullPageParser().ParseKomBankRatesFromHtml(page);
+            //var page = await File.ReadAllTextAsync("prior.html");
+            //var rate = new PriorFullPageParser().ParseKomBankRatesFromHtml(page);
 
             //var content = File.ReadAllText("page.html");
             //var rate = AlfaFullPageParser.ParseKomBankRatesFromHtml(content);
 
             // var rate = await extractor.GetRate( "commodities/brent-oil");
             // var rate = await extractor.GetRate( "currencies/eur-rub");
-            Console.WriteLine(rate);
+
+            //var xe = new ProFinanceExtractor(logFile, msPlaywrightPath, true);
+            //await xe.Fetch("https://www.profinance.ru/quotes/");
+            //Console.WriteLine("Done.");
+
+            string html = File.ReadAllText("profinance.html");
+            ForexRates rates = ProFinanceParser.Parse(html);
+
+            Console.WriteLine($"EUR/USD: {rates.EurUsd}");
+            Console.WriteLine($"USD/CNY: {rates.UsdCny}");
+            Console.WriteLine($"Brent Oil: {rates.BrentOil}");
+            Console.WriteLine($"Gold: {rates.Gold}");
+            Console.WriteLine($"USD/RUB: {rates.UsdRub}");
+            Console.WriteLine($"EUR/RUB: {rates.EurRub}");
+            Console.WriteLine($"CNY/RUB: {rates.CnyRub}");
+
+
+            // Console.WriteLine(rate);
             Console.ReadKey();
         }
 

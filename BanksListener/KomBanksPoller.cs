@@ -41,17 +41,17 @@ namespace BanksListener
             _logFile = logFile;
             _dbPath = iniFile.Read(IniSection.Sqlite, IniKey.DbPath, "");
 
-            _pollers.Add(new OnePoller(new PlaywrightExtractor()
+            _pollers.Add(new OnePoller(new KombankRatesExtractor()
                     .InitializeExtractor(KomBankE.Alfa, _logFile, msPlaywrightPath,
                         "https://www.alfabank.by/exchange/digital", savePageToFile, new AlfaFullPageParser()),
               iniFile.Read(IniSection.Extractors, IniKey.AlfaPeriod, 600)));
 
-            _pollers.Add(new OnePoller(new PlaywrightExtractor()
+            _pollers.Add(new OnePoller(new KombankRatesExtractor()
                     .InitializeExtractor(KomBankE.Prior, _logFile, msPlaywrightPath,
                         "https://www.priorbank.by/offers/services/currency-exchange", savePageToFile, new PriorFullPageParser()),
                 iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 540)));
             
-            _pollers.Add(new OnePoller(new PlaywrightExtractor()
+            _pollers.Add(new OnePoller(new KombankRatesExtractor()
                     .InitializeExtractor(KomBankE.Bveb, _logFile, msPlaywrightPath,
                         "https://www.belveb.by/rates/upcard/", savePageToFile, new BelVebFullPageParser()),
                 iniFile.Read(IniSection.Extractors, IniKey.PriorPeriod, 1500)));
