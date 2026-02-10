@@ -19,7 +19,7 @@ public class AlfaFullPageParser : IFullPageParser
             StartedFrom = ExtractRatesStartTime(html) ?? DateTime.Now // fallback
         };
 
-        var rows = doc.DocumentNode.SelectNodes("//table[contains(@class,'table__element')]/tr");
+        var rows = doc.DocumentNode.SelectNodes("//table[contains(@class,'table__element')][1]/tr");
         if (rows == null) return null;
 
         foreach (var row in rows)
@@ -29,6 +29,8 @@ public class AlfaFullPageParser : IFullPageParser
                 continue;
 
             var currency = NormalizeCurrency(cells[0]);
+            if (currency == "USD" && result.UsdA > 0)
+                continue; // второй USD в конце таблицы
 
             var sell = ParseRate(cells[1]);
             var buy = ParseRate(cells[2]);
