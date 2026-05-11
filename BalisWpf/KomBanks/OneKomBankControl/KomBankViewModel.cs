@@ -75,7 +75,7 @@ namespace BalisWpf
 
                 var newLine = Mapper.Map<KomBankRateVm>(oneLine);
                 var last = Rows.FirstOrDefault(r => r.Id == newLine.Id);
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
                     if (last == null)
                     {

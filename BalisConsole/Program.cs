@@ -22,69 +22,45 @@ namespace BalisConsole
                     @"c:\Users\Professional\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe");
             var savePageToFile = true;
 
-            //var rate = await NbRbRatesExtractor.GetNbDayAsync(DateTime.Today);
-
-            // var rate = await new BnbExtractor().GetRatesLineAsync();
-            // var extractor = new InvestingExtractor();
-            // var res = await extractor.GetRatesLineAsync();
-            //var rate = await new AlfaExtractor().GetRatesLineAsync();
-
-
-            //var rate = await new PriorPlaywrightExtractor()
-            //    .SetMsPlaywrightPath(msPlaywrightPath)
-            //    .SetLogger(logFile)
-            //    .GetRatesLineAsync();
-
+            // KomBanksPoller.cs
             //var rate = await new KombankRatesExtractor()
-            //    .InitializeExtractor(KomBankE.Bveb, logFile, msPlaywrightPath,
-            //        "https://www.belveb.by/rates/upcard/", savePageToFile, new BelVebFullPageParser())
+            //        .InitializeExtractor(KomBankE.Alfa, logFile, msPlaywrightPath,
+            //            "https://www.alfabank.by/exchange/digital", savePageToFile, new AlfaFullPageParser())
             //    .GetRatesLineAsync();
 
-            //var page = await File.ReadAllTextAsync("prior.html");
-            //var rate = new PriorFullPageParser().ParseKomBankRatesFromHtml(page);
+            var parser = new AlfaFullPageParser();
+            var content = File.ReadAllText("alfa.html");
+            var rate = parser.ParseKomBankRatesFromHtml(content);
+            Console.WriteLine(rate);
 
             //var content = File.ReadAllText("page.html");
             //var rate = AlfaFullPageParser.ParseKomBankRatesFromHtml(content);
 
-            // var rate = await extractor.GetRate( "commodities/brent-oil");
-            // var rate = await extractor.GetRate( "currencies/eur-rub");
+            //var parser = new BelStockFullPageParser();
+            //// var content = File.ReadAllText("Результаты_торгов_за_сегодня.html");
+            //var content = File.ReadAllText("До_торгов_вчерашние_результаты.html");
+            //var r = parser.Parse(content);
+            //Console.WriteLine(r);
 
-            //var xe = new ProFinanceExtractor(logFile, msPlaywrightPath, true);
+            //var xe = new PlaywrightExtractor(logFile, msPlaywrightPath, true);
             //await xe.Fetch("https://www.profinance.ru/quotes/");
             //Console.WriteLine("Done.");
 
-            string html = File.ReadAllText("profinance.html");
-            ForexRates rates = ProFinanceParser.Parse(html);
-
-            Console.WriteLine($"EUR/USD: {rates.EurUsd}");
-            Console.WriteLine($"USD/CNY: {rates.UsdCny}");
-            Console.WriteLine($"Brent Oil: {rates.BrentOil}");
-            Console.WriteLine($"Gold: {rates.Gold}");
-            Console.WriteLine($"USD/RUB: {rates.UsdRub}");
-            Console.WriteLine($"EUR/RUB: {rates.EurRub}");
-            Console.WriteLine($"CNY/RUB: {rates.CnyRub}");
+            // string html = File.ReadAllText("profinance.html");
+            // ForexRates rates = ProFinanceParser.Parse(html);
+            //
+            // Console.WriteLine($"EUR/USD: {rates.EurUsd}");
+            // Console.WriteLine($"USD/CNY: {rates.UsdCny}");
+            // Console.WriteLine($"Brent Oil: {rates.BrentOil}");
+            // Console.WriteLine($"Gold: {rates.Gold}");
+            // Console.WriteLine($"USD/RUB: {rates.UsdRub}");
+            // Console.WriteLine($"EUR/RUB: {rates.EurRub}");
+            // Console.WriteLine($"CNY/RUB: {rates.CnyRub}");
 
 
             // Console.WriteLine(rate);
             Console.ReadKey();
         }
-
-        // private const string Url = "http://banki24.by/exchange/currencymarket";
-        // private static async Task Test()
-        // {
-        //     var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url);
-        //     var initializedRequest = httpWebRequest;
-        //     var response = await initializedRequest.GetDataAsync();
-        //     Console.WriteLine(response);
-        //
-        // }
-
-        // private static async Task ArchiveTest()
-        // {
-        //     var extractor = new Banki24ArchiveExtractor();
-        //     var cny = await extractor.GetOneCurrencyDayAsync(new DateTime(2022, 7, 25), Currency.Cny);
-        //     Console.WriteLine(cny);
-        // }
 
     }
 

@@ -71,7 +71,8 @@ namespace BalisWpf
                 switch (_belStock.TradingState)
                 {
                     case BelStockState.HasNotStartedYet:
-                        return "результаты торгов " + _belStock.TradingDate.ToString("dd.MM");
+                        return "результаты торгов " + _belStock.TradingDate.ToString("dd.MM") + 
+                               "(" + _belStock.LastChecked.ToString("dd.MM HH:mm:ss") + ")";
                     case BelStockState.InProgress:
                         return "идут торги " + _belStock.LastChecked.ToString("dd.MM HH:mm:ss");
                     case BelStockState.TerminatedAlready:

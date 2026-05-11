@@ -1,54 +1,62 @@
-﻿using System;
+﻿using BalisStandard;
+using System;
 using System.Net;
 using System.Threading.Tasks;
+using LoadPlaywright;
+using UtilsLib;
 
-namespace BalisStandard
+namespace BalisWpf
 {
-    public class Banki24Extractor
+    public class BelStockExtractorAndParser
     {
-        private const string Url = "http://banki24.by/exchange/currencymarket";
-        private const string UrlUsd = "http://banki24.by/exchange/currencymarket/USD";
-        private const string UrlEur = "http://banki24.by/exchange/currencymarket/EUR";
-        private const string UrlRub = "http://banki24.by/exchange/currencymarket/RUB";
-        private const string UrlCny = "http://banki24.by/exchange/currencymarket/CNY";
+        private readonly IMyLog _logFile;
+        private readonly string _playwrightPath;
+        private const string Url = "https://banki24.by/exchange/currencymarket";
+        private const string UrlUsd = "https://banki24.by/exchange/currencymarket/USD";
+        private const string UrlEur = "https://banki24.by/exchange/currencymarket/EUR";
+        private const string UrlRub = "https://banki24.by/exchange/currencymarket/RUB";
+        private const string UrlCny = "https://banki24.by/exchange/currencymarket/CNY";
+
+        public BelStockExtractorAndParser(IMyLog logFile, string playwrightPath)
+        {
+            _logFile = logFile;
+            _playwrightPath = playwrightPath;
+        }
 
         public async Task<BelStock> GetStockAsync()
         {
+            var extractor = new PlaywrightExtractor(_logFile, _playwrightPath, false);
             try
             {
-                var response = 
-                    await ((HttpWebRequest)WebRequest.Create(Url)).GetDataAsync();
+                var response = await extractor.Fetch(Url);
                 var belStock = Parse(response);
                 if (belStock == null)
                     return null;
                 if (belStock.Usd.Average > -1)
                 {
-                    var usdPage = 
-                        await ((HttpWebRequest)WebRequest.Create(UrlUsd)).GetDataAsync();
+                    var usdPage = await extractor.Fetch(UrlUsd);
                     belStock.Usd.LastDeal = ParseLastDealRate(usdPage);
                     belStock.Usd.DealsCount = ParseDealsCount(usdPage);
                 }
 
                 if (belStock.Eur.Average > -1)
                 {
-                    var eurPage = 
-                        await ((HttpWebRequest)WebRequest.Create(UrlEur)).GetDataAsync();
+                    var eurPage = await extractor.Fetch(UrlEur);
                     belStock.Eur.LastDeal = ParseLastDealRate(eurPage);
                     belStock.Eur.DealsCount = ParseDealsCount(eurPage);
                 }
 
                 if (belStock.Rub.Average > -1)
                 {
-                    var rubPage = 
-                        await ((HttpWebRequest)WebRequest.Create(UrlRub)).GetDataAsync();
+                    var rubPage =
+                        await extractor.Fetch(UrlRub);
                     belStock.Rub.LastDeal = ParseLastDealRate(rubPage);
                     belStock.Rub.DealsCount = ParseDealsCount(rubPage);
                 }
 
                 if (belStock.Cny.Average > -1)
                 {
-                    var cnyPage = 
-                        await ((HttpWebRequest)WebRequest.Create(UrlCny)).GetDataAsync();
+                    var cnyPage = await extractor.Fetch(UrlCny);
                     belStock.Cny.LastDeal = ParseLastDealRate(cnyPage);
                     belStock.Cny.DealsCount = ParseDealsCount(cnyPage);
                 }
@@ -83,7 +91,6 @@ namespace BalisStandard
 
         private BelStock Parse(string webData)
         {
-            //var table = FetchTable(webData);
             var table = webData;
             if (table == "") return null;
             var result = new BelStock
@@ -108,15 +115,18 @@ namespace BalisStandard
 
             GetForCurrency(table, "EUR", out rate, out volume);
             result.Eur.Average = rate;
-            if (volume.Length > 7) result.Eur.Volume = volume.Substring(7);
+            // if (volume.Length > 7) 
+                result.Eur.Volume = volume;
 
             GetForCurrency(table, "RUB", out rate, out volume);
             result.Rub.Average = rate;
-            if (volume.Length > 7) result.Rub.Volume = volume.Substring(7);
+            // if (volume.Length > 7) 
+                result.Rub.Volume = volume;
 
             GetForCurrency(table, "CNY", out rate, out volume);
             result.Cny.Average = rate;
-            if (volume.Length > 7) result.Cny.Volume = volume.Substring(7);
+            // if (volume.Length > 7) 
+                result.Cny.Volume = volume;
 
             return result;
         }
@@ -175,7 +185,7 @@ namespace BalisStandard
             pos = table.IndexOf(">Объём, млн. USD</span>", posTo, StringComparison.Ordinal);
             posFrom = table.IndexOf(">", pos + 27, StringComparison.Ordinal);
             posTo = table.IndexOf("</span", posFrom, StringComparison.Ordinal);
-            volume = table.Substring(posFrom + 1, posTo - posFrom - 1);
+            volume = table.Substring(posFrom + 1, posTo - posFrom - 1).Trim();
         }
         
     }

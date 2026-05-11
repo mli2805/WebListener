@@ -12,7 +12,7 @@ namespace BalisWpf
         public async void Start(ShellVm vm, IMyLog logFile, string playwrightPath)
         {
             _shellVm = vm;
-            var extractor = new ProFinanceExtractor(logFile, playwrightPath, false);
+            var extractor = new PlaywrightExtractor(logFile, playwrightPath, false);
             while (true)
             {
                 var page = await extractor.Fetch("https://www.profinance.ru/quotes/");

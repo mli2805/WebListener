@@ -270,6 +270,7 @@
       <DependentUpon>MonthlyChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BelStockArchive\MonthlyChartViewModel.cs" />
+    <Compile Include="BelStock\BelStockExtractorAndParser.cs" />
     <Compile Include="BelStock\BelStockPoller.cs" />
     <Compile Include="BelStock\BelStockView.xaml.cs">
       <DependentUpon>BelStockView.xaml</DependentUpon>

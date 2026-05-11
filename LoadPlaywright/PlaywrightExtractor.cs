@@ -6,13 +6,13 @@ using UtilsLib;
 
 namespace LoadPlaywright
 {
-    public class ProFinanceExtractor
+    public class PlaywrightExtractor
     {
         private readonly IMyLog _logFile;
         private readonly string _playwrightPath;
         private readonly bool _savePageToFile;
 
-        public ProFinanceExtractor(IMyLog logFile, string playwrightPath, bool savePageToFile)
+        public PlaywrightExtractor(IMyLog logFile, string playwrightPath, bool savePageToFile)
         {
             _logFile = logFile;
             _playwrightPath = playwrightPath;
@@ -21,6 +21,7 @@ namespace LoadPlaywright
 
         public async Task<string?> Fetch(string url)
         {
+            _logFile.AppendLine($"Fetch {url}");
             using var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
@@ -57,7 +58,7 @@ namespace LoadPlaywright
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"ProFinanceExtractor: " + e.Message);
+                _logFile.AppendLine($"PlaywrightExtractor: " + e.Message);
             }
 
             return null;

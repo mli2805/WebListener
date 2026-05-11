@@ -20,7 +20,7 @@ namespace BalisWpf
                 if (Equals(value, _previousTradeDay)) return;
                 _previousTradeDay = value;
                 OnPropertyChanged(nameof(PreviousTradeDayToScreen));
-                OnPropertyChanged(nameof(NbRbList));
+                // OnPropertyChanged(nameof(NbRbList));
             }
         }
 
@@ -32,7 +32,7 @@ namespace BalisWpf
                 if (Equals(value, _today)) return;
                 _today = value;
                 OnPropertyChanged(nameof(TodayToScreen));
-                OnPropertyChanged(nameof(NbRbList));
+                // OnPropertyChanged(nameof(NbRbList));
             }
         }
 
@@ -43,37 +43,40 @@ namespace BalisWpf
             {
                 if (Equals(value, _tomorrow)) return;
                 _tomorrow = value;
-                OnPropertyChanged(nameof(NbRbList));
+                PreviousTradeDay = Today;
+                Today = value;
+                // OnPropertyChanged(nameof(NbRbList));
             }
         }
 
-        public List<string> NbRbList => F();
+        // public List<string> NbRbList => F();
         public List<string> PreviousTradeDayToScreen => DayToScreen(PreviousTradeDay);
         public List<string> TodayToScreen => DayToScreen(Today);
 
-        public List<string> F()
-        {
-            var result = new List<string>();
-            result.AddRange(FDay(PreviousTradeDay));
-            result.AddRange(FDay(Today));
-            if (Tomorrow.Date.Year > 1)
-                result.AddRange(FDay(Tomorrow));
-            return result;
-        }
+       
+        // public List<string> F()
+        // {
+        //     var result = new List<string>();
+        //     result.AddRange(FDay(PreviousTradeDay));
+        //     result.AddRange(FDay(Today));
+        //     if (Tomorrow.Date.Year > 1)
+        //         result.AddRange(FDay(Tomorrow));
+        //     return result;
+        // }
 
-        public List<string> FDay(NbRates day)
-        {
-            var result = new List<string>();
-            result.Add($"{day.Date.ToString("dd/MM", CultureInfo.GetCultureInfo("en-US"))}");
-            result.Add($"Usd  {day.Usd}");
-            result.Add($"Eur  {day.Eur}");
-            result.Add($"Rub  {day.Rub}");
-            result.Add($"Cny  {day.Cny}");
-            result.Add("");
-            result.Add($"Корзина  {day.Basket:0.0000}");
-            result.Add("");
-            return result;
-        }
+        // public List<string> FDay(NbRates day)
+        // {
+        //     var result = new List<string>();
+        //     result.Add($"{day.Date.ToString("dd/MM", CultureInfo.GetCultureInfo("en-US"))}");
+        //     result.Add($"Usd  {day.Usd}");
+        //     result.Add($"Eur  {day.Eur}");
+        //     result.Add($"Rub  {day.Rub}");
+        //     result.Add($"Cny  {day.Cny}");
+        //     result.Add("");
+        //     result.Add($"Корзина  {day.Basket:0.0000}");
+        //     result.Add("");
+        //     return result;
+        // }
 
         public List<string> NamesToScreen =>
             new List<string>()
