@@ -13,8 +13,11 @@ namespace BalisStandard
         public static async Task<NbRates> GetNbDayAsync(DateTime date)
         {
             string uri = "https://www.nbrb.by/API/ExRates/Rates?onDate=" + $"{date:yyyy-M-d}" + "&Periodicity=0";
-            var json = await ((HttpWebRequest)WebRequest.Create(uri))
-                .GetDataAsync();
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+            // нац банк рб не любит, когда к нему обращаются через прокси (из-за заграницы), поэтому отключаем прокси для этого запроса.
+            // new WebProxy() без параметров — это по сути "без прокси".
+            request.Proxy = new WebProxy();
+            var json = await request.GetDataAsync();
             if (string.IsNullOrEmpty(json))
                 return null;
 

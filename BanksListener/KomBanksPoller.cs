@@ -30,8 +30,10 @@ namespace BanksListener
 
         public KomBanksPoller(IniFile iniFile, IMyLog logFile)
         {
-            // это на моем компе установил
+            // это на моем ноуте установил
             // @"c:\Users\Professional\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe";
+            // это на моем новом компе установил
+            // @"c:\Users\Администратор\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe";
             // это я руками скопировал папку с моей машины на .19 но там нет пользователя Professional
             var defaultValue = @"c:\Users\builder\AppData\Local\ms-playwright\chromium-1187\chrome-win\chrome.exe";
 
